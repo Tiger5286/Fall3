@@ -4,61 +4,28 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    Animator animator;
-    float moveSpeed = 3f;
-
+    Animator _animator;
+    //歩く速度
+    float kWalkSpeed = 0.1f;
     void Start()
     {
-        animator = GetComponent<Animator>();
-    }
-    void Update()
-    {
-        Move();
-        WalkAnimation();
-        AttackAnimation();
+        _animator = GetComponent<Animator>();
     }
 
-    void Move()
+    public void SetMoveSpeed(float speed)
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 move = new Vector3(h, 0, v);
-
-        if(move.magnitude > 1)
-        {
-            move.Normalize();
-        }
-
-        //移動
-        transform.position += move * moveSpeed * Time.deltaTime;
-
-        //向きを変える
-        if (move != Vector3.zero)
-        {
-            transform.rotation = Quaternion.LookRotation(move);
-        }
-    }
-
-    void WalkAnimation()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        float speed = new Vector2(h, v).magnitude;
-
-        if (speed < 0.1f)
+        //移動速度が0.1未満なら0にする
+        if (speed < kWalkSpeed)
         {
             speed = 0;
         }
-
-        animator.SetFloat("Speed", speed);
+        _animator.SetFloat("Speed", speed);
     }
 
-    void AttackAnimation()
+    //攻撃アニメーションを再生する
+    public void PlayAnimAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            animator.SetTrigger("Attack");
-        }
+        _animator.SetTrigger("Attack");
     }
+
 }
