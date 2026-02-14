@@ -6,6 +6,7 @@ public enum StageType
 {
     None,
     Normal,
+    Fall
 }
 public class StageManager : MonoBehaviour
 {
@@ -76,12 +77,63 @@ public class StageManager : MonoBehaviour
             return;
         }
         //ステージの生成
-
         GameObject go = Instantiate(stagePrefab,transform);
         Stage stage = go.GetComponent<Stage>();
         //グリッド座標を設定する
         stage.SetGridPos(x, y);
         //見た目の配列に登録
         stages[x,y] = stage;
+    }
+
+    //ステージを破壊する
+    public void BreakStage(int x,int y)
+    {
+        //範囲外チェック
+        if(!InRange(x,y))
+        {
+            return;
+        }
+
+        //すでに空なら何もしない
+        if (grid[x,y] == StageType.None)
+        {
+            return;
+        }
+        //グリッドのデータを変更
+        grid[x,y] = StageType.None;
+
+        //見た目の変更
+        if (stages[x,y] != null)
+        {
+            Destroy(stages[x, y].gameObject);
+            stages[x, y] = null;
+        }
+    }
+
+    public void FallStage(int x,int y)
+    {
+        //範囲外チェック
+        if (!InRange(x, y))
+        {
+            return;
+        }
+
+        //すでに空なら何もしない
+        if (grid[x, y] == StageType.None)
+        {
+            return;
+        }
+
+        //グリッドのデータを変更
+        grid[x, y] = StageType.Fall;
+
+        //stage本体の関数を呼び出す
+    }
+
+    // グリッドの範囲チェック
+    bool InRange(int x, int y)
+    {
+        return x >= 0 && x < width &&
+               y >= 0 && y < height;
     }
 }
