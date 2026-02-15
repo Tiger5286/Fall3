@@ -28,4 +28,10 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger("Attack");
     }
 
+    //ジャンプアニメーションを再生する
+    public void PlayAnimJump()
+    {
+        _animator.SetTrigger("Jump");
+    }
+
 }
