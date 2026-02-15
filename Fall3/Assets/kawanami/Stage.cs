@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Xml.Schema;
 using UnityEngine;
 
@@ -10,6 +11,12 @@ public class Stage : MonoBehaviour
     //グリッド上の座標
     public int x;
     public int y;
+
+    private int _fallWaitCounter = 0;
+    private bool _isFall = false;
+
+    public Vector3 _position;
+    public Vector3 _velocity = Vector3.zero;
 
     /// <summary>
     /// グリッド座標を設定して、ポジションに反映する
@@ -23,6 +30,33 @@ public class Stage : MonoBehaviour
 
         //ワールド座標に変換
         //ワールド座標では縦がz
-        transform.position = new Vector3 (x, 0, y);
+        _position = new Vector3 (x, 0, y);
+    }
+
+    public void Fall()
+    {
+        _fallWaitCounter = 30;
+        _isFall = true;
+    }
+
+    public void Start()
+    {
+       
+    }
+
+    public void FixedUpdate()
+    {
+        if(_fallWaitCounter >0)
+        {
+            _fallWaitCounter --;
+        }
+
+        if (_fallWaitCounter <= 0&&_isFall)
+        {
+            _velocity = new Vector3(0, -0.3f, 0);
+        }
+
+        _position.y += _velocity.y;
+        transform.position = _position;
     }
 }
