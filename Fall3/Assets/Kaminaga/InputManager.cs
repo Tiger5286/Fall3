@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance { get; private set; }
 
     // プレイヤーごとに移動入力を保存するためのDictionary
-    private readonly Dictionary<int, Vector2> _move;
+    private readonly Dictionary<int, Vector2> _move = new();
     
     // 入力イベント群
     // プレイヤーが生成された際にこのOn○○Inputに関数を登録すると使える
@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
     // プレイヤーの入力を管理するためのリスト
     // このマネージャー内でのみ使用する
     // JoinManagerがプレイヤーを生成したときにこのリストにPlayerInputを登録する
-    private readonly List<PlayerInput> _playerInputs;
+    private readonly List<PlayerInput> _playerInputs = new();
 
     /// <summary>
     /// 最初に行う処理
