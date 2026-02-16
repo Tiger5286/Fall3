@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     //ジャンプ処理
     void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0)&&_isGround)
+        if(Input.GetKeyDown(KeyCode.J)&&_isGround)
         {
             //ジャンプの高さを設定
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x,
