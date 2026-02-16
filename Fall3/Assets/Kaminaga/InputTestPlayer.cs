@@ -56,6 +56,8 @@ public class InputTestPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector3 delta = new Vector3(_move.x, 0, _move.y) * _moveSpeed * Time.deltaTime;
+
+        transform.Translate(delta, Space.World);
     }
 }
