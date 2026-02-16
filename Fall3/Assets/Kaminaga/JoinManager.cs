@@ -15,8 +15,6 @@ public class JoinManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable");
-
         _playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoinedUnityEvent);
         _playerInputManager.playerLeftEvent.AddListener(OnPlayerLeftUnityEvent);
     }
@@ -40,10 +38,10 @@ public class JoinManager : MonoBehaviour
     {
         Debug.Log($"[JoinManager] Joined({via}): idx={player.playerIndex}, device = {string.Join(",", player.devices)}");
 
-        if (player.currentActionMap == null || player.currentActionMap.name != "Gameplay")
+        if (player.currentActionMap == null || player.currentActionMap.name != "GameInput")
         {
-            player.SwitchCurrentActionMap("Gameplay");
+            player.SwitchCurrentActionMap("GameInput");
         }
-        //InputManager.Instance.RegisterPlayer(player);
+        InputManager.Instance.RegisterPlayer(player);
     }
 }
