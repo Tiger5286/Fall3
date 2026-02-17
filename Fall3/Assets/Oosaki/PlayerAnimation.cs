@@ -7,9 +7,15 @@ public class PlayerAnimation : MonoBehaviour
     Animator _animator;
     //•à‚­‘¬“x
     float kWalkSpeed = 0.1f;
-    void Start()
+
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        //_animator = GetComponent<Animator>();
     }
 
     public void SetMoveSpeed(float speed)
