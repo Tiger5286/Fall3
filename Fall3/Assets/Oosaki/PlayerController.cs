@@ -10,8 +10,6 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody _rigidbody;
 
-    PlayerInput _playerInput;
-
     Vector3 _pos;
 
     //プレイヤーの移動速度
@@ -25,18 +23,18 @@ public class PlayerController : MonoBehaviour
 
     bool _isGround = true;
 
-    void Start()
+    private void Awake()
     {
         //プレイヤーのアニメーションを取得している
         _playerAnimation = GetComponent<PlayerAnimation>();
 
         //プレイヤーのRigidbodyを取得している
         _rigidbody = GetComponent<Rigidbody>();
+    }
 
-        _playerInput = GetComponent<PlayerInput>();
-
+    void Start()
+    {   
         transform.position =new Vector3(1.0f, 0, 1.0f);
-
     }
 
     void Update()
