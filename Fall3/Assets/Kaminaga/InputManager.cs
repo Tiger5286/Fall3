@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     // プレイヤーが生成された際にこのOn○○Inputに関数を登録すると使える
     public event Action<int, Vector2> OnMoveInput; // 移動入力が行われたときに呼ぶイベント
     public event Action<int> OnJumpInput; // ジャンプ入力が行われたときに呼ぶイベント
+    public event Action<int> OnAttackInput; // 攻撃入力が行われたときに呼ぶイベント
 
     // プレイヤーの入力を管理するためのリスト
     // このマネージャー内でのみ使用する
@@ -68,6 +69,7 @@ public class InputManager : MonoBehaviour
         var actions = playerInput.actions; // PlayerInputのアクション全体
         var moveAction = actions["Move"]; // Moveアクションを取得
         var jumpAction = actions["Jump"]; // Jumpアクションを取得
+        var attackAction = actions["Attack"]; // Attackアクションを取得
 
         // プレイヤーの移動の入力を初期化
         _move[idx] = Vector2.zero;
@@ -91,6 +93,12 @@ public class InputManager : MonoBehaviour
         {
             OnJumpInput?.Invoke(idx);
             Debug.Log($"[InputManager] JumpInput: idx={idx}");
+        };
+
+        attackAction.performed += ctx =>
+        {
+            OnAttackInput?.Invoke(idx);
+            Debug.Log($"[InputManager] AttackInput: idx={idx}");
         };
     }
 
