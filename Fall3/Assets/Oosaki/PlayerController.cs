@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class PlayerController : MonoBehaviour
     PlayerAnimation _playerAnimation;
 
     Rigidbody _rigidbody;
+
+    PlayerInput _playerInput;
+
+    Vector3 _pos;
 
     //プレイヤーの移動速度
     float _moveSpeed = 3.0f;
@@ -27,23 +32,26 @@ public class PlayerController : MonoBehaviour
 
         //プレイヤーのRigidbodyを取得している
         _rigidbody = GetComponent<Rigidbody>();
+
+        _playerInput = GetComponent<PlayerInput>();
+
+        transform.position =new Vector3(1.0f, 0, 1.0f);
+
     }
 
     void Update()
     {
         Attack();
-        Move();
-        Jump();
     }
 
     //移動処理
-    void Move()
+    void Move(int idx,Vector2 moveValue)
     {
         //攻撃しているときは攻撃できない
         if (_isAttacking) return;
 
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = moveValue.x;
+        float v = moveValue.y;
 
         Vector3 move = new Vector3(h, 0, v);
 
@@ -68,15 +76,15 @@ public class PlayerController : MonoBehaviour
     }
 
     //ジャンプ処理
-    void Jump()
+    void Jump(int idx)
     {
-        if(Input.GetKeyDown(KeyCode.J)&&_isGround)
+        if(_isGround)
         {
             //ジャンプの高さを設定
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x,
-                _jumpPower, 
+                _jumpPower,
                 _rigidbody.velocity.z);
-            
+
             _isGround = false;
             _playerAnimation.PlayAnimJump();
         }
@@ -102,6 +110,23 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             _isGround = true;
+        }
+    }
+    public void OnEnable()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnMoveInput += Move;
+            InputManager.Instance.OnJumpInput += Jump;
+        }
+    }
+
+    public void OnDisable()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnMoveInput -= Move;
+            InputManager.Instance.OnJumpInput -= Jump;
         }
     }
 }
