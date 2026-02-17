@@ -66,6 +66,12 @@ public class PlayerController : MonoBehaviour
         velocity.y = _rigidbody.velocity.y;
         _rigidbody.velocity = velocity;
 
+        //ˆÚ“®‚Ì‘å‚«‚³‚ª¬‚³‚¢‚Æ‚«‚ÍˆÚ“®‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+        if (move.sqrMagnitude < 0.01f)
+        {
+            move = Vector3.zero;
+        }
+
         //ƒvƒŒƒCƒ„[‚ªŒ©‚Ä‚¢‚éŒü‚«‚É•Ï‚¦‚é
         if (move != Vector3.zero)
         {
