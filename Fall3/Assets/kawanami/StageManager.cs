@@ -159,56 +159,74 @@ public class StageManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             selectX--;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             selectX++;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            selectY++;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            selectY--;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            selectZ++;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            selectY++;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectY--;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            selectZ++;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
             selectZ--;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY},selectZ:{selectZ}");
         }
 
         // 範囲内に制限
-        selectX = Mathf.Clamp(selectX, 0, width - 1);
-        selectY = Mathf.Clamp(selectY, 0, height - 1);
-        selectZ = Mathf.Clamp(selectZ, 0, vertical - 1);
+        if(selectX < 0)
+        {
+            selectX = 0;
+        }
+        if (selectY < 0)
+        {
+            selectY = 0;
+        }
+        if (selectZ < 0)
+        {
+            selectZ = 0;
+        }
+        if (selectX > width - 1)
+        {
+            selectX = width - 1;
+        }
+        if (selectY > height - 1)
+        {
+            selectY = height - 1;
+        }
+        if (selectZ > vertical - 1)
+        {
+            selectZ = vertical - 1;
+        }
 
         // スペースキーで落とす
         if (Input.GetKeyDown(KeyCode.Space))
         {
             FallStage(selectX, selectY,selectZ);
+            Debug.Log($"Selected: {selectX}, {selectY}, {selectZ}");
         }
     }
     //デバッグ用にどのブロックを選んでいるか可視化する関数
     void OnDrawGizmos()
     {
-        if (stages == null) return;
+        //if (stages == null) return;
 
-        Stage stage = stages[selectX, selectY,selectZ];
-        if (stage == null) return;
+        //Stage stage = stages[selectX, selectY,selectZ];
+        //if (stage == null) return;
         
+
+
         //色を変える
         Gizmos.color = Color.red;
-        Vector3 pos = stage.transform.position;
+        Vector3 pos = new Vector3(selectX,-selectY,selectZ);
         pos.x += 0.5f;
         pos.y += 0.5f;
         pos.z += 0.5f;
