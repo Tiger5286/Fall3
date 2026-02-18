@@ -9,7 +9,7 @@ using Cinemachine;
 public enum CameraType
 {
     TitleCamera,    // タイトルのカメラ
-    IngameCamera,   // ゲーム中のカメラ
+    InGameCamera,   // ゲーム中のカメラ
     ResultCamera,   // リザルトのカメラ
 }
 
@@ -58,7 +58,7 @@ public class CameraManager : MonoBehaviour
             else if (name.Contains("IngameCamera"))
             {
                 // ゲーム中のカメラに設定
-                _cameraDictionary[CameraType.IngameCamera] = camera;
+                _cameraDictionary[CameraType.InGameCamera] = camera;
             }
             else if (name.Contains("ResultCamera"))
             {
@@ -118,7 +118,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             // ゲーム中のカメラに切り替える
-            SetActiveCamera(CameraType.IngameCamera);
+            SetActiveCamera(CameraType.InGameCamera);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
