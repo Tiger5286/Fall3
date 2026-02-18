@@ -5,7 +5,7 @@ using UnityEngine;
 public enum SceneType
 {
     Title,
-    Ingame,
+    InGame,
     Result,
 }
 
@@ -54,7 +54,6 @@ public class SceneManagerKaminaga : MonoBehaviour
     /// <param name="sceneType">êÿÇËë÷Ç¶ÇÈÉVÅ[Éì</param>
     public void ChangeScene(SceneType sceneType)
     {
-
         if(!_sceneMap.TryGetValue(sceneType, out var nextScene) || nextScene == null)
         {
             return;
@@ -80,12 +79,12 @@ public class SceneManagerKaminaga : MonoBehaviour
             ChangeScene(SceneType.Title);
             _cameraManager.SetActiveCamera(CameraType.TitleCamera);
         }
-        //if(Input.GetKeyDown(KeyCode.W))
-        //{
-        //    ChangeScene(SceneType.Ingame);
-        //    _cameraManager.SetActiveCamera(CameraType.IngameCamera);
-        //}
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ChangeScene(SceneType.InGame);
+            _cameraManager.SetActiveCamera(CameraType.InGameCamera);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ChangeScene(SceneType.Result);
             _cameraManager.SetActiveCamera(CameraType.ResultCamera);
