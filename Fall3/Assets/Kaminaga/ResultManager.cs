@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleManager : GameManagerBase
+public class ResultManager : GameManagerBase
 {
+
     private void OnEnable()
     {
-        Debug.Log("Title開始");
+        Debug.Log("Result開始");
     }
 
     private void OnDisable()
     {
-        Debug.Log("Title終了");
+        Debug.Log("Result終了");
     }
 
+    // Start is called before the first frame update
     void Start()
     {
         
     }
 
+    // Update is called once per frame
     void Update()
     {
         
