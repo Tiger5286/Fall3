@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody _rigidbody;
 
+    StageManager _stageManager;
+
     Vector3 _pos;
 
     Vector3 _move;
@@ -41,14 +43,23 @@ public class PlayerController : MonoBehaviour
         _playerIndex = GetComponent<PlayerInput>().playerIndex;
 
         _attackSpawner=GetComponent<AttackSpawner>();
+
+        _stageManager = FindObjectOfType<StageManager>();
     }
 
     void Start()
     {   
-        transform.position =new Vector3(1.0f, 2.0f, 1.0f);
+        if(_playerIndex==0)
+        {
+            transform.position = new Vector3(1.0f, 2.0f, 1.0f);
+        }
+        else
+        {
+            transform.position = new Vector3(9.0f, 2.0f, 9.0f);
+        }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(_isAttacking)
         {
@@ -133,9 +144,15 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        float posX, posY;
+
         if (collision.gameObject.CompareTag("Ground"))
         {
             _isGround = true;
+            posX=collision.gameObject.GetComponent<Stage>().x;
+            posY=collision.gameObject.GetComponent<Stage>().y;
+
+            _stageManager.FallStage((int)posX,(int)posY);
         }
     }
     public void OnEnable()
