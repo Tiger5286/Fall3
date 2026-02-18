@@ -18,6 +18,9 @@ public enum CameraType
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
+    // 定数定義
+    const float kDefaultCameraMoveRate = 2.0f;
+
     // カメラの切り替えに必要なメインカメラのCinemachineBrainを取得
     [SerializeField] private CinemachineBrain _brain;
 
@@ -76,10 +79,19 @@ public class CameraManager : MonoBehaviour
     /// カメラを切り替えるための関数
     /// </summary>
     /// <param name="type">カメラの種類</param>
-    public void SetActiveCamera(CameraType type)
+    /// <param name="moveRate">変換までの値</param>
+    public void SetActiveCamera(CameraType type, float moveRate = kDefaultCameraMoveRate)
     {
+        // カメラが補完中の場合はカメラを切り替えない
+        if(_brain.IsBlending)
+        {
+            return;
+        }
+
         // 現在のカメラの種類を更新
         _currentCameraType = type;
+
+        _brain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, moveRate);
 
         // カメラの切り替え
         // Priorityの値を変更することで行う
@@ -112,19 +124,19 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             // タイトルのカメラに切り替える
-            SetActiveCamera(CameraType.TitleCamera);
+            SetActiveCamera(CameraType.TitleCamera, 3.0f);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             // ゲーム中のカメラに切り替える
-            SetActiveCamera(CameraType.InGameCamera);
+            SetActiveCamera(CameraType.InGameCamera, 1.0f);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             // リザルトのカメラに切り替える
-            SetActiveCamera(CameraType.ResultCamera);
+            SetActiveCamera(CameraType.ResultCamera, 10.0f);
         }
     }
 #endif
