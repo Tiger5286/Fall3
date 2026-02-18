@@ -30,7 +30,7 @@ public class Stage : MonoBehaviour
 
         //ワールド座標に変換
         //ワールド座標では縦がz
-        _position = new Vector3 (x, 0, y);
+        _position = new Vector3 ((float)x, (float)0, (float)y);
     }
 
     public void Fall()
@@ -41,7 +41,7 @@ public class Stage : MonoBehaviour
 
     public void Start()
     {
-       
+        
     }
 
     public void FixedUpdate()
