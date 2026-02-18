@@ -27,7 +27,7 @@ public class Stage : MonoBehaviour
     public void SetGridPos(int gx,int gy,int gz)
     {
         x = gx;
-        y = gy;
+        y = -gy;
         z = gz;
         //ワールド座標に変換
         //ワールド座標では縦がz

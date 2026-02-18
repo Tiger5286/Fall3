@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5634745468089070206}
   - component: {fileID: 5076467216752338834}
   - component: {fileID: 4068795628796105645}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: stagePrefab
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -317,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 0
+  z: 0
   _position: {x: 0, y: 0, z: 0}
   _velocity: {x: 0, y: 0, z: 0}
 --- !u!65 &4068795628796105645
