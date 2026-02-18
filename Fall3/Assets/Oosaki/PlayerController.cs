@@ -42,14 +42,14 @@ public class PlayerController : MonoBehaviour
         //プレイヤーのインデックスを取得している
         _playerIndex = GetComponent<PlayerInput>().playerIndex;
 
-        _attackSpawner=GetComponent<AttackSpawner>();
+        _attackSpawner = GetComponent<AttackSpawner>();
 
         _stageManager = FindObjectOfType<StageManager>();
     }
 
     void Start()
-    {   
-        if(_playerIndex==0)
+    {
+        if (_playerIndex == 0)
         {
             transform.position = new Vector3(1.0f, 2.0f, 1.0f);
         }
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(_isAttacking)
+        if (_isAttacking)
         {
             //攻撃中は移動しない
             _move = Vector3.zero;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //移動処理
-    void Move(int idx,Vector2 moveValue)
+    void Move(int idx, Vector2 moveValue)
     {
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
         if (idx != _playerIndex) return;
@@ -142,19 +142,37 @@ public class PlayerController : MonoBehaviour
         _isAttacking = false;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
-        float posX, posY;
+        //地面に接触していない場合は処理しない
+        if (!collision.gameObject.CompareTag("Ground")) return;
 
-        if (collision.gameObject.CompareTag("Ground"))
+        _isGround = false;
+
+        foreach (ContactPoint contact in collision.contacts)
         {
-            _isGround = true;
-            posX=collision.gameObject.GetComponent<Stage>().x;
-            posY=collision.gameObject.GetComponent<Stage>().y;
-
-            _stageManager.FallStage((int)posX,(int)posY);
+            if (Vector3.Dot(contact.normal, Vector3.up) > 0.9f)
+            {
+                _isGround = true;
+                if(_rigidbody.velocity.y<-0.1f)
+                {
+                    Stage stage=collision.gameObject.GetComponent<Stage>();
+                    _stageManager.FallStage((int)stage.x, (int)stage.y);
+                }
+                return;
+            }
         }
     }
+
+    void OnCollisionExit(Collision collision)
+    {
+        //地面から離れたときは地面に接触していない状態にする
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _isGround = false;
+        }
+    }
+
     public void OnEnable()
     {
         if (InputManager.Instance != null)
