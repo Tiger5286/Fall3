@@ -35,6 +35,21 @@ public class SceneManagerKaminaga : MonoBehaviour
 
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            ChangeScene(SceneType.Title);
+            _cameraManager.SetActiveCamera(CameraType.TitleCamera);
+        }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            ChangeScene(SceneType.Ingame);
+            _cameraManager.SetActiveCamera(CameraType.IngameCamera);
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            ChangeScene(SceneType.Result);
+            _cameraManager.SetActiveCamera(CameraType.ResultCamera);
+        }
+
     }
 }
