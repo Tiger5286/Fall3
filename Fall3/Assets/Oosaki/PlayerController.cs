@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
         _groundCheckDistance,
         _groundLayer);
 
+        CheckFallStage();
+
         if (_isAttacking)
         {
             //çUåÇíÜÇÕà⁄ìÆÇµÇ»Ç¢
@@ -103,8 +105,6 @@ public class PlayerController : MonoBehaviour
         }
         _playerAnimation.SetMoveSpeed(_move.magnitude);
         Debug.Log(_move.magnitude);
-
-        CheckFallStage();
     }
 
     //à⁄ìÆèàóù
@@ -159,17 +159,16 @@ public class PlayerController : MonoBehaviour
 
     void CheckFallStage()
     {
-        int x=Mathf.FloorToInt(transform.position.x);
-        int y=Mathf.FloorToInt(transform.position.y);
-        int z=Mathf.FloorToInt(transform.position.z);
+        int x = Mathf.FloorToInt(transform.position.x);
+        int y = Mathf.FloorToInt(transform.position.y);
+        int z = Mathf.FloorToInt(transform.position.z);
 
-        Vector3Int newGrid=new Vector3Int(x, y, z);
+        Vector3Int newGrid = new Vector3Int(x, y, z);
 
         if (newGrid == _currentGrid) return;
 
         _currentGrid = newGrid;
         _stageManager.FallStage(x, -y, z);
-
     }
 
     public void OnEnable()
