@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Transform _groundCheckPoint; //足元位置
+    [SerializeField] float _groundCheckDistance = 0.3f;
+    [SerializeField] LayerMask _groundLayer;
+
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
@@ -61,6 +65,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        _isGround = Physics.Raycast(
+        _groundCheckPoint.position,
+        Vector3.down,
+        _groundCheckDistance,
+        _groundLayer);
+
         if (_isAttacking)
         {
             //攻撃中は移動しない
@@ -140,37 +150,6 @@ public class PlayerController : MonoBehaviour
     public void EndAttack()
     {
         _isAttacking = false;
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        //地面に接触していない場合は処理しない
-        if (!collision.gameObject.CompareTag("Ground")) return;
-
-        _isGround = false;
-
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            if (Vector3.Dot(contact.normal, Vector3.up) > 0.9f)
-            {
-                _isGround = true;
-                if(_rigidbody.velocity.y<-0.1f)
-                {
-                    Stage stage=collision.gameObject.GetComponent<Stage>();
-                    _stageManager.FallStage((int)stage.x, (int)stage.y);
-                }
-                return;
-            }
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        //地面から離れたときは地面に接触していない状態にする
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            _isGround = false;
-        }
     }
 
     public void OnEnable()
