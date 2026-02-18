@@ -8,9 +8,13 @@ public class PlayerController : MonoBehaviour
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
+    AttackSpawner _attackSpawner;
+
     Rigidbody _rigidbody;
 
     Vector3 _pos;
+
+    Vector3 _move;
 
     //プレイヤーの移動速度
     float _moveSpeed = 3.0f;
@@ -23,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     bool _isGround = true;
 
+    int _playerIndex;
+
     private void Awake()
     {
         //プレイヤーのアニメーションを取得している
@@ -30,6 +36,11 @@ public class PlayerController : MonoBehaviour
 
         //プレイヤーのRigidbodyを取得している
         _rigidbody = GetComponent<Rigidbody>();
+
+        //プレイヤーのインデックスを取得している
+        _playerIndex = GetComponent<PlayerInput>().playerIndex;
+
+        _attackSpawner=GetComponent<AttackSpawner>();
     }
 
     void Start()
@@ -39,50 +50,57 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Attack();
+        if(_isAttacking)
+        {
+            //攻撃中は移動しない
+            _move = Vector3.zero;
+        }
+
+        //正規化
+        if (_move.magnitude > 1)
+        {
+            _move.Normalize();
+        }
+        //移動
+        //transform.position += move * _moveSpeed * Time.deltaTime;
+        Vector3 velocity = _move * _moveSpeed;
+        velocity.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = velocity;
+
+        //移動の大きさが小さいときは移動しないようにする
+        if (_move.sqrMagnitude < 0.01f)
+        {
+            _move = Vector3.zero;
+        }
+
+        //プレイヤーが見ている向きに変える
+        if (_move != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(_move);
+        }
+        _playerAnimation.SetMoveSpeed(_move.magnitude);
+        Debug.Log(_move.magnitude);
     }
 
     //移動処理
     void Move(int idx,Vector2 moveValue)
     {
-        //攻撃しているときは攻撃できない
-        if (_isAttacking) return;
+        //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
+        if (idx != _playerIndex) return;
 
         float h = moveValue.x;
         float v = moveValue.y;
 
-        Vector3 move = new Vector3(h, 0, v);
-
-        //正規化
-        if (move.magnitude > 1)
-        {
-            move.Normalize();
-        }
-        //移動
-        //transform.position += move * _moveSpeed * Time.deltaTime;
-        Vector3 velocity = move * _moveSpeed;
-        velocity.y = _rigidbody.velocity.y;
-        _rigidbody.velocity = velocity;
-
-        //移動の大きさが小さいときは移動しないようにする
-        if (move.sqrMagnitude < 0.01f)
-        {
-            move = Vector3.zero;
-        }
-
-        //プレイヤーが見ている向きに変える
-        if (move != Vector3.zero)
-        {
-            transform.rotation = Quaternion.LookRotation(move);
-        }
-        _playerAnimation.SetMoveSpeed(move.magnitude);
-        Debug.Log(move.magnitude);
+        _move = new Vector3(h, 0, v);
     }
 
     //ジャンプ処理
     void Jump(int idx)
     {
-        if(_isGround)
+        //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
+        if (idx != _playerIndex) return;
+
+        if (_isGround)
         {
             //ジャンプの高さを設定
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x,
@@ -95,10 +113,14 @@ public class PlayerController : MonoBehaviour
     }
 
     //攻撃処理
-    void Attack()
+    void Attack(int idx)
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isAttacking)
+        //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
+        if (idx != _playerIndex) return;
+
+        if (!_isAttacking)
         {
+            _attackSpawner.SpawnBall();
             _isAttacking = true;
             _playerAnimation.PlayAnimAttack();
         }
@@ -122,6 +144,7 @@ public class PlayerController : MonoBehaviour
         {
             InputManager.Instance.OnMoveInput += Move;
             InputManager.Instance.OnJumpInput += Jump;
+            InputManager.Instance.OnAttackInput += Attack;
         }
     }
 
@@ -131,6 +154,7 @@ public class PlayerController : MonoBehaviour
         {
             InputManager.Instance.OnMoveInput -= Move;
             InputManager.Instance.OnJumpInput -= Jump;
+            InputManager.Instance.OnAttackInput -= Attack;
         }
     }
 }

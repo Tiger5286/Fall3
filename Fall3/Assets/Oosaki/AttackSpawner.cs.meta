@@ -3,7 +3,9 @@ guid: b22577f596dadeb44ab4d37dd813eb73
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ballPrefab: {fileID: 6601386069767166914, guid: 7cbe32b81224dba439e2c901cf3909c9, type: 3}
+  - spawnPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

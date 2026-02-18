@@ -23,7 +23,7 @@ public class AttackSpawner: MonoBehaviour
         }
     }
 
-    void SpawnBall()
+    public void SpawnBall()
     {
         // ‹…‚ğ¶¬
         GameObject ball = Instantiate(
