@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     int _playerIndex;
 
+    Vector3Int _currentGrid = new Vector3Int(-1, -1, -1);
+
     private void Awake()
     {
         //プレイヤーのアニメーションを取得している
@@ -70,6 +72,8 @@ public class PlayerController : MonoBehaviour
         Vector3.down,
         _groundCheckDistance,
         _groundLayer);
+
+        CheckFallStage();
 
         if (_isAttacking)
         {
@@ -146,10 +150,25 @@ public class PlayerController : MonoBehaviour
             _playerAnimation.PlayAnimAttack();
         }
     }
+
     //攻撃終了を知らせる関数
     public void EndAttack()
     {
         _isAttacking = false;
+    }
+
+    void CheckFallStage()
+    {
+        int x = Mathf.FloorToInt(transform.position.x);
+        int y = Mathf.FloorToInt(transform.position.y);
+        int z = Mathf.FloorToInt(transform.position.z);
+
+        Vector3Int newGrid = new Vector3Int(x, y, z);
+
+        if (newGrid == _currentGrid) return;
+
+        _currentGrid = newGrid;
+        _stageManager.FallStage(x, -y, z);
     }
 
     public void OnEnable()
