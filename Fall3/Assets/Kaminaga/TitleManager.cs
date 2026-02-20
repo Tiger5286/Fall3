@@ -20,9 +20,9 @@ public class TitleManager : GameManagerBase
 
     public void OnGameStart()
     {
-        if(JoinManager.Instance._playerCount <= 0)
+        if(JoinManager.Instance._playerCount <= 1)
         {
-            Debug.Log("プレイヤーの人数が足りません");
+            Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
             return;
         }
 
