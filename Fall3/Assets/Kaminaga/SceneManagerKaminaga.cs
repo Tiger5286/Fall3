@@ -62,6 +62,7 @@ public class SceneManagerKaminaga : MonoBehaviour
         SetAllActive(false);
 
         nextScene.SetActive(true);
+        _cameraManager.SetActiveCamera(SceneTypeToCameraType(sceneType));
         _currentScene = sceneType;
     }
 
@@ -98,5 +99,31 @@ public class SceneManagerKaminaga : MonoBehaviour
         {
             scene.SetActive(isActive);
         }
+    }
+
+    /// <summary>
+    /// シーンタイプをカメラタイプに変換
+    /// 結構無理やりなので変えるかも
+    /// </summary>
+    /// <param name="sceneType"></param>
+    /// <returns></returns>
+    private CameraType SceneTypeToCameraType(SceneType sceneType)
+    {
+        if(sceneType == SceneType.Title)
+        {
+            return CameraType.TitleCamera;
+        }
+        else if(sceneType == SceneType.InGame)
+        { 
+            return CameraType.InGameCamera;
+        }
+        else
+        {
+            return CameraType.ResultCamera;
+        }
+
+
+
+
     }
 }
