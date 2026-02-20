@@ -20,9 +20,25 @@ public class TitleManager : GameManagerBase
 
     public void OnGameStart()
     {
+        if(JoinManager.Instance._playerCount <= 0)
+        {
+            Debug.Log("プレイヤーの人数が足りません");
+            return;
+        }
+
         _sceneManager.ChangeScene(SceneType.InGame);
-        Debug.Log("ボタンを押した");
+        Debug.Log("ゲーム開始");
     }
+
+    public void OnGameEnd()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+Application.Quit();
+#endif
+    }
+
 
 
     void Start()
