@@ -6,11 +6,27 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInputManager))]
 public class JoinManager : MonoBehaviour
 {
+    public static JoinManager Instance { get; private set; }
+
     private PlayerInputManager _playerInputManager;
+    public int _playerCount;
 
     private void Awake()
     {
+        // すでにインスタンスが存在している場合は、このオブジェクトを破棄する
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // インスタンスを設定
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+
         _playerInputManager = GetComponent<PlayerInputManager>();
+        _playerCount = _playerInputManager.playerCount;
     }
 
     private void OnEnable()
@@ -43,5 +59,6 @@ public class JoinManager : MonoBehaviour
             player.SwitchCurrentActionMap("GameInput");
         }
         InputManager.Instance.RegisterPlayer(player);
+        _playerCount = _playerInputManager.playerCount;
     }
 }
