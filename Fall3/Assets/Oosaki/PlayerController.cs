@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Transform _groundCheckPoint; //足元位置
+    [SerializeField] float _groundCheckDistance = 0.3f;
+    [SerializeField] LayerMask _groundLayer;
+
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
@@ -31,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     int _playerIndex;
 
+    Vector3Int _currentGrid = new Vector3Int(-1, -1, -1);
+
     private void Awake()
     {
         //プレイヤーのアニメーションを取得している
@@ -42,14 +48,14 @@ public class PlayerController : MonoBehaviour
         //プレイヤーのインデックスを取得している
         _playerIndex = GetComponent<PlayerInput>().playerIndex;
 
-        _attackSpawner=GetComponent<AttackSpawner>();
+        _attackSpawner = GetComponent<AttackSpawner>();
 
         _stageManager = FindObjectOfType<StageManager>();
     }
 
     void Start()
-    {   
-        if(_playerIndex==0)
+    {
+        if (_playerIndex == 0)
         {
             transform.position = new Vector3(1.0f, 2.0f, 1.0f);
         }
@@ -61,7 +67,15 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(_isAttacking)
+        _isGround = Physics.Raycast(
+        _groundCheckPoint.position,
+        Vector3.down,
+        _groundCheckDistance,
+        _groundLayer);
+
+        CheckFallStage();
+
+        if (_isAttacking)
         {
             //攻撃中は移動しない
             _move = Vector3.zero;
@@ -94,7 +108,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //移動処理
-    void Move(int idx,Vector2 moveValue)
+    void Move(int idx, Vector2 moveValue)
     {
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
         if (idx != _playerIndex) return;
@@ -136,25 +150,27 @@ public class PlayerController : MonoBehaviour
             _playerAnimation.PlayAnimAttack();
         }
     }
+
     //攻撃終了を知らせる関数
     public void EndAttack()
     {
         _isAttacking = false;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void CheckFallStage()
     {
-        float posX, posY;
+        int x = Mathf.FloorToInt(transform.position.x);
+        int y = Mathf.FloorToInt(transform.position.y);
+        int z = Mathf.FloorToInt(transform.position.z);
 
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            _isGround = true;
-            posX=collision.gameObject.GetComponent<Stage>().x;
-            posY=collision.gameObject.GetComponent<Stage>().y;
+        Vector3Int newGrid = new Vector3Int(x, y, z);
 
-            _stageManager.FallStage((int)posX,(int)posY);
-        }
+        if (newGrid == _currentGrid) return;
+
+        _currentGrid = newGrid;
+        _stageManager.FallStage(x, -y, z);
     }
+
     public void OnEnable()
     {
         if (InputManager.Instance != null)

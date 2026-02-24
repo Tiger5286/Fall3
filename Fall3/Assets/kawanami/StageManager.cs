@@ -12,10 +12,12 @@ public class StageManager : MonoBehaviour
 {
     //ステージのサイズ
     [Header("Stage Size")]
-    //横マス数
-    [SerializeField] private int width = 10;
-    //縦マス数
-    [SerializeField] private int height = 10;
+    //x軸マス数
+    [SerializeField] private int width= 10;
+    //y軸マス数
+    [SerializeField] private int height = 3;
+    //z軸マス数
+    [SerializeField] private int vertical= 10;
 
     //ステージのPrefab
     [Header("Stage Prefab")]
@@ -23,15 +25,16 @@ public class StageManager : MonoBehaviour
 
     //グリッド上のステージ情報
     //(2次元配列)
-    private StageType[,] grid;
+    private StageType[,,] grid;
 
     //ステージオブジェクトへの参照
     //(2次元配列)
-    private Stage[,] stages;
+    private Stage[,,] stages;
 
     // デバッグ用：現在選択中のマス
     private int selectX = 0;
     private int selectY = 0;
+    private int selectZ = 0;
 
     //初期化
     private void Start()
@@ -45,18 +48,21 @@ public class StageManager : MonoBehaviour
     //グリッドの初期化
     void InitGrid()
     {
-        //2次元配列を作る
+        //3次元配列を作る
         //グリッドの配列
-        grid = new StageType[width, height];
+        grid = new StageType[width, height,vertical];
         //見た目の配列
-        stages = new Stage[width, height];
+        stages = new Stage[width, height, vertical];
 
         //ステージ配置
         for(int y = 0;y<height;y++)
         {
             for(int x = 0;x<width;x++)
             {
-                grid[x, y] = StageType.Normal;
+                for(int z = 0; z < vertical; z++)
+                {
+                    grid[x, y,z] = StageType.Normal;
+                }       
             }
         }
     }
@@ -68,15 +74,18 @@ public class StageManager : MonoBehaviour
         {
             for(int x = 0;x<width;x++)
             {
-                SpawnStage(x, y);
+                for(int z = 0; z < vertical; z++)
+                {
+                    SpawnStage(x, y,z);
+                }        
             }
         }
     }
     //指定されたマスにステージを生成する
-    void SpawnStage(int x,int y)
+    void SpawnStage(int x,int y,int z)
     {
         //置く必要がなかったら何もしない
-        if (grid[x,y] == StageType.None)
+        if (grid[x,y,z] == StageType.None)
         {
             return;
         }
@@ -84,63 +93,64 @@ public class StageManager : MonoBehaviour
         GameObject go = Instantiate(stagePrefab,transform);
         Stage stage = go.GetComponent<Stage>();
         //グリッド座標を設定する
-        stage.SetGridPos(x, y);
+        stage.SetGridPos(x, y,z);
         //見た目の配列に登録
-        stages[x,y] = stage;
+        stages[x, y, z] = stage;
     }
 
     //ステージを破壊する
-    public void BreakStage(int x,int y)
+    public void BreakStage(int x,int y,int z)
     {
         //範囲外チェック
-        if(!InRange(x,y))
+        if(!InRange(x,y,z))
         {
             return;
         }
 
         //すでに空なら何もしない
-        if (grid[x,y] == StageType.None)
+        if (grid[x, y, z] == StageType.None)
         {
             return;
         }
         //グリッドのデータを変更
-        grid[x,y] = StageType.None;
+        grid[x, y, z] = StageType.None;
 
         //見た目の変更
-        if (stages[x,y] != null)
+        if (stages[x, y, z] != null)
         {
-            Destroy(stages[x, y].gameObject);
-            stages[x, y] = null;
+            Destroy(stages[x, y, z].gameObject);
+            stages[x, y, z] = null;
         }
     }
 
-    public void FallStage(int x,int y)
+    public void FallStage(int x,int y,int z)
     {
-        Debug.Log($"FallStage {x},{y}");
+        Debug.Log($"FallStage {x},{y},{z}");
         //範囲外チェック
-        if (!InRange(x, y))
+        if (!InRange(x, y,z))
         {
             return;
         }
 
         //すでに空なら何もしない
-        if (grid[x, y] == StageType.None)
+        if (grid[x, y, z] == StageType.None)
         {
             return;
         }
 
         //グリッドのデータを変更
-        grid[x, y] = StageType.Fall;
+        grid[x, y, z] = StageType.Fall;
 
         //stage本体の関数を呼び出す
-        stages[x, y].Fall();
+        stages[x, y, z].Fall();
     }
 
     // グリッドの範囲チェック
-    bool InRange(int x, int y)
+    bool InRange(int x, int y, int z)
     {
         return x >= 0 && x < width &&
-               y >= 0 && y < height;
+               y >= 0 && y < height&&
+               z >= 0 && z < vertical;
     }
 
     private void Update()
@@ -149,45 +159,74 @@ public class StageManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             selectX--;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY}");
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             selectX++;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY}");
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectY++;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectY--;
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            selectY++;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY}");
+            selectZ++;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            selectY--;
-            Debug.Log($"selectX:{selectX}, selectY:{selectY}");
-        } 
+            selectZ--;
+        }
 
         // 範囲内に制限
-        selectX = Mathf.Clamp(selectX, 0, width - 1);
-        selectY = Mathf.Clamp(selectY, 0, height - 1);
+        if(selectX < 0)
+        {
+            selectX = 0;
+        }
+        if (selectY < 0)
+        {
+            selectY = 0;
+        }
+        if (selectZ < 0)
+        {
+            selectZ = 0;
+        }
+        if (selectX > width - 1)
+        {
+            selectX = width - 1;
+        }
+        if (selectY > height - 1)
+        {
+            selectY = height - 1;
+        }
+        if (selectZ > vertical - 1)
+        {
+            selectZ = vertical - 1;
+        }
 
         // スペースキーで落とす
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            FallStage(selectX, selectY);
+            FallStage(selectX, selectY,selectZ);
+            Debug.Log($"Selected: {selectX}, {selectY}, {selectZ}");
         }
     }
     //デバッグ用にどのブロックを選んでいるか可視化する関数
     void OnDrawGizmos()
     {
-        if (stages == null) return;
+        //if (stages == null) return;
 
-        Stage stage = stages[selectX, selectY];
-        if (stage == null) return;
+        //Stage stage = stages[selectX, selectY,selectZ];
+        //if (stage == null) return;
         
+
+
         //色を変える
         Gizmos.color = Color.red;
-        Vector3 pos = stage.transform.position;
+        Vector3 pos = new Vector3(selectX,-selectY,selectZ);
         pos.x += 0.5f;
         pos.y += 0.5f;
         pos.z += 0.5f;

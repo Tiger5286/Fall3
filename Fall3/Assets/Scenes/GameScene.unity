@@ -258,7 +258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 10
-  height: 10
+  height: 3
+  vertical: 10
   stagePrefab: {fileID: 4761081742273078217, guid: 06ac8f26ec6205143bf1a6cf07981929, type: 3}
 --- !u!4 &537596639
 Transform:
@@ -918,7 +919,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 6632153641068824321, guid: 205edf3ec58102d4d825b9bf1ccea93a, type: 3}
+  m_PlayerPrefab: {fileID: 6632153641068824321, guid: 4164799d17694014c9f7b7d29b1900ca, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1

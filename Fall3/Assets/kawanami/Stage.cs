@@ -11,6 +11,7 @@ public class Stage : MonoBehaviour
     //グリッド上の座標
     public int x;
     public int y;
+    public int z;
 
     private int _fallWaitCounter = 0;
     private bool _isFall = false;
@@ -23,14 +24,14 @@ public class Stage : MonoBehaviour
     /// </summary>
     /// <param name="gx">グリッド上のx</param>
     /// <param name="gy">グリッド上のx</param>
-    public void SetGridPos(int gx,int gy)
+    public void SetGridPos(int gx,int gy,int gz)
     {
         x = gx;
-        y = gy;
-
+        y = -gy;
+        z = gz;
         //ワールド座標に変換
         //ワールド座標では縦がz
-        _position = new Vector3 ((float)x, (float)0, (float)y);
+        _position = new Vector3 ((float)x, (float)y, (float)z);
     }
 
     public void Fall()
