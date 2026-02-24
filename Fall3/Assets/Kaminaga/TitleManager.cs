@@ -7,6 +7,8 @@ public class TitleManager : GameManagerBase
     [Header("シーン管理")]
     [SerializeField] private SceneManagerKaminaga _sceneManager;
 
+    [Header("タイトルのUI管理クラス")]
+    [SerializeField] private TitleUIManager _titleUIManager;
 
     private void OnEnable()
     {
@@ -23,6 +25,7 @@ public class TitleManager : GameManagerBase
         if(JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
+            _titleUIManager.OnPlayerNotEnough();
             return;
         }
 

@@ -26,6 +26,8 @@ public class InputManager : MonoBehaviour
     // JoinManagerがプレイヤーを生成したときにこのリストにPlayerInputを登録する
     private readonly List<PlayerInput> _playerInputs = new();
 
+    private readonly List<PlayerController> _playerControllers = new();
+
     /// <summary>
     /// 最初に行う処理
     /// インスタンスを生成して、複製不可にする
@@ -61,6 +63,8 @@ public class InputManager : MonoBehaviour
         // プレイヤーの入力データをリストに追加する
         _playerInputs.Add(playerInput);
 
+        var controller = playerInput.GetComponent<PlayerController>();
+        _playerControllers.Add(controller);
 
         // プレイヤーの番号を取得
         int idx = playerInput.playerIndex;
