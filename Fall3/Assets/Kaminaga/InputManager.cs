@@ -104,6 +104,8 @@ public class InputManager : MonoBehaviour
             OnAttackInput?.Invoke(idx);
             Debug.Log($"[InputManager] AttackInput: idx={idx}");
         };
+
+        SetAllPlayerControl(false);
     }
 
     /// <summary>
@@ -113,6 +115,21 @@ public class InputManager : MonoBehaviour
     /// <returns></returns>
     public Vector2 GetMoveInput(int playerIndex) => 
         _move.TryGetValue(playerIndex, out var value) ? value : Vector2.zero;
+
+    /// <summary>
+    /// すべてのプレイヤーのコントローラーの入力状態を管理する
+    /// </summary>
+    /// <param name="isEnable">true : 入力できる false : 入力できない</param>
+    public void SetAllPlayerControl(bool isEnable)
+    {
+        // インプットマネージャーが持っているプレイヤーコントローラーすべてに
+        // 入力可能かどうかをセットする
+        foreach (var controller in _playerControllers)
+        {
+            // プレイヤーの操作可能状態を変更する
+            controller.SetInputActive(isEnable);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

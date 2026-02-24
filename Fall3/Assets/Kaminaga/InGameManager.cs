@@ -8,6 +8,7 @@ public class InGameManager : GameManagerBase
     private void OnEnable()
     {
         Debug.Log("InGameŠJŽn");
+        InputManager.Instance.SetAllPlayerControl(true);
     }
 
     private void OnDisable()

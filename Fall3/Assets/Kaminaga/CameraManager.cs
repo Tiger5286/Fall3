@@ -129,6 +129,9 @@ public class CameraManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
         {
+            // 一時的なデバッグ
+            // シーン遷移を実装したら消去する
+            InputManager.Instance.SetAllPlayerControl(true); 
             // ゲーム中のカメラに切り替える
             SetActiveCamera(CameraType.InGameCamera, 1.0f);
         }
