@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
 
     bool _isGround = true;
 
+    //ノックバックしているかどうか
+    bool _isKnockBack = false;
+
     int _playerIndex;
 
     Vector3Int _currentGrid = new Vector3Int(-1, -1, -1);
@@ -89,10 +92,13 @@ public class PlayerController : MonoBehaviour
             _move.Normalize();
         }
         //移動
-        //transform.position += move * _moveSpeed * Time.deltaTime;
-        Vector3 velocity = _move * _moveSpeed;
-        velocity.y = _rigidbody.velocity.y;
-        _rigidbody.velocity = velocity;
+        if (!_isKnockBack)
+        {
+            //transform.position += move * _moveSpeed * Time.deltaTime;
+            Vector3 velocity = _move * _moveSpeed;
+            velocity.y = _rigidbody.velocity.y;
+            _rigidbody.velocity = velocity;
+        }
 
         //移動の大きさが小さいときは移動しないようにする
         if (_move.sqrMagnitude < 0.01f)
@@ -151,6 +157,12 @@ public class PlayerController : MonoBehaviour
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
         if (idx != _playerIndex) return;
 
+        //ジャンプ中は攻撃できないようにする
+        if (!_isGround) return;
+
+        //ノックバック中は攻撃できないようにする
+        if (_isKnockBack) return;
+
         if (!_isAttacking)
         {
             _attackSpawner.SpawnBall();
@@ -198,4 +210,23 @@ public class PlayerController : MonoBehaviour
             InputManager.Instance.OnAttackInput -= Attack;
         }
     }
+
+    public void ApplyKnockBack(Vector3 force)
+    {
+        StartCoroutine(KnockbackRoutine(force));
+    }
+
+    IEnumerator KnockbackRoutine(Vector3 force)
+    {
+        _isKnockBack = true;
+
+        _rigidbody.velocity=Vector3.zero; //現在の速度をリセット
+        _rigidbody.AddForce(force, ForceMode.Impulse);
+
+        //ノックバックの時間
+        yield return new WaitForSeconds(0.5f);
+
+        _isKnockBack = false;
+    }
+
 }
