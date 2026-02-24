@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _groundCheckDistance = 0.3f;
     [SerializeField] LayerMask _groundLayer;
 
+    [SerializeField] float _FallLimitY = -10f;
+
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
@@ -105,6 +107,12 @@ public class PlayerController : MonoBehaviour
         }
         _playerAnimation.SetMoveSpeed(_move.magnitude);
         Debug.Log(_move.magnitude);
+
+        //落下処理
+        if (transform.position.y < _FallLimitY)
+        {
+            Destroy(gameObject);
+        }
     }
 
     //移動処理
@@ -168,7 +176,7 @@ public class PlayerController : MonoBehaviour
         if (newGrid == _currentGrid) return;
 
         _currentGrid = newGrid;
-        _stageManager.FallStage(x, -y, z);
+        //_stageManager.FallStage(x, -y, z);
     }
 
     public void OnEnable()
