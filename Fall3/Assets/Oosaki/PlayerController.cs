@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     StageManager _stageManager;
 
+    PlayerInput _playerInput;
+
     Vector3 _pos;
 
     Vector3 _move;
@@ -50,8 +52,18 @@ public class PlayerController : MonoBehaviour
         //プレイヤーのRigidbodyを取得している
         _rigidbody = GetComponent<Rigidbody>();
 
-        //プレイヤーのインデックスを取得している
-        _playerIndex = GetComponent<PlayerInput>().playerIndex;
+        //-------コントローラー関連の処理-------
+        {
+            // プレイヤーの入力管理を取得している
+            _playerInput = GetComponent<PlayerInput>();
+
+            // コントローラーの入力を受け付けないようにする
+            _playerInput.SwitchCurrentActionMap("Disable");
+
+            //プレイヤーのインデックスを取得している
+            _playerIndex = _playerInput.playerIndex;
+        }
+        //-------コントローラー関連の処理-------
 
         _attackSpawner = GetComponent<AttackSpawner>();
 
@@ -118,6 +130,19 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < _FallLimitY)
         {
             Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーの入力状態を変更する
+    /// </summary>
+    /// <param name="isEnable">入力できるかどうか</param>
+    public void SetInputActive(bool isEnable)
+    {
+        // プレイヤーの入力管理が取得出来ている場合
+        if(_playerInput != null)
+        {
+            _playerInput.SwitchCurrentActionMap(isEnable ? "GameInput" : "Disable");
         }
     }
 
