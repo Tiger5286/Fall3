@@ -1734,6 +1734,8 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  _soundManager: {fileID: 0}
+  _jumpSE: {fileID: 8300000, guid: 0c7e022da0c05a64ab67c68143a08193, type: 3}
   _FallLimitY: -10
 --- !u!114 &840610173928539647
 MonoBehaviour:

@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _groundCheckDistance = 0.3f;
     [SerializeField] LayerMask _groundLayer;
 
+    //音関連
+    [SerializeField] SoundManager _soundManager;
+    [SerializeField] AudioClip _jumpSE;
+
     [SerializeField] float _FallLimitY = -10f;
 
     //プレイヤーのアニメーション
@@ -80,6 +84,8 @@ public class PlayerController : MonoBehaviour
         _attackSpawner = GetComponent<AttackSpawner>();
 
         _stageManager = FindObjectOfType<StageManager>();
+
+        _soundManager = FindObjectOfType<SoundManager>();
     }
 
     void Start()
@@ -195,6 +201,12 @@ public class PlayerController : MonoBehaviour
 
             _isGround = false;
             _playerAnimation.PlayAnimJump();
+
+            //ジャンプの音を再生
+            if (_soundManager != null && _jumpSE != null)
+            {
+                _soundManager.PlaySE(_jumpSE);
+            }
         }
     }
 
