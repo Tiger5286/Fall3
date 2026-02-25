@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour
         //—‰ºˆ—
         if (transform.position.y < _FallLimitY)
         {
+            _playerInput.SwitchCurrentActionMap("Disable");
             Destroy(gameObject);
         }
     }
