@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
             _playerInput = GetComponent<PlayerInput>();
 
             // コントローラーの入力を受け付けないようにする
-            _playerInput.SwitchCurrentActionMap("Disable");
+            _playerInput.SwitchCurrentActionMap("GameInput");
 
             //プレイヤーのインデックスを取得している
             _playerIndex = _playerInput.playerIndex;
@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
         if (newGrid == _currentGrid) return;
 
         _currentGrid = newGrid;
-        //_stageManager.FallStage(x, -y, z);
+        _stageManager.FallStage(x, -y, z);
     }
 
     public void OnEnable()
