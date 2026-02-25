@@ -38,6 +38,12 @@ public class GameSession : MonoBehaviour
 
     }
 
+    public void ResetWinCounter()
+    {
+        _winCountPlayer1 = 0;
+        _winCountPlayer2 = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
