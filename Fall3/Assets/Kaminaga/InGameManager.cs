@@ -11,6 +11,9 @@ public class InGameManager : GameManagerBase
     [Header("シーン管理")]
     [SerializeField] private SceneManagerKaminaga _sceneManager;
 
+    [Header("ステージマネージャー")]
+    [SerializeField] private StageManager _stageManager;
+
     private bool _isGameSet;
 
     private bool _isDeadPlayer1;
@@ -30,6 +33,8 @@ public class InGameManager : GameManagerBase
             InputManager.Instance.InitPlayers();
             InputManager.Instance.OnPlayerDied += HandlePlayerDead;
         }
+
+        _stageManager.Init();
     }
 
     private void OnDisable()
