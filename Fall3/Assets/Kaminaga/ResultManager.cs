@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : GameManagerBase
 {
+    [Header("Ÿ—˜”»’èŠÖ˜A")]
+    [SerializeField] private GameSession _gameSession;
+
     [Header("ƒV[ƒ“ŠÇ—")]
     [SerializeField] private SceneManagerKaminaga _sceneManager;
 
@@ -33,7 +36,7 @@ public class ResultManager : GameManagerBase
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("winner : " + _gameSession._lastWinner);
     }
 
     // Update is called once per frame
