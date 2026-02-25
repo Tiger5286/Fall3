@@ -20,6 +20,22 @@ public class GameSession : MonoBehaviour
     public void SetResult(WinnerType winner)
     {
         _lastWinner = winner;
+        switch (winner)
+        {
+            case WinnerType.None:
+                break;
+            case WinnerType.Player1:
+                _winCountPlayer1++;
+                break;
+            case WinnerType.Player2:
+                _winCountPlayer2++;
+                break;
+            case WinnerType.Draw:
+                break;
+            default:
+                break;
+        }
+
     }
 
     // Start is called before the first frame update
