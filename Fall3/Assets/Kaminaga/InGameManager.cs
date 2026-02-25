@@ -27,6 +27,7 @@ public class InGameManager : GameManagerBase
         if(InputManager.Instance != null)
         {
             InputManager.Instance.SetAllPlayerControl(true);
+            InputManager.Instance.InitPlayers();
             InputManager.Instance.OnPlayerDied += HandlePlayerDead;
         }
     }
