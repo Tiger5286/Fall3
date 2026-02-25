@@ -14,16 +14,22 @@ public class PlayerController : MonoBehaviour
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
+    //プレイヤーの攻撃生成
     AttackSpawner _attackSpawner;
 
+    //プレイヤーのRigidbody
     Rigidbody _rigidbody;
 
+    //ステージ管理
     StageManager _stageManager;
 
+    //インプット
     PlayerInput _playerInput;
 
+    //プレイヤーの位置
     Vector3 _pos;
 
+    //プレイヤーの移動
     Vector3 _move;
 
     //プレイヤーの移動速度
@@ -35,13 +41,19 @@ public class PlayerController : MonoBehaviour
     //プレイヤーが攻撃中かどうか
     bool _isAttacking = false;
 
+    //プレイヤーが地面にいるかどうか
     bool _isGround = true;
 
     //ノックバックしているかどうか
     bool _isKnockBack = false;
 
+    //プレイヤーが死んでいるかどうか
+    bool _isDead = false;
+
+    //プレイヤーの識別番号
     int _playerIndex;
 
+    //現在のグリッド座標
     Vector3Int _currentGrid = new Vector3Int(-1, -1, -1);
 
     private void Awake()
@@ -129,6 +141,7 @@ public class PlayerController : MonoBehaviour
         //落下処理
         if (transform.position.y < _FallLimitY)
         {
+            //_isDead = true;
             _playerInput.SwitchCurrentActionMap("Disable");
             Destroy(gameObject);
         }
