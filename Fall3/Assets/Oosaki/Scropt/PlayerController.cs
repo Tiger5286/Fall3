@@ -141,8 +141,16 @@ public class PlayerController : MonoBehaviour
         //—‰ºˆ—
         if (transform.position.y < _FallLimitY)
         {
-            //_isDead = true;
+            if(_isDead)
+            {
+                return;
+            }
+            _isDead = true;
+
             _playerInput.SwitchCurrentActionMap("Disable");
+
+            InputManager.Instance.ReportPlayerDied(_playerIndex);
+
             Destroy(gameObject);
         }
     }
