@@ -56,9 +56,9 @@ public class JoinManager : MonoBehaviour
     {
         Debug.Log($"[JoinManager] Joined({via}): idx={player.playerIndex}, device = {string.Join(",", player.devices)}");
 
-        if (player.currentActionMap == null || player.currentActionMap.name != "GameInput")
+        if (player.currentActionMap == null)
         {
-            player.SwitchCurrentActionMap("GameInput");
+            player.SwitchCurrentActionMap("Disable");
         }
         InputManager.Instance.RegisterPlayer(player);
         _playerCount = _playerInputManager.playerCount;
