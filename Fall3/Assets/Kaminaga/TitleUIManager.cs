@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +12,7 @@ public class TitleUIManager : MonoBehaviour
 {
     // 定数定義
     private const float kCursorMoveSpeed = 500.0f; // カーソルが動くスピード
+    private const float kWarningTime = 3.0f; // 警告を出す時間(秒単位)
 
     [Header("キャンバス")]
     [SerializeField] private Canvas _canvas;
@@ -28,6 +30,21 @@ public class TitleUIManager : MonoBehaviour
     [SerializeField] private InputActionReference _moveAction;
     [SerializeField] private InputActionReference _clickAction;
 
+    [Header("プレイヤーの数を示すテキスト")]
+    [SerializeField] private TextMeshProUGUI _playerText;
+
+    [Header("プレイヤーが足りない際に表示するテキスト")]
+    [SerializeField] private TextMeshProUGUI _warningText;
+
+    [Header("勝利判定関連")]
+    [SerializeField] private GameSession _gameSession;
+
+    [SerializeField] private TextMeshProUGUI _player1WinCountText;
+    [SerializeField] private TextMeshProUGUI _player2WinCountText;
+
+    // 警告を表示する時間
+    private float _warningTime = 0.0f;
+
     // キャンバス内のカーソルの座標
     private Vector2 _cursorPosCanvas;
 
@@ -42,6 +59,9 @@ public class TitleUIManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        // 警告テキストを非アクティブに
+        _warningText.enabled = false;
+
         // アクションデータを有効化
         // 
         _moveAction?.action?.Enable();
@@ -55,6 +75,8 @@ public class TitleUIManager : MonoBehaviour
 
         // 現在選択されているボタンを更新
         UpdateSelecting(_cursorPosCanvas);
+
+        UpdateWinCount();
     }
 
     /// <summary>
@@ -87,6 +109,19 @@ public class TitleUIManager : MonoBehaviour
             return;
         }
 
+        _playerText.text = "PlayerNum : " + JoinManager.Instance._playerCount.ToString();
+
+        if(_warningTime > 0.0f)
+        {
+            _warningTime -= Time.deltaTime;
+        }
+
+        if(_warningTime < 0.0f)
+        {
+            _warningTime = 0.0f;
+            _warningText.enabled = false;
+        }
+
         // カーソルの動き
         // 
         Vector2 move = _moveAction?.action?.ReadValue<Vector2>() ?? Vector2.zero;
@@ -110,6 +145,18 @@ public class TitleUIManager : MonoBehaviour
         {
             ClickUIAt(_cursorPosCanvas);
         }
+    }
+
+    public void UpdateWinCount()
+    {
+        _player1WinCountText.text = "Player1 : " + _gameSession._winCountPlayer1;
+        _player2WinCountText.text = "Player2 : " + _gameSession._winCountPlayer2;
+    }
+
+    public void OnPlayerNotEnough()
+    {
+        _warningText.enabled = true;
+        _warningTime = kWarningTime;
     }
 
     /// <summary>

@@ -11,6 +11,8 @@ public class JoinManager : MonoBehaviour
     private PlayerInputManager _playerInputManager;
     public int _playerCount;
 
+    [SerializeField] InGameManager _gameManager;
+
     private void Awake()
     {
         // すでにインスタンスが存在している場合は、このオブジェクトを破棄する
@@ -48,17 +50,25 @@ public class JoinManager : MonoBehaviour
 
     private void OnPlayerJoinedUnityEvent(PlayerInput p) => HandleJoined(p, "UnityEvent");
 
-    private void OnPlayerLeftUnityEvent(PlayerInput p) => Debug.Log($"[JoinManager] Left(UnityEvent): idx={p.playerIndex}");
+    private void OnPlayerLeftUnityEvent(PlayerInput p) => HandleLeft(p, "UnityEvent");
 
     private void HandleJoined(PlayerInput player, string via)
     {
         Debug.Log($"[JoinManager] Joined({via}): idx={player.playerIndex}, device = {string.Join(",", player.devices)}");
 
-        if (player.currentActionMap == null || player.currentActionMap.name != "GameInput")
+        if (player.currentActionMap == null)
         {
-            player.SwitchCurrentActionMap("GameInput");
+            player.SwitchCurrentActionMap("Disable");
         }
         InputManager.Instance.RegisterPlayer(player);
+        _playerCount = _playerInputManager.playerCount;
+    }
+
+    private void HandleLeft(PlayerInput player, string via)
+    {
+        Debug.Log($"[JoinManager] Left({via}): idx={player.playerIndex}");
+
+        InputManager.Instance.UnRegisterPlayer(player);
         _playerCount = _playerInputManager.playerCount;
     }
 }

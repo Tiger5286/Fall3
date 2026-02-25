@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5761702051503337312}
   - component: {fileID: 1487428945065491802}
   - component: {fileID: 5314233309855482034}
-  - component: {fileID: 7087432510409314743}
+  - component: {fileID: -3666830073764138901}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6601386069767166914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.09480015, y: 0.56789464, z: -3.7844296}
+  m_LocalPosition: {x: 10.551344, y: 0.5, z: 6.9667587}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 1
---- !u!114 &7087432510409314743
+--- !u!114 &-3666830073764138901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,4 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ed2b997a57e9c44941f046be9ef196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyDistance: 10
+  _destroyDistance: 10
+  _knockbackForce: 12
+  _knockbackUpwardForce: 12
