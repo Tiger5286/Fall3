@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
             _playerInput = GetComponent<PlayerInput>();
 
             // コントローラーの入力を受け付けないようにする
-            _playerInput.SwitchCurrentActionMap("GameInput");
+            _playerInput.SwitchCurrentActionMap("Disable");
 
             //プレイヤーのインデックスを取得している
             _playerIndex = _playerInput.playerIndex;
@@ -84,14 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        if (_playerIndex == 0)
-        {
-            transform.position = new Vector3(1.0f, 2.0f, 1.0f);
-        }
-        else
-        {
-            transform.position = new Vector3(9.0f, 2.0f, 9.0f);
-        }
+        Init();
     }
 
     void FixedUpdate()
@@ -152,6 +145,18 @@ public class PlayerController : MonoBehaviour
             InputManager.Instance.ReportPlayerDied(_playerIndex);
 
             Destroy(gameObject);
+        }
+    }
+
+    public void Init()
+    {
+        if (_playerIndex == 0)
+        {
+            transform.position = new Vector3(1.0f, 2.0f, 1.0f);
+        }
+        else
+        {
+            transform.position = new Vector3(9.0f, 2.0f, 9.0f);
         }
     }
 

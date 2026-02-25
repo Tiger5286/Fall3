@@ -266,6 +266,15 @@ public class InputManager : MonoBehaviour
         OnPlayerDied?.Invoke(playerIndex);
     }
 
+    public void InitPlayers()
+    {
+        foreach (var controller in _playerControllers)
+        {
+            // ƒvƒŒƒCƒ„[‚Ì‰Šú‰»‚ğ‚·‚é
+            controller.Init();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
