@@ -69,5 +69,6 @@ public class JoinManager : MonoBehaviour
         Debug.Log($"[JoinManager] Left({via}): idx={player.playerIndex}");
 
         InputManager.Instance.UnRegisterPlayer(player);
+        _playerCount = _playerInputManager.playerCount;
     }
 }
