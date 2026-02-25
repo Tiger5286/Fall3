@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5094246028385436333}
   - component: {fileID: 1459201636848969731}
   - component: {fileID: 920689688224731354}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Ch29
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 89175208be0e52d4ebee4739a881b7ad, type: 2}
+  - {fileID: 6679102115516790480, guid: 2dd37b639a71e0947886f40dc68d84ed, type: 3}
+  - {fileID: 2100000, guid: 6e4472b35bc89974db59d4269bc22bd9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
