@@ -39,6 +39,12 @@ public class StageManager : MonoBehaviour
     //初期化
     private void Start()
     {
+       Init();
+    }
+
+    //初期化関数
+    public void Init()
+    {
         //グリッド初期化
         InitGrid();
         //ステージ作成
