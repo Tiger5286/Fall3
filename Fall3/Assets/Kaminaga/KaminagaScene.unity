@@ -809,6 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameSession: {fileID: 622637397}
   _sceneManager: {fileID: 1925695688}
+  _stageManager: {fileID: 1059849726}
 --- !u!1 &592522123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCount: 0
-  _gameManager: {fileID: 0}
 --- !u!114 &1032917356
 MonoBehaviour:
   m_ObjectHideFlags: 0

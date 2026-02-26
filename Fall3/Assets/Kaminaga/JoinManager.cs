@@ -11,8 +11,6 @@ public class JoinManager : MonoBehaviour
     private PlayerInputManager _playerInputManager;
     public int _playerCount;
 
-    [SerializeField] InGameManager _gameManager;
-
     private void Awake()
     {
         // すでにインスタンスが存在している場合は、このオブジェクトを破棄する
