@@ -5,20 +5,21 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum PlayerId
+public readonly struct PlayerInfo
 {
-    Player1 = 0,
-    Player2 = 1
-}
+    public readonly PlayerInput _input;
+    public readonly PlayerController _controller;
 
-public class PlayerInfo
-{
-    public PlayerId _id; // 1Pか2Pか
-    public PlayerInput _input; // 対応する入力処理
-    public PlayerController _controller; // 対応するプレイヤー
-    public bool _isJoining => _input != null; // 入力処理が存在するときはtrue、存在しないときはfalse
-
-    public int _deviceId; // コントローラーのID
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="controller"></param>
+    public PlayerInfo(PlayerInput input, PlayerController controller)
+    {
+        _input = input; 
+        _controller = controller;
+    }
 }
 
 /// <summary>
@@ -44,20 +45,11 @@ public class InputManager : MonoBehaviour
     // プレイヤーの入力を管理するためのリスト
     // このマネージャー内でのみ使用する
     // JoinManagerがプレイヤーを生成したときにこのリストにPlayerInputを登録する
-    //private readonly List<PlayerInput> _playerInputs = new();
+    private readonly List<PlayerInput> _playerInputs = new();
 
-    //private readonly List<PlayerController> _playerControllers = new();
+    private readonly List<PlayerController> _playerControllers = new();
 
-    //public event Action<PlayerId> OnPlayerJoined;
-    //public event Action<PlayerId> OnPlayerLeft;
-
-    private readonly PlayerInfo[] _playerInfos = new PlayerInfo[2]
-    {
-        new PlayerInfo{_id = PlayerId.Player1 },
-        new PlayerInfo {_id = PlayerId.Player2 }
-    };
-
-    private readonly Dictionary<PlayerInput, PlayerId> _infoByInput = new();
+    public List<PlayerInfo> _players = new();
 
     private class ActionHandles
     {
@@ -94,23 +86,6 @@ public class InputManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 未参加のプレイヤーのIDを取得
-    /// </summary>
-    /// <returns></returns>
-    public IReadOnlyList<PlayerId> GetMissingPlayerIds()
-    {
-        List<PlayerId> list = new();
-        foreach(var info in _playerInfos)
-        {
-            if(!info._isJoining)
-            {
-                list.Add(info._id);
-            }
-        }
-        return list;
-    }
-
-    /// <summary>
     /// プレイヤーを追加する
     /// </summary>
     /// <param name="playerInput">プレイヤーの入力データ(プレイヤーを区別できるように取得)</param>
@@ -118,35 +93,18 @@ public class InputManager : MonoBehaviour
     {
 
         // すでに同じPlayerInputが登録されている場合は、重複して登録しないようにする
-        if (_infoByInput.ContainsKey(playerInput))
+        if (_playerInputs.Contains(playerInput) || _actions.ContainsKey(playerInput))
         {
             return;
         }
+        // プレイヤーの入力データをリストに追加する
+        _playerInputs.Add(playerInput);
 
-        PlayerInfo info = null;
+        var controller = playerInput.GetComponent<PlayerController>();
+        _playerControllers.Add(controller);
 
-        // プレイヤーの情報を管理
-        foreach (var playerInfo in _playerInfos)
-        {
-            // 参加していないプレイヤー情報があれば
-            if(!playerInfo._isJoining)
-            {
-                // プレイヤー情報を追加
-                info = playerInfo;
-                // 追加した時点でこれ以上追加してはいけないのでこの処理を抜ける
-                break;
-            }
-        }
-
-        if (info == null)
-        {
-            Debug.LogWarning("プレイヤーはこれ以上参加できません");
-            return;
-        }
-
-        info._input = playerInput;
-        info._controller = playerInput.GetComponent<PlayerController>();
-        _infoByInput[playerInput] = info._id;
+        var info = new PlayerInfo(playerInput, controller);
+        _players.Add(info);
 
         // プレイヤーの番号を取得
         int idx = playerInput.playerIndex;
@@ -231,7 +189,7 @@ public class InputManager : MonoBehaviour
         //    Debug.Log($"[InputManager] AttackInput: idx={idx}");
         //};
 
-        //SetAllPlayerControl(false);
+        SetAllPlayerControl(false);
     }
 
     /// <summary>
@@ -247,12 +205,22 @@ public class InputManager : MonoBehaviour
         // プレイヤーのインプットが存在しない場合処理をしない
         if (playerInput == null) return;
 
-        if(_infoByInput.TryGetValue(playerInput, out var playerId))
+        // プレイヤーのインプットと合致するプレイヤーリストの番号を取得
+        int idx = _players.FindIndex(player => player._input == playerInput);
+
+        if (idx >= 0)
         {
-            var info = _playerInfos[(int)playerId];
-            info._input = null;
-            info._controller = null;
-            _infoByInput.Remove(playerInput);
+            var info = _players[idx];
+            _players.RemoveAt(idx);
+        }
+
+        _playerInputs.Remove(playerInput);
+
+
+        var controller = playerInput.GetComponent<PlayerController>();
+        if (controller != null)
+        {
+            _playerControllers.Remove(controller);
         }
 
         // 登録されているActionを取得
@@ -285,11 +253,10 @@ public class InputManager : MonoBehaviour
     {
         // インプットマネージャーが持っているプレイヤーコントローラーすべてに
         // 入力可能かどうかをセットする
-        foreach (var info in _playerInfos)
+        foreach (var controller in _playerControllers)
         {
-            if(info._controller == null) continue;
             // プレイヤーの操作可能状態を変更する
-            info._controller.SetInputActive(isEnable);
+            controller.SetInputActive(isEnable);
         }
     }
 
@@ -297,26 +264,5 @@ public class InputManager : MonoBehaviour
     {
         Debug.Log($"[InputManager] player{playerIndex} is Die.");
         OnPlayerDied?.Invoke(playerIndex);
-    }
-
-    public void InitPlayers()
-    {
-        foreach (var info in _playerInfos)
-        {
-            // プレイヤーの初期化をする
-            info._controller.Init();
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

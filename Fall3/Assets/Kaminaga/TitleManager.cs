@@ -22,21 +22,12 @@ public class TitleManager : GameManagerBase
 
     public void OnGameStart()
     {
-        var missingPlayer = InputManager.Instance.GetMissingPlayerIds();
-
-        if (missingPlayer.Count != 0)
+        if(JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
             _titleUIManager.OnPlayerNotEnough();
             return;
         }
-
-        //if (JoinManager.Instance._playerCount <= 1)
-        //{
-        //    Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
-        //    _titleUIManager.OnPlayerNotEnough();
-        //    return;
-        //}
 
         _sceneManager.ChangeScene(SceneType.InGame);
         Debug.Log("ゲーム開始");
