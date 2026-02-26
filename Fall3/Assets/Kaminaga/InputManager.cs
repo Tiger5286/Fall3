@@ -265,4 +265,12 @@ public class InputManager : MonoBehaviour
         Debug.Log($"[InputManager] player{playerIndex} is Die.");
         OnPlayerDied?.Invoke(playerIndex);
     }
+
+    public void InitPlayers()
+    {
+        foreach(var info in _players)
+        {
+            info._controller.Init();
+        }
+    }
 }
