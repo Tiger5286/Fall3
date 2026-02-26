@@ -10,7 +10,6 @@ public class ResultUIManager : MonoBehaviour
 {
     // 定数定義
     private const float kCursorMoveSpeed = 500.0f; // カーソルが動くスピード
-    private const float kWarningTime = 3.0f; // 警告を出す時間(秒単位)
 
     [Header("キャンバス")]
     [SerializeField] private Canvas _canvas;
@@ -33,16 +32,6 @@ public class ResultUIManager : MonoBehaviour
 
     [Header("プレイヤーが足りない際に表示するテキスト")]
     [SerializeField] private TextMeshProUGUI _warningText;
-
-    [Header("勝利判定関連")]
-    [SerializeField] private GameSession _gameSession;
-
-    [SerializeField] private TextMeshProUGUI _winText;
-
-    [SerializeField] private TextMeshProUGUI _resultText;
-
-    // 警告を表示する時間
-    private float _warningTime = 0.0f;
 
     // キャンバス内のカーソルの座標
     private Vector2 _cursorPosCanvas;
@@ -74,10 +63,6 @@ public class ResultUIManager : MonoBehaviour
 
         // 現在選択されているボタンを更新
         UpdateSelecting(_cursorPosCanvas);
-
-        _winText.text = _gameSession._lastWinner + "Win!";
-
-        _resultText.text ="player1 : " + _gameSession._winCountPlayer1.ToString() + "player2 : " + _gameSession._winCountPlayer2.ToString();
     }
 
     /// <summary>
@@ -112,17 +97,6 @@ public class ResultUIManager : MonoBehaviour
 
         _playerText.text = "PlayerNum : " + JoinManager.Instance._playerCount.ToString();
 
-        if (_warningTime > 0.0f)
-        {
-            _warningTime -= Time.deltaTime;
-        }
-
-        if (_warningTime < 0.0f)
-        {
-            _warningTime = 0.0f;
-            _warningText.enabled = false;
-        }
-
         // カーソルの動き
         // 
         Vector2 move = _moveAction?.action?.ReadValue<Vector2>() ?? Vector2.zero;
@@ -146,12 +120,6 @@ public class ResultUIManager : MonoBehaviour
         {
             ClickUIAt(_cursorPosCanvas);
         }
-    }
-
-    public void OnPlayerNotEnough()
-    {
-        _warningText.enabled = true;
-        _warningTime = kWarningTime;
     }
 
     /// <summary>

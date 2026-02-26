@@ -39,14 +39,6 @@ public class StageManager : MonoBehaviour
     //初期化
     private void Start()
     {
-       Init();
-    }
-
-    //初期化関数
-    public void Init()
-    {
-        //Breakしてから作る
-        BreakStage();
         //グリッド初期化
         InitGrid();
         //ステージ作成
@@ -107,36 +99,27 @@ public class StageManager : MonoBehaviour
     }
 
     //ステージを破壊する
-    public void BreakStage()
+    public void BreakStage(int x,int y,int z)
     {
-        for (int y = 0; y < height; y++)
+        //範囲外チェック
+        if(!InRange(x,y,z))
         {
-            for (int x = 0; x < width; x++)
-            {
-                for (int z = 0; z < vertical; z++)
-                {
-                    //範囲外チェック
-                    if (!InRange(x, y, z))
-                    {
-                        return;
-                    }
+            return;
+        }
 
-                    //すでに空なら何もしない
-                    if (grid[x, y, z] == StageType.None)
-                    {
-                        return;
-                    }
-                    //グリッドのデータを変更
-                    grid[x, y, z] = StageType.None;
+        //すでに空なら何もしない
+        if (grid[x, y, z] == StageType.None)
+        {
+            return;
+        }
+        //グリッドのデータを変更
+        grid[x, y, z] = StageType.None;
 
-                    //見た目の変更
-                    if (stages[x, y, z] != null)
-                    {
-                        Destroy(stages[x, y, z].gameObject);
-                        stages[x, y, z] = null;
-                    }
-                }
-            }
+        //見た目の変更
+        if (stages[x, y, z] != null)
+        {
+            Destroy(stages[x, y, z].gameObject);
+            stages[x, y, z] = null;
         }
     }
 

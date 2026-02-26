@@ -299,6 +299,8 @@ public class InputManager : MonoBehaviour
         OnPlayerDied?.Invoke(playerIndex);
     }
 
+<<<<<<< HEAD
+=======
     public void InitPlayers()
     {
         foreach (var info in _playerInfos)
@@ -308,6 +310,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
+>>>>>>> main
     // Start is called before the first frame update
     void Start()
     {

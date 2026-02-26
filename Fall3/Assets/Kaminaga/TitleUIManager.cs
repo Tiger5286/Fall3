@@ -36,12 +36,6 @@ public class TitleUIManager : MonoBehaviour
     [Header("プレイヤーが足りない際に表示するテキスト")]
     [SerializeField] private TextMeshProUGUI _warningText;
 
-    [Header("勝利判定関連")]
-    [SerializeField] private GameSession _gameSession;
-
-    [SerializeField] private TextMeshProUGUI _player1WinCountText;
-    [SerializeField] private TextMeshProUGUI _player2WinCountText;
-
     // 警告を表示する時間
     private float _warningTime = 0.0f;
 
@@ -75,8 +69,6 @@ public class TitleUIManager : MonoBehaviour
 
         // 現在選択されているボタンを更新
         UpdateSelecting(_cursorPosCanvas);
-
-        UpdateWinCount();
     }
 
     /// <summary>
@@ -145,12 +137,6 @@ public class TitleUIManager : MonoBehaviour
         {
             ClickUIAt(_cursorPosCanvas);
         }
-    }
-
-    public void UpdateWinCount()
-    {
-        _player1WinCountText.text = "Player1 : " + _gameSession._winCountPlayer1;
-        _player2WinCountText.text = "Player2 : " + _gameSession._winCountPlayer2;
     }
 
     public void OnPlayerNotEnough()
