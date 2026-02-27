@@ -109,6 +109,16 @@ public class StageManager : MonoBehaviour
     //ステージを破壊する
     public void BreakStage()
     {
+        if(grid == null)
+        {
+            return;
+        }
+
+        if(stages == null)
+        {
+            return;
+        }
+
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -121,11 +131,6 @@ public class StageManager : MonoBehaviour
                         return;
                     }
 
-                    //すでに空なら何もしない
-                    if (grid[x, y, z] == StageType.None)
-                    {
-                        return;
-                    }
                     //グリッドのデータを変更
                     grid[x, y, z] = StageType.None;
 
