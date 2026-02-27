@@ -253,10 +253,9 @@ public class InputManager : MonoBehaviour
     {
         // インプットマネージャーが持っているプレイヤーコントローラーすべてに
         // 入力可能かどうかをセットする
-        foreach (var controller in _playerControllers)
+        foreach (var info in _players)
         {
-            // プレイヤーの操作可能状態を変更する
-            controller.SetInputActive(isEnable);
+            info._controller.SetInputActive(isEnable);
         }
     }
 

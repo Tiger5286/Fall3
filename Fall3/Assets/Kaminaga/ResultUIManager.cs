@@ -75,7 +75,14 @@ public class ResultUIManager : MonoBehaviour
         // 現在選択されているボタンを更新
         UpdateSelecting(_cursorPosCanvas);
 
-        _winText.text = _gameSession._lastWinner + "Win!";
+        if(_gameSession._lastWinner == WinnerType.Draw)
+        {
+            _winText.text = _gameSession._lastWinner.ToString();
+        }
+        else
+        {
+            _winText.text = _gameSession._lastWinner + "Win!";
+        }
 
         _resultText.text ="player1 : " + _gameSession._winCountPlayer1.ToString() + "player2 : " + _gameSession._winCountPlayer2.ToString();
     }
