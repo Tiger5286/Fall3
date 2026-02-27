@@ -1111,6 +1111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameSession: {fileID: 622637397}
   _sceneManager: {fileID: 1925695688}
+  _stageManager: {fileID: 1059849726}
 --- !u!1 &592522123
 GameObject:
   m_ObjectHideFlags: 0
