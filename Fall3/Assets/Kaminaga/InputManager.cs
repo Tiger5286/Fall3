@@ -5,23 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public readonly struct PlayerInfo
-{
-    public readonly PlayerInput _input;
-    public readonly PlayerController _controller;
-
-    /// <summary>
-    /// 初期化処理
-    /// </summary>
-    /// <param name="input"></param>
-    /// <param name="controller"></param>
-    public PlayerInfo(PlayerInput input, PlayerController controller)
-    {
-        _input = input; 
-        _controller = controller;
-    }
-}
-
 /// <summary>
 /// 入力を管理するシングルトンクラス
 /// </summary>
@@ -33,35 +16,42 @@ public class InputManager : MonoBehaviour
     // プレイヤーごとに移動入力を保存するためのDictionary
     private readonly Dictionary<int, Vector2> _move = new();
     
-    // 入力イベント群
+    // 入力イベント群(ゲーム内)
     // プレイヤーが生成された際にこのOn○○Inputに関数を登録すると使える
     public event Action<int, Vector2> OnMoveInput; // 移動入力が行われたときに呼ぶイベント
     public event Action<int> OnJumpInput; // ジャンプ入力が行われたときに呼ぶイベント
     public event Action<int> OnAttackInput; // 攻撃入力が行われたときに呼ぶイベント
     
+    // 入力イベント群(ゲーム以外)
+    // 準備OKとキャンセルのボタンが押された時
+    public event Action<int> OnReadyInput;
+    public event Action<int> OnCancelInput;
+
     // 通常イベント群
     public event Action<int> OnPlayerDied; // プレイヤーが死んだ時に呼ぶイベント
 
-    // プレイヤーの入力を管理するためのリスト
-    // このマネージャー内でのみ使用する
-    // JoinManagerがプレイヤーを生成したときにこのリストにPlayerInputを登録する
-    private readonly List<PlayerInput> _playerInputs = new();
-
-    private readonly List<PlayerController> _playerControllers = new();
-
-    public List<PlayerInfo> _players = new();
-
     private class ActionHandles
     {
+        // GameInput
         public InputAction _move;
         public InputAction _jump;
         public InputAction _attack;
+        // Menu
+        public InputAction _ready;
+        public InputAction _cancel;
 
+        // GameInput
         public Action<InputAction.CallbackContext> _onMovePerformed;
         public Action<InputAction.CallbackContext> _onMoveCanceled;
         public Action<InputAction.CallbackContext> _onJumpPerformed;
         public Action<InputAction.CallbackContext> _onAttackPerformed;
+
+        // Menu
+        public Action<InputAction.CallbackContext> _onReady;
+        public Action<InputAction.CallbackContext> _onCancel;
     }
+
+    private readonly Dictionary<int, PlayerInput> _slotInputs = new();
 
     private readonly Dictionary<PlayerInput, ActionHandles> _actions = new();
 
@@ -85,70 +75,73 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /// <summary>
-    /// プレイヤーを追加する
-    /// </summary>
-    /// <param name="playerInput">プレイヤーの入力データ(プレイヤーを区別できるように取得)</param>
-    public void RegisterPlayer(PlayerInput playerInput)
+    public void RegisterPlayerToSlot(int slotId, PlayerInput input, PlayerController controller = null)
     {
-
-        // すでに同じPlayerInputが登録されている場合は、重複して登録しないようにする
-        if (_playerInputs.Contains(playerInput) || _actions.ContainsKey(playerInput))
+        if (input == null)
         {
             return;
         }
-        // プレイヤーの入力データをリストに追加する
-        _playerInputs.Add(playerInput);
+        if (_slotInputs.ContainsKey(slotId) || _actions.ContainsKey(input))
+        {
+            return;
+        }
 
-        var controller = playerInput.GetComponent<PlayerController>();
-        _playerControllers.Add(controller);
-
-        var info = new PlayerInfo(playerInput, controller);
-        _players.Add(info);
-
-        // プレイヤーの番号を取得
-        int idx = playerInput.playerIndex;
+        _slotInputs[slotId] = input;
 
         // 入力アクションを取得
-        var actions = playerInput.actions; // PlayerInputのアクション全体
+        var actions = input.actions; // PlayerInputのアクション全体
         var moveAction = actions["Move"]; // Moveアクションを取得
         var jumpAction = actions["Jump"]; // Jumpアクションを取得
         var attackAction = actions["Attack"]; // Attackアクションを取得
+
+        // インゲーム以外で使用する入力アクションを取得
+        var readyAction = actions["Ready"]; // Readyアクションを取得
+        var cancelAction = actions["Cancel"]; // Cancelアクションを取得
 
         var handle = new ActionHandles
         {
             _move = moveAction,
             _jump = jumpAction,
             _attack = attackAction,
+            _ready = readyAction,
+            _cancel = cancelAction,
             _onMovePerformed = ctx =>
             {
                 var value = ctx.ReadValue<Vector2>();
-                _move[idx] = value;
-                OnMoveInput?.Invoke(idx, value);
+                _move[slotId] = value;
+                OnMoveInput?.Invoke(slotId, value);
             },
             _onMoveCanceled = ctx =>
             {
-                _move[idx] = Vector2.zero;
-                OnMoveInput?.Invoke(idx, Vector2.zero);
+                _move[slotId] = Vector2.zero;
+                OnMoveInput?.Invoke(slotId, Vector2.zero);
             },
             _onJumpPerformed = ctx =>
             {
-                OnJumpInput?.Invoke(idx);
-                Debug.Log($"[InputManager] JumpInput: idx={idx}");
+                OnJumpInput?.Invoke(slotId);
+                Debug.Log($"[InputManager] JumpInput: idx={slotId}");
             },
             _onAttackPerformed = ctx =>
             {
-                OnAttackInput?.Invoke(idx);
-                Debug.Log($"[InputManager] AttackInput: idx={idx}");
+                OnAttackInput?.Invoke(slotId);
+                Debug.Log($"[InputManager] AttackInput: idx={slotId}");
+            },
+            _onReady = ctx =>
+            {
+                OnReadyInput?.Invoke(slotId);
+            },
+            _onCancel = ctx =>
+            {
+                OnCancelInput?.Invoke(slotId);
             }
         };
 
-        if(moveAction != null )
+        if (moveAction != null)
         {
             moveAction.performed += handle._onMovePerformed;
             moveAction.canceled += handle._onMoveCanceled;
         }
-        if(jumpAction != null)
+        if (jumpAction != null)
         {
             jumpAction.performed += handle._onJumpPerformed;
         }
@@ -156,40 +149,17 @@ public class InputManager : MonoBehaviour
         {
             attackAction.performed += handle._onAttackPerformed;
         }
+        if(readyAction != null)
+        {
+            readyAction.performed += handle._onReady;
+        }
+        if(cancelAction != null)
+        {
+            cancelAction.performed += handle._onCancel;
+        }
 
-        _actions[playerInput] = handle;
+        _actions[input] = handle;
 
-        // プレイヤーの移動の入力を初期化
-        _move[idx] = Vector2.zero;
-
-        // 入力アクションにイベントを登録する
-        // performedは入力が行われたとき、canceledは入力がキャンセルされたときに呼ばれるイベント
-        //moveAction.performed += ctx =>
-        //{
-        //    var value = ctx.ReadValue<Vector2>();
-        //    _move[idx] = value;
-        //    OnMoveInput?.Invoke(idx, value);
-        //};
-
-        //moveAction.canceled += ctx =>
-        //{
-        //    _move[idx] = Vector2.zero;
-        //    OnMoveInput?.Invoke(idx, Vector2.zero);
-        //};
-
-        //jumpAction.performed += ctx =>
-        //{
-        //    OnJumpInput?.Invoke(idx);
-        //    Debug.Log($"[InputManager] JumpInput: idx={idx}");
-        //};
-
-        //attackAction.performed += ctx =>
-        //{
-        //    OnAttackInput?.Invoke(idx);
-        //    Debug.Log($"[InputManager] AttackInput: idx={idx}");
-        //};
-
-        SetAllPlayerControl(false);
     }
 
     /// <summary>
@@ -205,44 +175,48 @@ public class InputManager : MonoBehaviour
         // プレイヤーのインプットが存在しない場合処理をしない
         if (playerInput == null) return;
 
-        // プレイヤーのインプットと合致するプレイヤーリストの番号を取得
-        int idx = _players.FindIndex(player => player._input == playerInput);
-
-        if (idx >= 0)
-        {
-            var info = _players[idx];
-            _players.RemoveAt(idx);
-        }
-
-        _playerInputs.Remove(playerInput);
-
-
-        var controller = playerInput.GetComponent<PlayerController>();
-        if (controller != null)
-        {
-            _playerControllers.Remove(controller);
-        }
-
         // 登録されているActionを取得
         if(_actions.TryGetValue(playerInput, out var action))
         {
-            if(action._move != null)
+            if (action._move != null)
             {
-                action._move.performed -=  action._onMovePerformed;
+                action._move.performed -= action._onMovePerformed;
                 action._move.canceled -= action._onMoveCanceled;
             }
             if (action._jump != null)
             {
                 action._jump.performed -= action._onJumpPerformed;
             }
-            if(action._attack != null)
+            if (action._attack != null)
             {
                 action._attack.performed -= action._onAttackPerformed;
+            }
+            if(action._ready != null)
+            {
+                action._ready.performed -= action._onReady;
+            }
+            if(action._cancel != null)
+            {
+                action._cancel.performed -= action._onCancel;
             }
             _actions.Remove(playerInput);
         }
 
-        _move.Remove(playerInput.playerIndex);
+        int targetSlotId = -1;
+        foreach(var slot in _slotInputs)
+        {
+            if(slot.Value == playerInput)
+            {
+                targetSlotId = slot.Key;
+                break;
+            }
+        }
+
+        if( targetSlotId != -1)
+        {
+            _slotInputs.Remove(targetSlotId);
+            _move.Remove(targetSlotId);
+        }
     }
 
     /// <summary>
@@ -253,9 +227,13 @@ public class InputManager : MonoBehaviour
     {
         // インプットマネージャーが持っているプレイヤーコントローラーすべてに
         // 入力可能かどうかをセットする
-        foreach (var info in _players)
+        foreach (var info in _slotInputs)
         {
-            info._controller.SetInputActive(isEnable);
+            var controller = info.Value.GetComponent<PlayerController>();
+            if(controller != null)
+            {
+                controller.SetInputActive(isEnable);
+            }
         }
     }
 
@@ -267,9 +245,13 @@ public class InputManager : MonoBehaviour
 
     public void InitPlayers()
     {
-        foreach(var info in _players)
+        foreach (var info in _slotInputs)
         {
-            info._controller.Init();
+            var controller = info.Value.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                controller.Init();
+            }
         }
     }
 }

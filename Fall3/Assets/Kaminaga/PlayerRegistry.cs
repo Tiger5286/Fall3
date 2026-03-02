@@ -114,7 +114,7 @@ public class PlayerRegistry : MonoBehaviour
         slot._isReady = false;
     }
 
-    public void RereaseSlot(PlayerSlot slot)
+    public void ReleaseSlot(PlayerSlot slot)
     {
         if(slot == null)
         {
