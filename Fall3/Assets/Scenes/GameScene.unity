@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effects:
-  - {fileID: 0}
+  - {fileID: 100006, guid: f1fca55934f274a4b9c8fd316d61e964, type: 3}
 --- !u!4 &58614230
 Transform:
   m_ObjectHideFlags: 0
