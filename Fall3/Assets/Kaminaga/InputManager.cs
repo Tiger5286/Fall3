@@ -229,7 +229,7 @@ public class InputManager : MonoBehaviour
         // 入力可能かどうかをセットする
         foreach (var info in _slotInputs)
         {
-            var controller = info.Value.GetComponent<PlayerController>();
+            var controller = info.Value.GetComponentInChildren<PlayerController>();
             if(controller != null)
             {
                 controller.SetInputActive(isEnable);
@@ -247,7 +247,7 @@ public class InputManager : MonoBehaviour
     {
         foreach (var info in _slotInputs)
         {
-            var controller = info.Value.GetComponent<PlayerController>();
+            var controller = info.Value.GetComponentInChildren<PlayerController>();
             if (controller != null)
             {
                 controller.Init();
