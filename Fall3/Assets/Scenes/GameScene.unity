@@ -148,11 +148,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 58614228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ce0085174857d4a880fdd92954d545, type: 3}
+  m_Script: {fileID: 11500000, guid: b29bf3d7355680542b35060d3bf0ec17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefabs:
-  - {fileID: 100000, guid: f881607407b15cc46b24d6bda799037a, type: 3}
+  effects:
+  - {fileID: 0}
 --- !u!4 &58614230
 Transform:
   m_ObjectHideFlags: 0
@@ -904,7 +904,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 81.68342
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -930,8 +930,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698120798}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975296, y: 0.000000005533822, z: -0.0000000013063584, w: 0.973249}
-  m_LocalPosition: {x: 5, y: 5, z: -5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 26.1, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2095,7 +2095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCount: 0
-  _gameManager: {fileID: 0}
+  _playerRegistry: {fileID: 0}
 --- !u!114 &1424714697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3845,51 +3845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1972566071
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1972566073}
-  - component: {fileID: 1972566072}
-  m_Layer: 0
-  m_Name: EffectTestFirstExplosion
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1972566072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972566071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 775e66ca634fbe045a46ba8541477146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectManagerObj: {fileID: 58614228}
---- !u!4 &1972566073
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972566071}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014694853
 GameObject:
   m_ObjectHideFlags: 3
@@ -4002,4 +3957,3 @@ SceneRoots:
   - {fileID: 1076376230}
   - {fileID: 1534381637}
   - {fileID: 58614230}
-  - {fileID: 1972566073}
