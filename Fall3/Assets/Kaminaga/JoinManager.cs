@@ -72,7 +72,9 @@ public class JoinManager : MonoBehaviour
 
         _playerRegistry.AssignToSlot(slot, player, controller);
 
-        InputManager.Instance.RegisterPlayer(player);
+        controller.SetPlayerId(slot._id);
+
+        InputManager.Instance.RegisterPlayerToSlot((int)slot._id, player, controller);
         _playerCount = _playerRegistry.GetJoinedCount();
     }
 
@@ -85,7 +87,7 @@ public class JoinManager : MonoBehaviour
         {
             InputManager.Instance.UnRegisterPlayer(player);
 
-            _playerRegistry.RereaseSlot(slot);
+            _playerRegistry.ReleaseSlot(slot);
         }
 
         _playerCount = _playerRegistry.GetJoinedCount();

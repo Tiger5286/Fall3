@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
     //プレイヤーの識別番号
     int _playerIndex;
 
+    //プレイヤーの識別番号改善版
+    PlayerId _playerId;
+
     //現在のグリッド座標
     Vector3Int _currentGrid = new Vector3Int(-1, -1, -1);
 
@@ -177,7 +180,7 @@ public class PlayerController : MonoBehaviour
     void Move(int idx, Vector2 moveValue)
     {
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
-        if (idx != _playerIndex) return;
+        if (idx != (int)_playerId) return;
 
         float h = moveValue.x;
         float v = moveValue.y;
@@ -189,7 +192,7 @@ public class PlayerController : MonoBehaviour
     void Jump(int idx)
     {
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
-        if (idx != _playerIndex) return;
+        if (idx != (int)_playerId) return;
 
         if (_isGround)
         {
@@ -207,7 +210,7 @@ public class PlayerController : MonoBehaviour
     void Attack(int idx)
     {
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
-        if (idx != _playerIndex) return;
+        if (idx != (int)_playerId) return;
 
         //ジャンプ中は攻撃できないようにする
         if (!_isGround) return;
@@ -261,6 +264,11 @@ public class PlayerController : MonoBehaviour
             InputManager.Instance.OnJumpInput -= Jump;
             InputManager.Instance.OnAttackInput -= Attack;
         }
+    }
+
+    public void SetPlayerId(PlayerId id)
+    {
+        _playerId = id;
     }
 
     public void ApplyKnockBack(Vector3 force)
