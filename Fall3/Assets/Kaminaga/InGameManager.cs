@@ -14,6 +14,9 @@ public class InGameManager : GameManagerBase
     [Header("ステージマネージャー")]
     [SerializeField] private StageManager _stageManager;
 
+    [SerializeField] private PlayerFactory _playerFactory;
+    [SerializeField] private PlayerRegistry _playerRegistry;
+
     private bool _isGameSet;
 
     private bool _isDeadPlayer1;
@@ -29,6 +32,7 @@ public class InGameManager : GameManagerBase
         Debug.Log("InGame開始");
         if(InputManager.Instance != null)
         {
+            SpawnPlayer();
             InputManager.Instance.SetAllPlayerControl(true);
             InputManager.Instance.InitPlayers();
             InputManager.Instance.OnPlayerDied += HandlePlayerDead;
@@ -83,5 +87,24 @@ public class InGameManager : GameManagerBase
 
         _sceneManager.ChangeScene(SceneType.Result);
 
+    }
+
+    private void SpawnPlayer()
+    {
+        var player1 = _playerRegistry.FindSlotById(PlayerId.Player1);
+        if(player1 != null && player1._controller == null && player1._playerInput != null)
+        {
+            var controller = _playerFactory.SpawnPlayer(player1._playerInput.transform, PlayerId.Player1);
+            _playerRegistry.AssignController(player1, controller);
+            InputManager.Instance.UpdateControllerForSlot((int)PlayerId.Player1, controller);
+        }
+
+        var player2 = _playerRegistry.FindSlotById(PlayerId.Player2);
+        if (player2 != null && player2._controller == null && player2._playerInput != null)
+        {
+            var controller = _playerFactory.SpawnPlayer(player2._playerInput.transform, PlayerId.Player2);
+            _playerRegistry.AssignController(player2, controller);
+            InputManager.Instance.UpdateControllerForSlot((int)PlayerId.Player2, controller);
+        }
     }
 }

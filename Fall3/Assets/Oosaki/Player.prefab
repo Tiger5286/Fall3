@@ -1669,7 +1669,6 @@ GameObject:
   - component: {fileID: 7127575394215928786}
   - component: {fileID: 7129065607327436345}
   - component: {fileID: 3606688813798534525}
-  - component: {fileID: -4393506769207500201}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1811,36 +1810,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 6601386069767166914, guid: 7cbe32b81224dba439e2c901cf3909c9, type: 3}
   spawnPoint: {fileID: 7628707494693402330}
---- !u!114 &-4393506769207500201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6632153641068824321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 5a030e7e79d1042479a020185e4fbfdf, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: GamePad
-  m_DefaultActionMap: GameInput
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &6989372101325969102
 GameObject:
   m_ObjectHideFlags: 0

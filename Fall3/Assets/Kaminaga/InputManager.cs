@@ -53,6 +53,8 @@ public class InputManager : MonoBehaviour
 
     private readonly Dictionary<int, PlayerInput> _slotInputs = new();
 
+    private readonly Dictionary<int, PlayerController> _slotControllers = new();
+
     private readonly Dictionary<PlayerInput, ActionHandles> _actions = new();
 
     /// <summary>
@@ -87,6 +89,11 @@ public class InputManager : MonoBehaviour
         }
 
         _slotInputs[slotId] = input;
+
+        if (controller != null)
+        {
+            _slotControllers[slotId] = controller;
+        }
 
         // 入力アクションを取得
         var actions = input.actions; // PlayerInputのアクション全体
@@ -162,6 +169,18 @@ public class InputManager : MonoBehaviour
 
     }
 
+    public void UpdateControllerForSlot(int slotId, PlayerController controller)
+    {
+        if(controller == null)
+        {
+            _slotControllers.Remove(slotId);
+        }
+        else
+        {
+            _slotControllers[slotId] = controller;
+        }
+    }
+
     /// <summary>
     /// 移動アクションを直接取得するための関数
     /// </summary>
@@ -215,6 +234,7 @@ public class InputManager : MonoBehaviour
         if( targetSlotId != -1)
         {
             _slotInputs.Remove(targetSlotId);
+            _slotControllers.Remove(targetSlotId);
             _move.Remove(targetSlotId);
         }
     }
@@ -227,9 +247,9 @@ public class InputManager : MonoBehaviour
     {
         // インプットマネージャーが持っているプレイヤーコントローラーすべてに
         // 入力可能かどうかをセットする
-        foreach (var info in _slotInputs)
+        foreach (var info in _slotControllers)
         {
-            var controller = info.Value.GetComponentInChildren<PlayerController>();
+            var controller = info.Value;
             if(controller != null)
             {
                 controller.SetInputActive(isEnable);
@@ -245,9 +265,9 @@ public class InputManager : MonoBehaviour
 
     public void InitPlayers()
     {
-        foreach (var info in _slotInputs)
+        foreach (var info in _slotControllers)
         {
-            var controller = info.Value.GetComponentInChildren<PlayerController>();
+            var controller = info.Value;
             if (controller != null)
             {
                 controller.Init();

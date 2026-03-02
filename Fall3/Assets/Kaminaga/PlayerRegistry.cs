@@ -125,6 +125,15 @@ public class PlayerRegistry : MonoBehaviour
         slot._isReady = false;
     }
 
+    public void AssignController(PlayerSlot slot, PlayerController controller)
+    {
+        if(slot == null)
+        { 
+            return;
+        }
+        slot._controller = controller;
+    }
+
     public void DetachController(PlayerSlot slot)
     {
         if(slot == null)
