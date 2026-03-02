@@ -125,6 +125,27 @@ public class PlayerRegistry : MonoBehaviour
         slot._isReady = false;
     }
 
+    public void DetachController(PlayerSlot slot)
+    {
+        if(slot == null)
+        {
+            return;
+        }
+        slot._controller = null;
+        slot._isReady = false;
+    }
+
+    public void DetachInput(PlayerSlot slot)
+    {
+        if(slot == null)
+        {
+            return;
+        }
+        slot._playerInput = null;
+        slot._controller = null;
+        slot._isReady = false;
+    }
+
     /// <summary>
     /// すべてのプレイヤーの準備状態をリセット(準備していない状態)する
     /// </summary>
