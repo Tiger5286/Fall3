@@ -84,16 +84,4 @@ public class InGameManager : GameManagerBase
         _sceneManager.ChangeScene(SceneType.Result);
 
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

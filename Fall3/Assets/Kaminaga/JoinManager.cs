@@ -68,10 +68,12 @@ public class JoinManager : MonoBehaviour
             return;
         }
 
-        var controller = player.GetComponent<PlayerController>();
+        var link = player.GetComponent<PlayerLink>();
+        var controller = player.GetComponentInChildren<PlayerController>();
 
         _playerRegistry.AssignToSlot(slot, player, controller);
 
+        link.SetPlayerId(slot._id);
         controller.SetPlayerId(slot._id);
 
         InputManager.Instance.RegisterPlayerToSlot((int)slot._id, player, controller);
@@ -91,5 +93,16 @@ public class JoinManager : MonoBehaviour
         }
 
         _playerCount = _playerRegistry.GetJoinedCount();
+    }
+
+    public void OnPlayerDeath(PlayerId id)
+    {
+        var slot = _playerRegistry.FindSlotById(id);
+        if (slot == null)
+        {
+            return;
+        }
+
+        _playerRegistry.DetachController(slot);
     }
 }
