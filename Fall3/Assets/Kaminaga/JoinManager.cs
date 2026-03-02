@@ -28,7 +28,7 @@ public class JoinManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _playerInputManager = GetComponent<PlayerInputManager>();
-        _playerCount = _playerInputManager.playerCount;
+        _playerCount = _playerRegistry.GetJoinedCount();
     }
 
     private void OnEnable()
@@ -60,15 +60,34 @@ public class JoinManager : MonoBehaviour
         {
             player.SwitchCurrentActionMap("Disable");
         }
+
+        var slot = _playerRegistry.FindFreeSlot();
+        if (slot == null)
+        {
+            Debug.LogWarning("参加できるプレイヤーのスロットがありません");
+            return;
+        }
+
+        var controller = player.GetComponent<PlayerController>();
+
+        _playerRegistry.AssignToSlot(slot, player, controller);
+
         InputManager.Instance.RegisterPlayer(player);
-        _playerCount = _playerInputManager.playerCount;
+        _playerCount = _playerRegistry.GetJoinedCount();
     }
 
     private void HandleLeft(PlayerInput player, string via)
     {
         Debug.Log($"[JoinManager] Left({via}): idx={player.playerIndex}");
 
-        InputManager.Instance.UnRegisterPlayer(player);
-        _playerCount = _playerInputManager.playerCount;
+        var slot = _playerRegistry.FindSlotByInput(player);
+        if (slot != null)
+        {
+            InputManager.Instance.UnRegisterPlayer(player);
+
+            _playerRegistry.RereaseSlot(slot);
+        }
+
+        _playerCount = _playerRegistry.GetJoinedCount();
     }
 }
