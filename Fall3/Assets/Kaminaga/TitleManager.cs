@@ -29,6 +29,8 @@ public class TitleManager : GameManagerBase
             return;
         }
 
+        InputManager.Instance.SetAllPlayerControl(true);
+
         _sceneManager.ChangeScene(SceneType.InGame);
         Debug.Log("ƒQ[ƒ€ŠJn");
     }

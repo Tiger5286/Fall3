@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     //ステージ管理
     StageManager _stageManager;
 
+    // 入力とインプットの状況を取得する
+    PlayerLink _playerLink;
+
     //インプット
     PlayerInput _playerInput;
 
@@ -69,8 +72,10 @@ public class PlayerController : MonoBehaviour
 
         //-------コントローラー関連の処理-------
         {
+            _playerLink = GetComponentInParent<PlayerLink>();
+
             // プレイヤーの入力管理を取得している
-            _playerInput = GetComponent<PlayerInput>();
+            _playerInput = _playerLink._playerInput;
 
             // コントローラーの入力を受け付けないようにする
             _playerInput.SwitchCurrentActionMap("Disable");
@@ -144,6 +149,8 @@ public class PlayerController : MonoBehaviour
             _isDead = true;
 
             _playerInput.SwitchCurrentActionMap("Disable");
+
+            JoinManager.Instance.OnPlayerDeath(_playerId);
 
             InputManager.Instance.ReportPlayerDied(_playerIndex);
 
