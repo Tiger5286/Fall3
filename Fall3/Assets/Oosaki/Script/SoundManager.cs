@@ -10,7 +10,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource _bgmSource;
     [SerializeField] AudioSource _seSource;
 
-    [SerializeField] AudioClip _bgmClip;
+    //複数個のBGMを切り化する可能性があるため配列で管理
+    [SerializeField] AudioClip[] _bgmClips;
+
     [SerializeField] AudioClip _seClip;
 
     public void Awake()
@@ -32,14 +34,16 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void PlayBGM()
+    public void PlayBGM(int index)
     {
-        if(!_bgmSource.isPlaying)
-        {
-            _bgmSource.clip = _bgmClip;
-            _bgmSource.loop = true;
-            _bgmSource.Play();
-        }
+        if (_bgmClips.Length <= index) return;
+
+        if (_bgmSource.clip == _bgmClips[index]) return;
+
+        _bgmSource.Stop();
+        _bgmSource.clip = _bgmClips[index];
+        _bgmSource.loop = true;
+        _bgmSource.Play();
     }
 
     public void PlayerSe()
@@ -50,5 +54,24 @@ public class SoundManager : MonoBehaviour
     public void StopBGM()
     {
         _bgmSource.Stop();
+    }
+
+    //フェードアウトしてBGMを停止
+    public void StopBGMFade(float fadeTime)
+    {
+        StartCoroutine(FadeOutBGM(fadeTime));
+    }
+
+    //だんだん音量を下げていく
+    IEnumerator FadeOutBGM(float fadeTime)
+    {
+        float startVolume = _bgmSource.volume;
+        while (_bgmSource.volume > 0)
+        {
+            _bgmSource.volume -= startVolume * Time.deltaTime / fadeTime;
+            yield return null;
+        }
+        _bgmSource.Stop();
+        _bgmSource.volume = startVolume;
     }
 }
