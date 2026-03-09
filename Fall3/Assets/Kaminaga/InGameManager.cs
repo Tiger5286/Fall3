@@ -17,6 +17,9 @@ public class InGameManager : GameManagerBase
     [SerializeField] private PlayerFactory _playerFactory;
     [SerializeField] private PlayerRegistry _playerRegistry;
 
+    [Header("ゲームスタートマネージャー(佐々木)")]
+    [SerializeField] private GameStartManager _gameStartManager;
+
     private bool _isGameSet;
 
     private bool _isDeadPlayer1;
@@ -39,6 +42,8 @@ public class InGameManager : GameManagerBase
         }
 
         _stageManager.Init();
+
+        _gameStartManager.GameStart();
     }
 
     private void OnDisable()
