@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1487428945065491802}
   - component: {fileID: 5314233309855482034}
   - component: {fileID: -3666830073764138901}
+  - component: {fileID: 6556464399840152828}
   m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
@@ -149,3 +150,17 @@ MonoBehaviour:
   _destroyDistance: 10
   _knockbackForce: 12
   _knockbackUpwardForce: 12
+--- !u!114 &6556464399840152828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601386069767166914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9923a0922c60894c86042d807c22724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 100004, guid: 10a7ec2a2783770419a38059c45ea8b3, type: 3}
+  effectScale: 0.2
