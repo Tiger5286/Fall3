@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3543763324597051848}
   - component: {fileID: 319880846017018776}
   m_Layer: 7
-  m_Name: stagePrefab_2
+  m_Name: stagePrefab_1
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6e131baeabb819c4999d977a7992fe1a, type: 2}
+  - {fileID: 2100000, guid: 83f84ed4748a74a4e8443b07b12d01fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
