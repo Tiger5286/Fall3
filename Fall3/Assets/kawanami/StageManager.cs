@@ -20,8 +20,13 @@ public class StageManager : MonoBehaviour
     [SerializeField] private int vertical= 10;
 
     //ステージのPrefab
-    [Header("Stage Prefab")]
-    [SerializeField] private GameObject stagePrefab;
+    //段ごとに変える
+    [Header("Stage Prefab_1")]
+    [SerializeField] private GameObject stagePrefab_1;
+    [Header("Stage Prefab_2")]
+    [SerializeField] private GameObject stagePrefab_2;
+    [Header("Stage Prefab_3")]
+    [SerializeField] private GameObject stagePrefab_3;
 
     //グリッド上のステージ情報
     //(2次元配列)
@@ -97,8 +102,24 @@ public class StageManager : MonoBehaviour
         {
             return;
         }
+
+        GameObject go = Instantiate(stagePrefab_1, transform);
         //ステージの生成
-        GameObject go = Instantiate(stagePrefab,transform);
+        switch (y)
+        {
+            case 0:
+                go = Instantiate(stagePrefab_1, transform);
+                break;
+            case 1:
+                go = Instantiate(stagePrefab_2, transform);
+                break;
+            case 2:
+                go = Instantiate(stagePrefab_3, transform);
+                break;
+            default:
+                break;
+        }
+        
         Stage stage = go.GetComponent<Stage>();
         //グリッド座標を設定する
         stage.SetGridPos(x, y,z);
