@@ -10,14 +10,17 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource _bgmSource;
     [SerializeField] AudioSource _seSource;
 
-    //複数個のBGMを切り化する可能性があるため配列で管理
+    //複数個のBGMを切り替えする可能性があるため配列で管理
     [SerializeField] AudioClip[] _bgmClips;
+    [SerializeField] AudioClip[] _seClips;
 
-    [SerializeField] AudioClip _seClip;
+    //歩行専用SE
+    [SerializeField] AudioSource _walkSeSource;
+    [SerializeField] AudioClip _walkSeClip;
 
     public void Awake()
     {
-        if(Instance!=null&Instance!=this)
+        if(Instance!=null&&Instance!=this)
         {
             Destroy(gameObject);
             return;
@@ -29,8 +32,12 @@ public class SoundManager : MonoBehaviour
 
         AudioSource[] audioSources = GetComponents<AudioSource>();
 
-        _bgmSource = audioSources[0];
-        _seSource = audioSources[1];
+        //AudioSourceが2つ以上あるときは、1つ目をBGM用、2つ目をSE用に変更
+        if (audioSources.Length >= 2)
+        {
+            _bgmSource = audioSources[0];
+            _seSource = audioSources[1];
+        }
     }
 
 
@@ -46,14 +53,40 @@ public class SoundManager : MonoBehaviour
         _bgmSource.Play();
     }
 
-    public void PlayerSe()
+    public void PlaySe(int index)
     {
-        _seSource.PlayOneShot(_seClip);
+        if (_seClips == null) return;
+        if (_seClips.Length <= index) return;
+        if (_seClips[index] == null) return;
+        if (_seSource == null) return;
+
+        _seSource.PlayOneShot(_seClips[index]);
     }
 
     public void StopBGM()
     {
         _bgmSource.Stop();
+    }
+
+    public void PlayWalkSe()
+    {
+        if (_walkSeSource == null || _walkSeClip == null) return;
+        if (!_walkSeSource.isPlaying)
+        {
+            _walkSeSource.clip = _walkSeClip;
+            _walkSeSource.loop = true;
+            _walkSeSource.Play();
+        }
+    }
+
+    //歩行SE停止
+    public void StopWalkSe()
+    {
+        if (_walkSeSource == null) return;
+        if (_walkSeSource.isPlaying)
+        {
+            _walkSeSource.Stop();
+        }
     }
 
     //フェードアウトしてBGMを停止

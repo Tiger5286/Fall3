@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Transform _groundCheckPoint; //足元位置
-    [SerializeField] float _groundCheckDistance = 0.3f;
+    [SerializeField] float _groundCheckDistance = 1.0f;
     [SerializeField] LayerMask _groundLayer;
 
     [SerializeField] float _FallLimitY = -10f;
@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
 
     //プレイヤーが地面にいるかどうか
     bool _isGround = true;
+
+    //前のフレームでプレイヤーが地面にいたかどうか
+    bool _wasGround = true;
 
     //ノックバックしているかどうか
     bool _isKnockBack = false;
@@ -97,13 +100,21 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        _isGround = Physics.Raycast(
-        _groundCheckPoint.position,
-        Vector3.down,
-        _groundCheckDistance,
-        _groundLayer);
+        bool currentGround = Physics.Raycast(
+            _groundCheckPoint.position,
+            Vector3.down,
+            _groundCheckDistance,
+            _groundLayer);
 
-        CheckFallStage();
+        //着地した瞬間
+        if (!_wasGround && currentGround)
+        {
+            CheckFallStage();
+        }
+
+        //地面接地情報の更新
+        _isGround = currentGround;
+        _wasGround = currentGround;
 
         if (_isAttacking)
         {
@@ -193,6 +204,16 @@ public class PlayerController : MonoBehaviour
         float v = moveValue.y;
 
         _move = new Vector3(h, 0, v);
+
+        // 移動中なら歩行SEを再生、停止したら止める
+        if (_move.magnitude > 0.1f)
+        {
+            SoundManager.Instance.PlayWalkSe();
+        }
+        else
+        {
+            SoundManager.Instance.StopWalkSe();
+        }
     }
 
     //ジャンプ処理
@@ -210,6 +231,8 @@ public class PlayerController : MonoBehaviour
 
             _isGround = false;
             _playerAnimation.PlayAnimJump();
+            //ジャンプSE再生
+            SoundManager.Instance.PlaySe(1);
         }
     }
 
@@ -230,6 +253,8 @@ public class PlayerController : MonoBehaviour
             _attackSpawner.SpawnBall();
             _isAttacking = true;
             _playerAnimation.PlayAnimAttack();
+            //攻撃SE再生
+            SoundManager.Instance.PlaySe(2);
         }
     }
 
@@ -241,16 +266,18 @@ public class PlayerController : MonoBehaviour
 
     void CheckFallStage()
     {
-        int x = Mathf.FloorToInt(transform.position.x);
-        int y = Mathf.FloorToInt(transform.position.y);
-        int z = Mathf.FloorToInt(transform.position.z);
+        Ray ray = new Ray(_groundCheckPoint.position, Vector3.down);
+        RaycastHit hit;
 
-        Vector3Int newGrid = new Vector3Int(x, y, z);
+        if (Physics.Raycast(ray, out hit, 1f))
+        {
+            Stage stage = hit.collider.GetComponent<Stage>();
 
-        if (newGrid == _currentGrid) return;
-
-        _currentGrid = newGrid;
-        _stageManager.FallStage(x, -y, z);
+            if (stage != null)
+            {
+                stage.Fall();
+            }
+        }
     }
 
     public void OnEnable()
