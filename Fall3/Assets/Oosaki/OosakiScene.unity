@@ -649,7 +649,9 @@ MonoBehaviour:
   _bgmClips:
   - {fileID: 8300000, guid: bbd3e23d7f18fb84a9b2ab1bfd773336, type: 3}
   - {fileID: 8300000, guid: 1969cd08371c47240989a45da127597c, type: 3}
-  _seClip: {fileID: 0}
+  _seClips: []
+  _walkSeSource: {fileID: 0}
+  _walkSeClip: {fileID: 0}
 --- !u!4 &1616776520
 Transform:
   m_ObjectHideFlags: 0
