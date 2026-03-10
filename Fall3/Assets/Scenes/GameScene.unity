@@ -2717,6 +2717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStartTextObj: {fileID: 745048646}
   _inputManagerObj: {fileID: 652287009}
+  _stageManagerObj: {fileID: 537596637}
 --- !u!224 &1414421282
 RectTransform:
   m_ObjectHideFlags: 0

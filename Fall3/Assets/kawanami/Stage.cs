@@ -22,6 +22,13 @@ public class Stage : MonoBehaviour
     public Vector3 _position;
     public Vector3 _velocity = Vector3.zero;
 
+    // 落下可能かどうか
+    bool _isCanFall = true;
+    public void SetCanFall(bool canFall)
+    {
+        _isCanFall = canFall;
+    }
+
     /// <summary>
     /// グリッド座標を設定して、ポジションに反映する
     /// </summary>
@@ -39,6 +46,9 @@ public class Stage : MonoBehaviour
 
     public void Fall()
     {
+        // 落下不可のときは落下させない(佐々木)
+        if (!_isCanFall) return;
+
         _fallWaitCounter = _fallWaitCounterNum;
         _isFall = true;
     }
