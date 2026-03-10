@@ -19,6 +19,9 @@ public class ResultManager : GameManagerBase
         Debug.Log("Result開始");
         // プレイヤーの操作状態を非アクティブにする
         InputManager.Instance.SetAllPlayerControl(false);
+
+        //BGM再生
+        SoundManager.Instance.PlayBGM(2);
     }
 
     private void OnDisable()
@@ -34,6 +37,7 @@ public class ResultManager : GameManagerBase
             _resultUIManager.OnPlayerNotEnough();
             return;
         }
+
         _sceneManager.ChangeScene(SceneType.InGame);
     }
 

@@ -44,6 +44,8 @@ public class InGameManager : GameManagerBase
         _stageManager.Init();
 
         _gameStartManager.GameStart();
+
+        SoundManager.Instance.PlayBGM(1);
     }
 
     private void OnDisable()
@@ -89,9 +91,8 @@ public class InGameManager : GameManagerBase
             WinnerType.None; // ‚»‚êˆÈŠO‚È‚çNone‚É‚·‚é
 
         _gameSession.SetResult(winner);
-
+        SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.Result);
-
     }
 
     private void SpawnPlayer()
