@@ -36,6 +36,25 @@ public class StageManager : MonoBehaviour
     //(2次元配列)
     private Stage[,,] stages;
 
+    // ------------------佐々木------------------
+    /// <summary>
+    /// ステージが落下するかどうかを設定する関数
+    /// </summary>
+    /// <param name="canFall">true:落下する / false:落下しない</param>
+    public void SetCanFall(bool canFall)
+    {
+        // 全てのステージに対して落下可能かどうかを設定する
+        foreach (var stage in stages)
+        {
+            if (stage != null)
+            {
+                stage.SetCanFall(canFall);
+            }
+        }
+    }
+
+    // -------------------佐々木------------------
+
     // デバッグ用：現在選択中のマス
     private int selectX = 0;
     private int selectY = 0;
