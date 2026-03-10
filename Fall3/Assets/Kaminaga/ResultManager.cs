@@ -43,6 +43,7 @@ public class ResultManager : GameManagerBase
 
     public void OnReturnTitle()
     {
+        SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.Title);
     }
 

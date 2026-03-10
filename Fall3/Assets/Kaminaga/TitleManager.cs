@@ -32,8 +32,8 @@ public class TitleManager : GameManagerBase
 
         InputManager.Instance.SetAllPlayerControl(true);
 
-        _sceneManager.ChangeScene(SceneType.InGame);
         SoundManager.Instance.StopBGMFade(2.0f);
+        _sceneManager.ChangeScene(SceneType.InGame);
         Debug.Log("ƒQ[ƒ€ŠJn");
     }
 
