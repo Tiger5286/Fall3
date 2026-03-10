@@ -364,7 +364,9 @@ MonoBehaviour:
   width: 10
   height: 3
   vertical: 10
-  stagePrefab: {fileID: 719402127407177939, guid: 8f5b59fafa2589c468d5e73ba092f0fc, type: 3}
+  stagePrefab_1: {fileID: 719402127407177939, guid: 8f5b59fafa2589c468d5e73ba092f0fc, type: 3}
+  stagePrefab_2: {fileID: 719402127407177939, guid: 85cf21693b42e1d43a763b32f980abe3, type: 3}
+  stagePrefab_3: {fileID: 719402127407177939, guid: 44f0550c42274ef479e5c42564fe4c3c, type: 3}
 --- !u!4 &2025015829
 Transform:
   m_ObjectHideFlags: 0

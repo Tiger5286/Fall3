@@ -15,6 +15,9 @@ public class Stage : MonoBehaviour
 
     private int _fallWaitCounter = 0;
     private bool _isFall = false;
+  
+    private const float _fallSpeed = 0.2f;
+    private int _fallWaitCounterNum = 40;
 
     public Vector3 _position;
     public Vector3 _velocity = Vector3.zero;
@@ -36,7 +39,7 @@ public class Stage : MonoBehaviour
 
     public void Fall()
     {
-        _fallWaitCounter = 30;
+        _fallWaitCounter = _fallWaitCounterNum;
         _isFall = true;
     }
 
@@ -54,7 +57,7 @@ public class Stage : MonoBehaviour
 
         if (_fallWaitCounter <= 0&&_isFall)
         {
-            _velocity = new Vector3(0, -0.3f, 0);
+            _velocity = new Vector3(0, -_fallSpeed, 0);
         }
 
         _position.y += _velocity.y;
