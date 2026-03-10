@@ -13,6 +13,7 @@ public class TitleManager : GameManagerBase
     private void OnEnable()
     {
         Debug.Log("Title開始");
+        SoundManager.Instance.PlayBGM(0);
     }
 
     private void OnDisable()
@@ -22,7 +23,7 @@ public class TitleManager : GameManagerBase
 
     public void OnGameStart()
     {
-        if(JoinManager.Instance._playerCount <= 1)
+        if (JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
             _titleUIManager.OnPlayerNotEnough();
@@ -32,6 +33,7 @@ public class TitleManager : GameManagerBase
         InputManager.Instance.SetAllPlayerControl(true);
 
         _sceneManager.ChangeScene(SceneType.InGame);
+        SoundManager.Instance.StopBGMFade(2.0f);
         Debug.Log("ゲーム開始");
     }
 
@@ -48,7 +50,7 @@ Application.Quit();
 
     void Start()
     {
-        
+
     }
 
     void Update()
