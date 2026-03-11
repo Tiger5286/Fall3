@@ -56,17 +56,30 @@ public class ResultManager : GameManagerBase
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
 
-        bool isPlayer1Winner = (_gameSession._lastWinner == PlayerType.Player1);
-
         //プレイヤー1生成
         GameObject player1Obj = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
         Animator animator1 = player1Obj.GetComponent<Animator>();
-        animator1.SetBool("isWin", isPlayer1Winner);
 
         //プレイヤー2生成
         GameObject player2Obj = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
         Animator animator2 = player2Obj.GetComponent<Animator>();
-        animator2.SetBool("isWin", !isPlayer1Winner);
+
+
+        //勝敗に応じてアニメーションを切り替え
+        switch (_gameSession._lastWinner)
+        {
+            case WinnerType.Player1:
+                animator1.SetBool("isWin", true);
+                break;
+            case WinnerType.Player2:
+                animator2.SetBool("isWin", false);
+                break;
+            default:
+                animator1.SetBool("isWin", false);
+                animator2.SetBool("isWin", false);
+                break;
+        }
+
     }
 
     // Update is called once per frame

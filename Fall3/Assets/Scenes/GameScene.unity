@@ -813,6 +813,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412152552}
   m_CullTransparentMesh: 1
+--- !u!1 &468101816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 468101817}
+  m_Layer: 0
+  m_Name: Player1SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &468101817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468101816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -330, y: -60, z: 560}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1689236563}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &518904157
 GameObject:
   m_ObjectHideFlags: 0
@@ -3040,6 +3071,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1635373390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1635373391}
+  m_Layer: 0
+  m_Name: Player2SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1635373391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635373390}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 350, y: -60, z: 560}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1689236563}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1683458669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3207,6 +3269,8 @@ Transform:
   - {fileID: 151738136}
   - {fileID: 615991098}
   - {fileID: 790046892}
+  - {fileID: 468101817}
+  - {fileID: 1635373391}
   m_Father: {fileID: 1076376230}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1689236564
@@ -3224,9 +3288,10 @@ MonoBehaviour:
   _gameSession: {fileID: 1534381636}
   _sceneManager: {fileID: 1729904479}
   _resultUIManager: {fileID: 151738135}
-  _resultPlayerPrefab: {fileID: 0}
-  _spawnPoint1: {fileID: 0}
-  _spawnPoint2: {fileID: 0}
+  _resultPlayerPrefab1: {fileID: 6632153641068824321, guid: c9641cc19f8d0074ab11a48354b9c082, type: 3}
+  _resultPlayerPrefab2: {fileID: 6632153641068824321, guid: 3356c9fd136dfbb4fa25ca5577070043, type: 3}
+  _spawnPoint1: {fileID: 468101817}
+  _spawnPoint2: {fileID: 1635373391}
 --- !u!1 &1709908335
 GameObject:
   m_ObjectHideFlags: 0
