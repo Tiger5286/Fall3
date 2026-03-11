@@ -149,8 +149,8 @@ public class TitleUIManager : MonoBehaviour
 
     public void UpdateWinCount()
     {
-        _player1WinCountText.text = "Player1 : " + _gameSession._winCountPlayer1;
-        _player2WinCountText.text = "Player2 : " + _gameSession._winCountPlayer2;
+        _player1WinCountText.text = "プレイヤー1 : " + _gameSession._winCountPlayer1;
+        _player2WinCountText.text = "プレイヤー2 : " + _gameSession._winCountPlayer2;
     }
 
     public void OnPlayerNotEnough()
