@@ -881,7 +881,7 @@ Transform:
   m_GameObject: {fileID: 2926584487431302314}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.026, y: 0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1729,7 +1729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheckPoint: {fileID: 8259771478923798447}
-  _groundCheckDistance: 0.3
+  _groundCheckDistance: 0.5
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
