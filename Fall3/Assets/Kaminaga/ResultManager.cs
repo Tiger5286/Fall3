@@ -1,45 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ResultManager : GameManagerBase
 {
-    // ’è”’è‹`
+    // å®šæ•°å®šç¾©
     private const float kInputEnableTime = 2.0f;
 
-    [Header("Ÿ—˜”»’èŠÖ˜A")]
+    [Header("å‹åˆ©åˆ¤å®šé–¢é€£")]
     [SerializeField] private GameSession _gameSession;
 
-    [Header("ƒV[ƒ“ŠÇ—")]
+    [Header("ã‚·ãƒ¼ãƒ³ç®¡ç†")]
     [SerializeField] private SceneManagerKaminaga _sceneManager;
 
-    [Header("UIŠÇ—ƒNƒ‰ƒX")]
+    [Header("UIç®¡ç†ã‚¯ãƒ©ã‚¹")]
     [SerializeField] private ResultUIManager _resultUIManager;
-
-    private float _timeCount = 0.0f;
-    private bool _isInputEnable = false;
 
     private void OnEnable()
     {
-        Debug.Log("ResultŠJn");
+        Debug.Log("Resulté–‹å§‹");
 
-        // ŠÔƒJƒEƒ“ƒ^‚ğƒŠƒZƒbƒg
+        // æ™‚é–“ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
         _timeCount = 0.0f;
 
-        // “ü—Í‰Â”\ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+        // å…¥åŠ›å¯èƒ½ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
         _isInputEnable = false;
         
-        // ƒvƒŒƒCƒ„[‚Ì‘€ìó‘Ô‚ğ”ñƒAƒNƒeƒBƒu‚É‚·‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ“ä½œçŠ¶æ…‹ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
         InputManager.Instance.SetAllPlayerControl(false);
 
-        //BGMÄ¶
+        //BGMå†ç”Ÿ
         SoundManager.Instance.PlayBGM(2);
     }
 
     private void OnDisable()
     {
-        Debug.Log("ResultI—¹");
+        Debug.Log("Resultçµ‚äº†");
     }
 
     public void OnRetry()
@@ -50,7 +44,7 @@ public class ResultManager : GameManagerBase
         }
         if (JoinManager.Instance._playerCount <= 1)
         {
-            Debug.Log("ƒvƒŒƒCƒ„[‚Ìl”‚ª‘«‚è‚Ü‚¹‚ñ : ‚ ‚Æ" + JoinManager.Instance._playerCount + "l");
+            Debug.Log("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®äººæ•°ãŒè¶³ã‚Šã¾ã›ã‚“ : ã‚ã¨" + JoinManager.Instance._playerCount + "äºº");
             _resultUIManager.OnPlayerNotEnough();
             return;
         }
@@ -73,6 +67,18 @@ public class ResultManager : GameManagerBase
     {
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
+
+        bool isPlayer1Winner = (_gameSession._lastWinner == PlayerType.Player1);
+
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼1ç”Ÿæˆ
+        GameObject player1Obj = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
+        Animator animator1 = player1Obj.GetComponent<Animator>();
+        animator1.SetBool("isWin", isPlayer1Winner);
+
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼2ç”Ÿæˆ
+        GameObject player2Obj = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
+        Animator animator2 = player2Obj.GetComponent<Animator>();
+        animator2.SetBool("isWin", !isPlayer1Winner);
     }
 
     // Update is called once per frame
@@ -80,7 +86,7 @@ public class ResultManager : GameManagerBase
     {
         _timeCount += Time.deltaTime;
 
-        // ˆê’èŠÔŒo‰ß‚µ‚½Œã‚ÉƒV[ƒ“‘JˆÚ‰Â”\‚É‚·‚é
+        // ä¸€å®šæ™‚é–“çµŒéã—ãŸå¾Œã«ã‚·ãƒ¼ãƒ³é·ç§»å¯èƒ½ã«ã™ã‚‹
         if (kInputEnableTime < _timeCount)
         {
             _isInputEnable = true;
