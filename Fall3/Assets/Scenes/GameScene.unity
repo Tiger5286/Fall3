@@ -208,6 +208,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 52c477f9f17086b48aa8189c4fd07066, type: 3}
   - {fileID: 8300000, guid: 19813a9e8ed84ab44b2bea65c6af394e, type: 3}
   - {fileID: 8300000, guid: c7b6806aa509d3846b70c59bb8bf4fbf, type: 3}
+  - {fileID: 8300000, guid: 7ffab651abb9e3c49a1566b791f35144, type: 3}
   _walkSeSource: {fileID: 0}
   _walkSeClip: {fileID: 0}
 --- !u!4 &48612659
