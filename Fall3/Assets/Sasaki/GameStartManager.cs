@@ -21,6 +21,7 @@ public class GameStartManager : MonoBehaviour
     // ゲーム開始の状態を管理する列挙型
     enum GameStartState
     {
+        Default,
         Wait,
         Ready,
         Start,
@@ -39,7 +40,7 @@ public class GameStartManager : MonoBehaviour
         _timer = 0f;
         _gameStartState = GameStartState.Wait;
         _gameStartText.text = "";
-        _inputManager.SetAllPlayerControl(true); // プレイヤーの操作を無効にする
+        _inputManager.SetAllPlayerControl(false); // プレイヤーの操作を無効にする
         _stageManager.SetCanFall(false); // ステージを落下不可にする
     }
 
@@ -49,10 +50,16 @@ public class GameStartManager : MonoBehaviour
         _inputManager = _inputManagerObj.GetComponent<InputManager>();
         _stageManager = _stageManagerObj.GetComponent<StageManager>();
         _gameStartText.text = "";
+        _gameStartState = GameStartState.Default;
     }
 
     void Update()
     {
+        if(_gameStartState == GameStartState.Default)
+        {
+            return;
+        }
+
         if (_gameStartState != GameStartState.Started)
         {
             _timer += Time.deltaTime;

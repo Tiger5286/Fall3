@@ -368,11 +368,16 @@ public class TitleUIManager : MonoBehaviour
 
         // 最初のオブジェクトを取得
         var target = results[0].gameObject;
+        var handler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(target);
+        if (handler == null)
+        {
+            return;
+        }
 
         // 押された時、押している時、離された時のイベントを一気に通知
         // 今のところ押されたらシーン遷移するので問題はない
-        ExecuteEvents.Execute(target, data, ExecuteEvents.pointerDownHandler);
-        ExecuteEvents.Execute(target, data, ExecuteEvents.pointerClickHandler);
-        ExecuteEvents.Execute(target, data, ExecuteEvents.pointerUpHandler);
+        ExecuteEvents.Execute(handler, data, ExecuteEvents.pointerDownHandler);
+        ExecuteEvents.Execute(handler, data, ExecuteEvents.pointerClickHandler);
+        ExecuteEvents.Execute(handler, data, ExecuteEvents.pointerUpHandler);
     }
 }
