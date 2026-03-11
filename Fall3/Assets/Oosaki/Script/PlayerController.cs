@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Transform _groundCheckPoint; //足元位置
-    [SerializeField] float _groundCheckDistance = 0.3f;
+    [SerializeField] float _groundCheckDistance = 1.0f;
     [SerializeField] LayerMask _groundLayer;
 
     [SerializeField] float _FallLimitY = -10f;
@@ -106,15 +106,15 @@ public class PlayerController : MonoBehaviour
             _groundCheckDistance,
             _groundLayer);
 
+        //地面接地情報の更新
+        _wasGround = _isGround;
+        _isGround = currentGround;
+
         //着地した瞬間
-        if (!_wasGround && currentGround)
+        if (_isGround)
         {
             CheckFallStage();
         }
-
-        //地面接地情報の更新
-        _isGround = currentGround;
-        _wasGround = currentGround;
 
         //正規化
         if (_move.magnitude > 1)
@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = new Ray(_groundCheckPoint.position, Vector3.down);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1f))
+        if (Physics.Raycast(ray, out hit, 1.0f))
         {
             Stage stage = hit.collider.GetComponent<Stage>();
 
