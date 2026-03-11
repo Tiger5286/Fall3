@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class JoinManager : MonoBehaviour
@@ -11,7 +12,9 @@ public class JoinManager : MonoBehaviour
     private PlayerInputManager _playerInputManager;
     public int _playerCount;
 
-    [SerializeField] PlayerRegistry _playerRegistry;
+
+    [SerializeField] private PlayerFactory _playerFactory;
+    [SerializeField] private PlayerRegistry _playerRegistry;
 
     private void Awake()
     {
@@ -69,19 +72,18 @@ public class JoinManager : MonoBehaviour
         }
 
         var link = player.GetComponent<PlayerLink>();
-        var controller = player.GetComponentInChildren<PlayerController>();
-
-        _playerRegistry.AssignToSlot(slot, player, controller);
-
         link.SetPlayerId(slot._id);
-        controller.SetPlayerId(slot._id);
+
+        _playerFactory.SpawnPlayerForSlot(slot._id, player);
+
+        _playerRegistry.AssignToSlot(slot, player, slot._controller);
+
+        InputManager.Instance.RegisterPlayerToSlot((int)slot._id, player, slot._controller);
 
         // コントローラーの情報が勝手に切り替わらないようにする
         player.neverAutoSwitchControlSchemes = true;
 
         player.onDeviceLost += OnDeviceLost;
-
-        InputManager.Instance.RegisterPlayerToSlot((int)slot._id, player, controller);
 
         _playerCount = _playerRegistry.GetJoinedCount();
     }
