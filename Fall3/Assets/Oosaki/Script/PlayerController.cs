@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Transform _groundCheckPoint; //足元位置
-    [SerializeField] float _groundCheckDistance = 1.0f;
+    [SerializeField] float _groundCheckDistance = 0.3f;
     [SerializeField] LayerMask _groundLayer;
 
     [SerializeField] float _FallLimitY = -10f;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         Init();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         bool currentGround = Physics.Raycast(
             _groundCheckPoint.position,
@@ -115,12 +115,6 @@ public class PlayerController : MonoBehaviour
         //地面接地情報の更新
         _isGround = currentGround;
         _wasGround = currentGround;
-
-        if (_isAttacking)
-        {
-            //攻撃中は移動しない
-            _move = Vector3.zero;
-        }
 
         //正規化
         if (_move.magnitude > 1)
@@ -153,7 +147,7 @@ public class PlayerController : MonoBehaviour
         //落下処理
         if (transform.position.y < _FallLimitY)
         {
-            if(_isDead)
+            if (_isDead)
             {
                 return;
             }
@@ -188,7 +182,7 @@ public class PlayerController : MonoBehaviour
     public void SetInputActive(bool isEnable)
     {
         // プレイヤーの入力管理が取得出来ている場合
-        if(_playerInput != null)
+        if (_playerInput != null)
         {
             _playerInput.SwitchCurrentActionMap(isEnable ? "GameInput" : "Disable");
         }
@@ -242,25 +236,25 @@ public class PlayerController : MonoBehaviour
         //プレイヤーのインデックスと入力されたインデックスが違うときは処理しない
         if (idx != (int)_playerId) return;
 
+        if (_isAttacking) return;
+
         //ジャンプ中は攻撃できないようにする
         if (!_isGround) return;
 
         //ノックバック中は攻撃できないようにする
         if (_isKnockBack) return;
 
-        if (!_isAttacking)
-        {
-            _attackSpawner.SpawnBall();
-            _isAttacking = true;
-            _playerAnimation.PlayAnimAttack();
-            //攻撃SE再生
-            SoundManager.Instance.PlaySe(2);
-        }
+        _attackSpawner.SpawnBall();
+        _isAttacking = true;
+        _playerAnimation.PlayAnimAttack();
+        //攻撃SE再生
+        SoundManager.Instance.PlaySe(2);
     }
 
     //攻撃終了を知らせる関数
     public void EndAttack()
     {
+        Debug.Log("EndAttack呼ばれた");
         _isAttacking = false;
     }
 
@@ -314,7 +308,7 @@ public class PlayerController : MonoBehaviour
     {
         _isKnockBack = true;
 
-        _rigidbody.velocity=Vector3.zero; //現在の速度をリセット
+        _rigidbody.velocity = Vector3.zero; //現在の速度をリセット
         _rigidbody.AddForce(force, ForceMode.Impulse);
 
         //ノックバックの時間

@@ -135327,10 +135327,10 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 3.3333333
+  - time: 3
     functionName: EndAttack
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 6632153641068824321, guid: 4164799d17694014c9f7b7d29b1900ca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
