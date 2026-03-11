@@ -90,7 +90,7 @@ public class TitleUIManager : MonoBehaviour
         _clickAction?.action?.Disable();
 
         // 選択されたボタンがある場合
-        if(_lastSelectTarget != null)
+        if (_lastSelectTarget != null)
         {
             // 選択されたボタンの状態をnullにする
             //
@@ -111,12 +111,12 @@ public class TitleUIManager : MonoBehaviour
 
         _playerText.text = "PlayerNum : " + JoinManager.Instance._playerCount.ToString();
 
-        if(_warningTime > 0.0f)
+        if (_warningTime > 0.0f)
         {
             _warningTime -= Time.deltaTime;
         }
 
-        if(_warningTime < 0.0f)
+        if (_warningTime < 0.0f)
         {
             _warningTime = 0.0f;
             _warningText.enabled = false;
@@ -127,7 +127,7 @@ public class TitleUIManager : MonoBehaviour
         Vector2 move = _moveAction?.action?.ReadValue<Vector2>() ?? Vector2.zero;
 
         // カーソルが動いている時
-        if(move.sqrMagnitude > 0.0f)
+        if (move.sqrMagnitude > 0.0f)
         {
             // カーソルの座標を更新
             // カーソルのベクトルに時間とスピードを掛ける
@@ -141,7 +141,7 @@ public class TitleUIManager : MonoBehaviour
         UpdateSelecting(_cursorPosCanvas);
 
         // 決定入力が押された時
-        if(_clickAction?.action?.WasPerformedThisFrame() == true)
+        if (_clickAction?.action?.WasPerformedThisFrame() == true)
         {
             ClickUIAt(_cursorPosCanvas);
         }
@@ -192,41 +192,72 @@ public class TitleUIManager : MonoBehaviour
         _graphicRaycaster.Raycast(data, results);
 
         // このフレームで重なっているオブジェクトを取得
-        // 見つからなかったらnull、見つかったら最初に見つかったオブジェクトがターゲットとする
-        GameObject newTarget = (results.Count > 0) ? results[0].gameObject : null;
+        // 見つからなかったらnull、見つかったら最初に見つかったオブジェクトが見つかったオブジェクトとする
+        GameObject rawHit = (results.Count > 0) ? results[0].gameObject : null;
 
-        // 前フレームのオブジェクトがあり、このフレームのオブジェクトでなかったら
-        if(_lastSelectTarget != null && _lastSelectTarget != newTarget)
+        // ターゲットの設定
+        // 選択できるターゲットを探す
+        GameObject newTarget = (rawHit != null) ? GetSelectableTarget(rawHit) : null;
+
+        // 前のフレームとターゲットが同じな場合更新しない
+        if (_lastSelectTarget == newTarget)
         {
-            // 前回のオブジェクトからは離れたとする
-            SendPointerExit(_lastSelectTarget, data);
+            return;
         }
 
-        // このフレームのオブジェクトがあり、前フレームのオブジェクトでなかったら
-        if(newTarget != null && _lastSelectTarget != newTarget)
+        if (_lastSelectTarget != null)
         {
-            // このフレームのオブジェクトからは離れたとする
-            // 
-            SendPointerExit(newTarget, data);
+            ExecuteEvents.Execute(_lastSelectTarget, data, ExecuteEvents.pointerExitHandler);
+        }
 
+        if (newTarget != null)
+        {
+            ExecuteEvents.Execute(newTarget, data, ExecuteEvents.pointerEnterHandler);
             // イベントシステムに選択されていると設定
             _eventSystem.SetSelectedGameObject(newTarget);
         }
-
-        // このフレームのオブジェクトがnullで、前回のオブジェクトがあったら
-        if (newTarget == null && _lastSelectTarget != null)
+        else
         {
-            // 前回のオブジェクトからは離れたとする
-            SendPointerExit(_lastSelectTarget, data);
-            // 前回のオブジェクトをnullにする
-            _lastSelectTarget = null;
-            // イベントシステムに選択されているオブジェクトをnullにする
             _eventSystem.SetSelectedGameObject(null);
         }
 
-        // ターゲットを更新
-        _lastSelectTarget = newTarget;
+        //// 前フレームのオブジェクトがあり、このフレームのオブジェクトでなかったら
+        //if(_lastSelectTarget != null && _lastSelectTarget != rawHit)
+        //{
+        //    // 前回のオブジェクトからは離れたとする
+        //    SendPointerExit(_lastSelectTarget, data);
+        //}
 
+        //// このフレームのオブジェクトがあり、前フレームのオブジェクトでなかったら
+        //if(rawHit != null && _lastSelectTarget != rawHit)
+        //{
+        //    // このフレームのオブジェクトからは離れたとする
+        //    // 
+        //    SendPointerExit(rawHit, data);
+
+        //    // イベントシステムに選択されていると設定
+        //    _eventSystem.SetSelectedGameObject(rawHit);
+        //}
+
+        //// このフレームのオブジェクトがnullで、前回のオブジェクトがあったら
+        //if (rawHit == null && _lastSelectTarget != null)
+        //{
+        //    // 前回のオブジェクトからは離れたとする
+        //    SendPointerExit(_lastSelectTarget, data);
+        //    // 前回のオブジェクトをnullにする
+        //    _lastSelectTarget = null;
+        //    // イベントシステムに選択されているオブジェクトをnullにする
+        //    _eventSystem.SetSelectedGameObject(null);
+        //}
+
+        // ターゲットを更新
+        _lastSelectTarget = rawHit;
+
+    }
+
+    private GameObject GetSelectableTarget(GameObject target)
+    {
+        return ExecuteEvents.GetEventHandler<ISelectHandler>(target);
     }
 
     /// <summary>
@@ -261,7 +292,7 @@ public class TitleUIManager : MonoBehaviour
     /// <param name="canvasPos"></param>
     private void SetCursorAnchoredPosition(Vector2 canvasPos)
     {
-        if(_cursor == null)
+        if (_cursor == null)
         {
             return;
         }
@@ -305,7 +336,7 @@ public class TitleUIManager : MonoBehaviour
     void ClickUIAt(Vector2 canvasPos)
     {
         // キャンバスかイベントシステムの参照がない場合は処理を行わない
-        if(_graphicRaycaster == null || _eventSystem == null)
+        if (_graphicRaycaster == null || _eventSystem == null)
         {
             return;
         }
@@ -327,10 +358,10 @@ public class TitleUIManager : MonoBehaviour
         var results = new List<RaycastResult>();
 
         // 今のカーソルの情報からレイキャストする
-        _graphicRaycaster.Raycast(data,results);
+        _graphicRaycaster.Raycast(data, results);
 
         // オブジェクトが見つからなかった場合はreturn
-        if(results.Count == 0)
+        if (results.Count == 0)
         {
             return;
         }
