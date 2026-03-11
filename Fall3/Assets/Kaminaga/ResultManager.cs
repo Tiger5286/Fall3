@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : GameManagerBase
 {
+    // 定数定義
+    private const float kInputEnableTime = 2.0f;
+
     [Header("勝利判定関連")]
     [SerializeField] private GameSession _gameSession;
 
@@ -14,9 +17,19 @@ public class ResultManager : GameManagerBase
     [Header("UI管理クラス")]
     [SerializeField] private ResultUIManager _resultUIManager;
 
+    private float _timeCount = 0.0f;
+    private bool _isInputEnable = false;
+
     private void OnEnable()
     {
         Debug.Log("Result開始");
+
+        // 時間カウンタをリセット
+        _timeCount = 0.0f;
+
+        // 入力可能フラグをリセット
+        _isInputEnable = false;
+        
         // プレイヤーの操作状態を非アクティブにする
         InputManager.Instance.SetAllPlayerControl(false);
 
@@ -31,6 +44,10 @@ public class ResultManager : GameManagerBase
 
     public void OnRetry()
     {
+        if(!_isInputEnable)
+        {
+            return;
+        }
         if (JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
@@ -43,6 +60,10 @@ public class ResultManager : GameManagerBase
 
     public void OnReturnTitle()
     {
+        if (!_isInputEnable)
+        {
+            return;
+        }
         SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.Title);
     }
@@ -57,6 +78,12 @@ public class ResultManager : GameManagerBase
     // Update is called once per frame
     void Update()
     {
-        
+        _timeCount += Time.deltaTime;
+
+        // 一定時間経過した後にシーン遷移可能にする
+        if (kInputEnableTime < _timeCount)
+        {
+            _isInputEnable = true;
+        }
     }
 }
