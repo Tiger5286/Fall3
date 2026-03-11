@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
+    PlayerController _controller;
     Animator _animator;
+
     //•à‚­‘¬“x
     float kWalkSpeed = 0.1f;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _controller = GetComponent<PlayerController>();
     }
 
     void Start()
@@ -38,6 +41,11 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayAnimJump()
     {
         _animator.SetTrigger("Jump");
+    }
+
+    public void EndAttack()
+    {
+        _controller.EndAttack();
     }
 
 }
