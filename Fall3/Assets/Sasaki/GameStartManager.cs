@@ -39,7 +39,7 @@ public class GameStartManager : MonoBehaviour
         _timer = 0f;
         _gameStartState = GameStartState.Wait;
         _gameStartText.text = "";
-        _inputManager.SetAllPlayerControl(false); // プレイヤーの操作を無効にする
+        _inputManager.SetAllPlayerControl(true); // プレイヤーの操作を無効にする
         _stageManager.SetCanFall(false); // ステージを落下不可にする
     }
 
