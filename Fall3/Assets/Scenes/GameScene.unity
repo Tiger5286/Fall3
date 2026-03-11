@@ -3224,6 +3224,9 @@ MonoBehaviour:
   _gameSession: {fileID: 1534381636}
   _sceneManager: {fileID: 1729904479}
   _resultUIManager: {fileID: 151738135}
+  _resultPlayerPrefab: {fileID: 0}
+  _spawnPoint1: {fileID: 0}
+  _spawnPoint2: {fileID: 0}
 --- !u!1 &1709908335
 GameObject:
   m_ObjectHideFlags: 0
