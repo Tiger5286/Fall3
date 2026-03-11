@@ -76,7 +76,13 @@ public class JoinManager : MonoBehaviour
         link.SetPlayerId(slot._id);
         controller.SetPlayerId(slot._id);
 
+        // コントローラーの情報が勝手に切り替わらないようにする
+        player.neverAutoSwitchControlSchemes = true;
+
+        player.onDeviceLost += OnDeviceLost;
+
         InputManager.Instance.RegisterPlayerToSlot((int)slot._id, player, controller);
+
         _playerCount = _playerRegistry.GetJoinedCount();
     }
 
@@ -92,6 +98,20 @@ public class JoinManager : MonoBehaviour
             _playerRegistry.ReleaseSlot(slot);
         }
 
+        _playerCount = _playerRegistry.GetJoinedCount();
+    }
+
+    private void OnDeviceLost(PlayerInput player)
+    {
+        var slot = _playerRegistry.FindSlotByInput(player);
+        if (slot != null)
+        {
+            InputManager.Instance.UnRegisterPlayer(player);
+
+            _playerRegistry.ReleaseSlot(slot);
+
+            Destroy(player.gameObject);
+        }
         _playerCount = _playerRegistry.GetJoinedCount();
     }
 
