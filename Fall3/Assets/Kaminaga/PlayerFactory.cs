@@ -1,15 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
+
+[System.Serializable]
+public struct PlayerPrefabInfo
+{
+    public PlayerId _playerId;
+    public GameObject _obj;
+}
 
 public class PlayerFactory : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerPrefab;
+    [Header("生成するプレイヤーリスト")]
+    [SerializeField] private List<PlayerPrefabInfo> _playerPrefabs = new();
 
+    [Header("プレイヤーの生成できる枠")]
+    [SerializeField] private PlayerRegistry _registry;
+
+    private readonly Dictionary<PlayerId, GameObject> _playerPrefabMap = new();
+
+    private void Awake()
+    {
+        _playerPrefabMap.Clear();
+
+        foreach (var player in _playerPrefabs)
+        {
+            if (player._obj == null)
+            {
+                continue;
+            }
+            _playerPrefabMap[player._playerId] = player._obj;
+        }
+    }
 
     public PlayerController SpawnPlayer(Transform playerRoot, PlayerId id)
     {
-        var player = Instantiate(_playerPrefab, playerRoot);
+
+        if(id == PlayerId.None)
+        {
+            Debug.LogError("PlayerFactory : 生成失敗");
+            return null;
+        }
+
+        var player = Instantiate(_playerPrefabMap[id], playerRoot);
+
         var controller = player.GetComponent<PlayerController>();
 
         if (controller == null)
@@ -21,15 +57,40 @@ public class PlayerFactory : MonoBehaviour
         return controller;
     }
 
+    public void SpawnPlayerForSlot(PlayerId id, PlayerInput input)
+    {
+        if (id == PlayerId.None)
+        {
+            Debug.LogError("PlayerFactory : 生成失敗");
+            return;
+        }
+
+        var player = Instantiate(_playerPrefabMap[id], input.transform);
+
+        var controller = player.GetComponent<PlayerController>();
+
+        if (controller == null)
+        {
+            Debug.LogError("PlayerFactory : 生成失敗");
+            return;
+        }
+        controller.SetPlayerId(id);
+
+        var slot = _registry.FindSlotById(id);
+        _registry.AssignController(slot, controller);
+
+        InputManager.Instance.UpdateControllerForSlot((int)id, controller);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
