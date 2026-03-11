@@ -23,10 +23,14 @@ public class Stage : MonoBehaviour
     public Vector3 _velocity = Vector3.zero;
 
     // —Ž‰º‰Â”\‚©‚Ç‚¤‚©
-    bool _isCanFall = false;
+    [SerializeField] bool _isCanFall = false;
     public void SetCanFall(bool canFall)
     {
         _isCanFall = canFall;
+    }
+    public bool IsCanFall()
+    {
+        return _isCanFall;
     }
 
     /// <summary>
