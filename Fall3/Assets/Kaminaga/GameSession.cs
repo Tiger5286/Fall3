@@ -44,6 +44,29 @@ public class GameSession : MonoBehaviour
         _winCountPlayer2 = 0;
     }
 
+    public string GetWinner()
+    {
+        string winner = null;
+        switch (_lastWinner)
+        {
+            case WinnerType.None:
+                winner = "エラー";
+                break;
+            case WinnerType.Player1:
+                winner = "プレイヤー1";
+                break;
+            case WinnerType.Player2:
+                winner = "プレイヤー2";
+                break;
+            case WinnerType.Draw:
+                winner = "ヒキワケ";
+                break;
+            default:
+                break;
+        }
+        return winner;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

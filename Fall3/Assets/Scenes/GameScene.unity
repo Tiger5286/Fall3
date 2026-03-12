@@ -151,7 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630bdaa637de38542a5c2402572b051d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 6632153641068824321, guid: 4164799d17694014c9f7b7d29b1900ca, type: 3}
+  _playerPrefabs:
+  - _playerId: 1
+    _obj: {fileID: 6632153641068824321, guid: 4164799d17694014c9f7b7d29b1900ca, type: 3}
+  - _playerId: 2
+    _obj: {fileID: 6632153641068824321, guid: 9ed0556ca1eeb804abb759577278108e, type: 3}
+  _registry: {fileID: 1299124495}
 --- !u!4 &30981468
 Transform:
   m_ObjectHideFlags: 0
@@ -3087,6 +3092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCount: 0
+  _playerFactory: {fileID: 30981467}
   _playerRegistry: {fileID: 1299124495}
 --- !u!114 &1424714697
 MonoBehaviour:

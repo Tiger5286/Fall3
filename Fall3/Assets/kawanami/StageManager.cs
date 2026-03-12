@@ -51,6 +51,19 @@ public class StageManager : MonoBehaviour
                 stage.SetCanFall(canFall);
             }
         }
+
+        stages[0, 0, 0].SetCanFall(true); 
+
+        //for (int y = 0; y < height; y++)
+        //{
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        for (int z = 0; z < vertical; z++)
+        //        {
+        //            stages[x,y,z].SetCanFall(canFall);
+        //        }
+        //    }
+        //}
     }
 
     // -------------------佐々木------------------
@@ -122,28 +135,39 @@ public class StageManager : MonoBehaviour
             return;
         }
 
-        GameObject go = Instantiate(stagePrefab_1, transform);
+        //GameObject go = Instantiate(stagePrefab_1, transform);
+        GameObject go;
+        Stage stage;
         //ステージの生成
         switch (y)
         {
             case 0:
                 go = Instantiate(stagePrefab_1, transform);
+                stage = go.GetComponent<Stage>();
+                stage.SetGridPos(x, y, z);
+                stages[x, y, z] = stage;
                 break;
             case 1:
                 go = Instantiate(stagePrefab_2, transform);
+                stage = go.GetComponent<Stage>();
+                stage.SetGridPos(x, y, z);
+                stages[x, y, z] = stage;
                 break;
             case 2:
                 go = Instantiate(stagePrefab_3, transform);
+                stage = go.GetComponent<Stage>();
+                stage.SetGridPos(x, y, z);
+                stages[x, y, z] = stage;
                 break;
             default:
                 break;
         }
         
-        Stage stage = go.GetComponent<Stage>();
+        //Stage stage = go.GetComponent<Stage>();
         //グリッド座標を設定する
-        stage.SetGridPos(x, y,z);
+        //stage.SetGridPos(x, y,z);
         //見た目の配列に登録
-        stages[x, y, z] = stage;
+        //stages[x, y, z] = stage;
     }
 
     //ステージを破壊する

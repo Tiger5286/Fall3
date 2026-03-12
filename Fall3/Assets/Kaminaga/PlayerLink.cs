@@ -11,6 +11,7 @@ public class PlayerLink : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("ˆ—Å‰");
         _playerInput = GetComponent<PlayerInput>();
     }
 
