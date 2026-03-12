@@ -35,6 +35,7 @@ public class TitleUIManager : MonoBehaviour
 
     [Header("プレイヤーが足りない際に表示するテキスト")]
     [SerializeField] private TextMeshProUGUI _warningText;
+    [SerializeField] private ImageController _imageController;
 
     [Header("勝利判定関連")]
     [SerializeField] private GameSession _gameSession;
@@ -156,6 +157,7 @@ public class TitleUIManager : MonoBehaviour
     public void OnPlayerNotEnough()
     {
         _warningText.enabled = true;
+        _imageController.Vibrate();
         _warningTime = kWarningTime;
     }
 

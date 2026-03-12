@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 56375700}
   - component: {fileID: 56375702}
   - component: {fileID: 56375701}
+  - component: {fileID: 56375703}
   m_Layer: 5
   m_Name: WarningText
   m_TagString: Untagged
@@ -403,6 +404,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56375699}
   m_CullTransparentMesh: 1
+--- !u!114 &56375703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56375699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d33d2a7fb0449e4d8ace4c68d4d336e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 0}
 --- !u!1 &110578944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3583,6 +3597,7 @@ MonoBehaviour:
   _clickAction: {fileID: 5280627072261590180, guid: 5a030e7e79d1042479a020185e4fbfdf, type: 3}
   _playerText: {fileID: 142506025}
   _warningText: {fileID: 56375701}
+  _imageController: {fileID: 56375703}
   _gameSession: {fileID: 622637397}
   _player1WinCountText: {fileID: 987225474}
   _player2WinCountText: {fileID: 296563296}
