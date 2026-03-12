@@ -23,6 +23,10 @@ public class ResultManager : GameManagerBase
     [SerializeField] private Transform _spawnPoint1;
     [SerializeField] private Transform _spawnPoint2;
 
+    //リザルトのプレイヤーを保存するための変数
+    private GameObject _resultPlayer1;
+    private GameObject _resultPlayer2;
+
     private float _timeCount = 0.0f;
     private bool _isInputEnable = false;
 
@@ -56,8 +60,8 @@ public class ResultManager : GameManagerBase
         }
 
         //リザルトプレイヤー削除
-        if (_resultPlayerPrefab1 != null) Destroy(_resultPlayerPrefab1);
-        if (_resultPlayerPrefab2 != null) Destroy(_resultPlayerPrefab2);
+        if (_resultPlayer1 != null) Destroy(_resultPlayer1);
+        if (_resultPlayer2 != null) Destroy(_resultPlayer2);
 
         if (JoinManager.Instance._playerCount <= 1)
         {
@@ -85,9 +89,14 @@ public class ResultManager : GameManagerBase
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
 
-        GameObject player1Obj = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation); Animator animator1 = player1Obj.GetComponent<Animator>();
+        //プレイヤー1生成
+        _resultPlayer1 = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
+        Animator animator1 = _resultPlayer1.GetComponent<Animator>();
+
         //プレイヤー2生成
-        GameObject player2Obj = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation); Animator animator2 = player2Obj.GetComponent<Animator>();
+        _resultPlayer2 = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
+        Animator animator2 = _resultPlayer2.GetComponent<Animator>();
+
         //勝敗に応じてアニメーションを切り替え
         switch (_gameSession._lastWinner)
         {
