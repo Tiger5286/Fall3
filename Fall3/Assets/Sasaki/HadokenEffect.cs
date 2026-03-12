@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class HadokenEffect : MonoBehaviour
 {
+    [Header("波動拳本体のエフェクト")]
     [SerializeField]
     GameObject effectPrefab;
     [SerializeField]
     float effectScale = 1.0f;
+    [Header("波動拳が当たった時のエフェクト")]
+    [SerializeField]
+    GameObject hitEffectPrefab;
+    [SerializeField]
+    float hitEffectScale = 1.0f;
 
     GameObject effectInstance;
 
@@ -23,5 +29,11 @@ public class HadokenEffect : MonoBehaviour
     void Update()
     {
         effectInstance.transform.position = transform.position;
+    }
+
+    private void OnDestroy()
+    {
+        var eff = Instantiate(hitEffectPrefab, transform.position, transform.rotation);
+        eff.transform.localScale = Vector3.one * hitEffectScale;
     }
 }

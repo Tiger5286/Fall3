@@ -52,7 +52,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6601386069767166914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -164,3 +164,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 100004, guid: 10a7ec2a2783770419a38059c45ea8b3, type: 3}
   effectScale: 0.2
+  hitEffectPrefab: {fileID: 100000, guid: f881607407b15cc46b24d6bda799037a, type: 3}
+  hitEffectScale: 0.2
