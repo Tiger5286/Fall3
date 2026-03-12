@@ -17,9 +17,10 @@ public class ResultManager : GameManagerBase
     [Header("UI管理クラス")]
     [SerializeField] private ResultUIManager _resultUIManager;
 
-    [Header("リザルトのプレイヤー")]
+    [Header("リザルト用のプレイヤーのプレハブ")]
     [SerializeField] private GameObject _resultPlayerPrefab1;
     [SerializeField] private GameObject _resultPlayerPrefab2;
+    [Header("リザルト用のプレイヤーの生成位置")]
     [SerializeField] private Transform _spawnPoint1;
     [SerializeField] private Transform _spawnPoint2;
 
