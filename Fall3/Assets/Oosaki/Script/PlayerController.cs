@@ -75,8 +75,16 @@ public class PlayerController : MonoBehaviour
 
         //-------コントローラー関連の処理-------
         {
-            // PlayerInputを持つ親オブジェクトを取得
             _playerLink = GetComponentInParent<PlayerLink>();
+
+            // プレイヤーの入力管理を取得している
+            _playerInput = _playerLink._playerInput;
+
+            // コントローラーの入力を受け付けないようにする
+            _playerInput.SwitchCurrentActionMap("Disable");
+
+            //プレイヤーのインデックスを取得している
+            _playerIndex = _playerInput.playerIndex;
         }
         //-------コントローラー関連の処理-------
 
@@ -87,20 +95,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        //-------コントローラー関連の処理-------
-        {
-            // プレイヤーの入力管理を取得している
-            _playerInput = _playerLink._playerInput;
-
-            // コントローラーの入力を受け付けないようにする
-            _playerInput.SwitchCurrentActionMap("Disable");
-
-            //プレイヤーのインデックスを取得している
-            _playerIndex = _playerInput.playerIndex;
-
-        }
-        //-------コントローラー関連の処理-------
-
         Init();
     }
 

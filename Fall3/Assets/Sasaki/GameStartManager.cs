@@ -21,7 +21,6 @@ public class GameStartManager : MonoBehaviour
     // ƒQ[ƒ€ŠJn‚Ìó‘Ô‚ğŠÇ—‚·‚é—ñ‹“Œ^
     enum GameStartState
     {
-        Default,
         Wait,
         Ready,
         Start,
@@ -50,16 +49,10 @@ public class GameStartManager : MonoBehaviour
         _inputManager = _inputManagerObj.GetComponent<InputManager>();
         _stageManager = _stageManagerObj.GetComponent<StageManager>();
         _gameStartText.text = "";
-        _gameStartState = GameStartState.Default;
     }
 
     void Update()
     {
-        if(_gameStartState == GameStartState.Default)
-        {
-            return;
-        }
-
         if (_gameStartState != GameStartState.Started)
         {
             _timer += Time.deltaTime;

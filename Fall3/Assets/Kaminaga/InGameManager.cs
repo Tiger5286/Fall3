@@ -97,7 +97,6 @@ public class InGameManager : GameManagerBase
 
     private void SpawnPlayer()
     {
-        Debug.Log("ƒvƒŒƒCƒ„[‚Ì¶¬");
         var player1 = _playerRegistry.FindSlotById(PlayerId.Player1);
         if(player1 != null && player1._controller == null && player1._playerInput != null)
         {
