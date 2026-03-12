@@ -13,7 +13,7 @@ public class TitleManager : GameManagerBase
     private void OnEnable()
     {
         Debug.Log("TitleŠJŽn");
-        SoundManager.Instance.PlayBGM(0);
+        SoundManager.Instance.PlayBGM(3);
     }
 
     private void OnDisable()
