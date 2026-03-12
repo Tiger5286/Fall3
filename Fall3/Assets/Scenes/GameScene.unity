@@ -1879,7 +1879,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 81.68342
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1905,8 +1905,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698120798}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975296, y: 0.000000005533822, z: -0.0000000013063584, w: 0.973249}
-  m_LocalPosition: {x: 5, y: 5, z: -5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 26.1, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4652,8 +4652,8 @@ MonoBehaviour:
   _gameSession: {fileID: 1534381636}
   _sceneManager: {fileID: 1729904479}
   _resultUIManager: {fileID: 1179262901}
-  _resultPlayerPrefab1: {fileID: 6632153641068824321, guid: c9641cc19f8d0074ab11a48354b9c082, type: 3}
-  _resultPlayerPrefab2: {fileID: 6632153641068824321, guid: 3356c9fd136dfbb4fa25ca5577070043, type: 3}
+  _resultPlayerPrefab1: {fileID: 6632153641068824321, guid: ec989937e9de45747a0cd4b99abc2aa2, type: 3}
+  _resultPlayerPrefab2: {fileID: 6632153641068824321, guid: ef5f5bda5a663eb4c860cc637b4c2e96, type: 3}
   _spawnPoint1: {fileID: 674550294}
   _spawnPoint2: {fileID: 822690996}
 --- !u!1 &1869207412

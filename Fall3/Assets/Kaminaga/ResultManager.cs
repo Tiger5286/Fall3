@@ -45,6 +45,9 @@ public class ResultManager : GameManagerBase
 
         //BGM再生
         SoundManager.Instance.PlayBGM(2);
+
+        //リザルト用プレイヤー生成
+        SpawnResultPlayer();
     }
 
     private void OnDisable()
@@ -79,6 +82,11 @@ public class ResultManager : GameManagerBase
         {
             return;
         }
+
+        //リザルトプレイヤー削除
+        if (_resultPlayer1 != null) Destroy(_resultPlayer1);
+        if (_resultPlayer2 != null) Destroy(_resultPlayer2);
+
         SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.Title);
     }
@@ -88,28 +96,6 @@ public class ResultManager : GameManagerBase
     {
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
-
-        //プレイヤー1生成
-        _resultPlayer1 = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
-        Animator animator1 = _resultPlayer1.GetComponent<Animator>();
-
-        //プレイヤー2生成
-        _resultPlayer2 = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
-        Animator animator2 = _resultPlayer2.GetComponent<Animator>();
-
-        //勝敗に応じてアニメーションを切り替え
-        switch (_gameSession._lastWinner)
-        {
-            case WinnerType.Player1:
-                animator1.SetBool("isWin", true);
-                break;
-            case WinnerType.Player2:
-                animator2.SetBool("isWin", false);
-                break;
-            default:
-                animator1.SetBool("isWin", false);
-                animator2.SetBool("isWin", false); break;
-        }
     }
 
     // Update is called once per frame
@@ -121,6 +107,35 @@ public class ResultManager : GameManagerBase
         if (kInputEnableTime < _timeCount)
         {
             _isInputEnable = true;
+        }
+    }
+
+    void SpawnResultPlayer()
+    {
+        //プレイヤー1生成
+        _resultPlayer1 = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
+        Animator animator1 = _resultPlayer1.GetComponent<Animator>();
+
+        //プレイヤー2生成
+        _resultPlayer2 = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
+        Animator animator2 = _resultPlayer2.GetComponent<Animator>();
+
+        //アニメーションリセット
+        animator1.Play("Idle", 0, 0f);
+        animator2.Play("Idle", 0, 0f);
+        animator1.SetBool("isWin", false);
+        animator2.SetBool("isWin", false);
+
+        //勝敗
+        switch (_gameSession._lastWinner)
+        {
+            case WinnerType.Player1:
+                animator1.SetBool("isWin", true);
+                break;
+
+            case WinnerType.Player2:
+                animator2.SetBool("isWin", true);
+                break;
         }
     }
 }
