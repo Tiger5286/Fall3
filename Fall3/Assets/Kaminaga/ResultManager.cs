@@ -17,6 +17,12 @@ public class ResultManager : GameManagerBase
     [Header("UI管理クラス")]
     [SerializeField] private ResultUIManager _resultUIManager;
 
+    [Header("リザルトのプレイヤー")]
+    [SerializeField] private GameObject _resultPlayerPrefab1;
+    [SerializeField] private GameObject _resultPlayerPrefab2;
+    [SerializeField] private Transform _spawnPoint1;
+    [SerializeField] private Transform _spawnPoint2;
+
     private float _timeCount = 0.0f;
     private bool _isInputEnable = false;
 
@@ -29,7 +35,7 @@ public class ResultManager : GameManagerBase
 
         // 入力可能フラグをリセット
         _isInputEnable = false;
-        
+
         // プレイヤーの操作状態を非アクティブにする
         InputManager.Instance.SetAllPlayerControl(false);
 
@@ -44,7 +50,7 @@ public class ResultManager : GameManagerBase
 
     public void OnRetry()
     {
-        if(!_isInputEnable)
+        if (!_isInputEnable)
         {
             return;
         }
@@ -73,6 +79,23 @@ public class ResultManager : GameManagerBase
     {
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
+
+        GameObject player1Obj = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation); Animator animator1 = player1Obj.GetComponent<Animator>();
+        //プレイヤー2生成
+        GameObject player2Obj = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation); Animator animator2 = player2Obj.GetComponent<Animator>();
+        //勝敗に応じてアニメーションを切り替え
+        switch (_gameSession._lastWinner)
+        {
+            case WinnerType.Player1:
+                animator1.SetBool("isWin", true);
+                break;
+            case WinnerType.Player2:
+                animator2.SetBool("isWin", false);
+                break;
+            default:
+                animator1.SetBool("isWin", false);
+                animator2.SetBool("isWin", false); break;
+        }
     }
 
     // Update is called once per frame
