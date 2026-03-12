@@ -47,7 +47,7 @@ public class SoundManager : MonoBehaviour
 
         if (_bgmSource.clip == _bgmClips[index]) return;
 
-        _bgmSource.Stop();
+        //_bgmSource.Stop();
         _bgmSource.clip = _bgmClips[index];
         _bgmSource.loop = true;
         _bgmSource.Play();
