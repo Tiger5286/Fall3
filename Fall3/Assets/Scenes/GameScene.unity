@@ -209,6 +209,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 43574641745ec0d4b91891b7a5526745, type: 3}
   - {fileID: 8300000, guid: 1969cd08371c47240989a45da127597c, type: 3}
   - {fileID: 8300000, guid: bbd3e23d7f18fb84a9b2ab1bfd773336, type: 3}
+  - {fileID: 8300000, guid: 2dfb2df2f5aefbb48b9d7e3272d8a4d1, type: 3}
+  - {fileID: 8300000, guid: bd9ef0c6ea68c2b46a5d04c556c2e147, type: 3}
   _seClips:
   - {fileID: 8300000, guid: 52c477f9f17086b48aa8189c4fd07066, type: 3}
   - {fileID: 8300000, guid: 19813a9e8ed84ab44b2bea65c6af394e, type: 3}
