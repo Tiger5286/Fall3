@@ -54,6 +54,11 @@ public class ResultManager : GameManagerBase
         {
             return;
         }
+
+        //リザルトプレイヤー削除
+        if (_resultPlayerPrefab1 != null) Destroy(_resultPlayerPrefab1);
+        if (_resultPlayerPrefab2 != null) Destroy(_resultPlayerPrefab2);
+
         if (JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
