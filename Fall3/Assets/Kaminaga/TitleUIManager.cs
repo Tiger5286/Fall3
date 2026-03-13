@@ -157,7 +157,7 @@ public class TitleUIManager : MonoBehaviour
     public void OnPlayerNotEnough()
     {
         _warningText.enabled = true;
-        _imageController.Vibrate();
+        _imageController.StartVibrate();
         _warningTime = kWarningTime;
     }
 
