@@ -37,9 +37,16 @@ public class iconController : MonoBehaviour
         color.a = 3 - time;
         thisImage.color = color;
 
-        playerPos = player.transform.position;
-        playerPos.y += 2.5f;
-        screenPos = Camera.main.WorldToScreenPoint(playerPos);
-        thisImage.rectTransform.position = screenPos;
+        if (player != null)
+        {
+            playerPos = player.transform.position;
+            playerPos.y += 2.5f;
+            screenPos = Camera.main.WorldToScreenPoint(playerPos);
+            thisImage.rectTransform.position = screenPos;
+        }
+        else
+        {
+            thisImage.rectTransform.position = new Vector3(-3000, -3000, 0);
+        }
     }
 }
