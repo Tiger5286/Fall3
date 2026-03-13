@@ -45,12 +45,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(int index)
     {
-        if (_isFading) return;
         if (_bgmClips.Length <= index) return;
 
         if (_bgmSource.clip == _bgmClips[index]) return;
 
-        //_bgmSource.Stop();
+        _bgmSource.volume = 1f;
         _bgmSource.clip = _bgmClips[index];
         _bgmSource.loop = true;
         _bgmSource.Play();
@@ -92,6 +91,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlayBGMFade(int index, float fadeTime)
+    {
+        StartCoroutine(ChangeBGMFade(index, fadeTime));
+    }
+
     //フェードアウトしてBGMを停止
     public void StopBGMFade(float fadeTime)
     {
@@ -114,6 +118,42 @@ public class SoundManager : MonoBehaviour
         }
         _bgmSource.Stop();
         _bgmSource.volume = startVolume;
+
+        _isFading = false;
+    }
+
+    IEnumerator ChangeBGMFade(int index, float fadeTime)
+    {
+        _isFading = true;
+
+        float startVolume= _bgmSource.volume;
+
+        //フェードアウト処理
+        while(_bgmSource.volume>0)
+        {
+            _bgmSource.volume-= startVolume * Time.deltaTime /fadeTime;
+            yield return null;
+        }
+
+        //BGMの停止
+        _bgmSource.Stop();
+
+        //次に流すBGM
+        _bgmSource.clip=_bgmClips[index];
+        _bgmSource.loop = true;
+        _bgmSource.Play();
+
+        //フェードイン処理
+        float time = 0;
+        while (time < fadeTime)
+        {
+            time += Time.deltaTime;
+            _bgmSource.volume=time/fadeTime;
+            yield return null;
+        }
+
+        //BGMの音量設定
+        _bgmSource.volume = 1f;
 
         _isFading = false;
     }
