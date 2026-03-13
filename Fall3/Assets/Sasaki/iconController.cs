@@ -40,8 +40,9 @@ public class iconController : MonoBehaviour
         if (player != null)
         {
             playerPos = player.transform.position;
-            playerPos.y += 2.5f;
+            playerPos.y += 1.5f;
             screenPos = Camera.main.WorldToScreenPoint(playerPos);
+            screenPos.y += 100;
             thisImage.rectTransform.position = screenPos;
         }
         else
