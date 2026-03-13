@@ -35,17 +35,33 @@ public class ImageController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Vibrate();
+    }
+
+    public void StartVibrate()
+    {
         if(_isVibrate)
+        {
+            _target.localPosition = _basePos;
+            _vibPos = _basePos;
+        }
+        _isVibrate = true;
+        _vibrateCount = 0.0f;
+    }
+
+    private void Vibrate()
+    {
+        if (_isVibrate)
         {
             _vibrateCount += Time.deltaTime * kVibrateSpeed;
             float vibrate = Mathf.Sin(_vibrateCount * Mathf.PI * 2.0f) * kVibrateRange;
-            
+
             _vibPos = _basePos;
             _vibPos.x = _basePos.x + vibrate;
 
             _target.localPosition = _vibPos;
 
-            if(_vibrateCount >= kVibrateTime)
+            if (_vibrateCount >= kVibrateTime)
             {
                 _isVibrate = false;
             }
@@ -55,17 +71,5 @@ public class ImageController : MonoBehaviour
             _target.localPosition = _basePos;
             _vibPos = _basePos;
         }
-
-    }
-
-    public void Vibrate()
-    {
-        if(_isVibrate)
-        {
-            _target.localPosition = _basePos;
-            _vibPos = _basePos;
-        }
-        _isVibrate = true;
-        _vibrateCount = 0.0f;
     }
 }
