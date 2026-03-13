@@ -45,6 +45,9 @@ public class AttackCollision : MonoBehaviour
                 Vector3.up * _knockbackUpwardForce;
 
             playerController.ApplyKnockBack(force);
+
+            //SEçƒê∂
+            SoundManager.Instance.PlaySe(5);
         }
 
         // ìñÇΩÇ¡ÇΩÇÁè¡Ç∑
