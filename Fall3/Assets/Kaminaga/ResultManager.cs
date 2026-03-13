@@ -46,6 +46,9 @@ public class ResultManager : GameManagerBase
 
         //リザルト用プレイヤー生成
         SpawnResultPlayer();
+
+        //BGM再生
+        SoundManager.Instance.PlayBGMFade(2, 1.5f);
     }
 
     private void OnDisable()
@@ -85,7 +88,6 @@ public class ResultManager : GameManagerBase
         if (_resultPlayer1 != null) Destroy(_resultPlayer1);
         if (_resultPlayer2 != null) Destroy(_resultPlayer2);
 
-        SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.Title);
     }
 
@@ -94,9 +96,6 @@ public class ResultManager : GameManagerBase
     {
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
-
-        //BGM再生
-        SoundManager.Instance.PlayBGMFade(2, 1.5f);
     }
 
     // Update is called once per frame

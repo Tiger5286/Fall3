@@ -45,6 +45,7 @@ public class InGameManager : GameManagerBase
 
         _gameStartManager.GameStart();
 
+        //BGM
         SoundManager.Instance.PlayBGMFade(1, 1.5f);
     }
 
@@ -91,7 +92,10 @@ public class InGameManager : GameManagerBase
             WinnerType.None; // それ以外ならNoneにする
 
         _gameSession.SetResult(winner);
-        SoundManager.Instance.StopBGMFade(2.0f);
+
+        //BGMフェード
+        SoundManager.Instance.StopBGM();
+
         _sceneManager.ChangeScene(SceneType.Result);
     }
 

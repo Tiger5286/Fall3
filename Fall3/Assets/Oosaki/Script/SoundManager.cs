@@ -47,8 +47,6 @@ public class SoundManager : MonoBehaviour
     {
         if (_bgmClips.Length <= index) return;
 
-        if (_bgmSource.clip == _bgmClips[index]) return;
-
         _bgmSource.volume = 1f;
         _bgmSource.clip = _bgmClips[index];
         _bgmSource.loop = true;
@@ -124,14 +122,18 @@ public class SoundManager : MonoBehaviour
 
     IEnumerator ChangeBGMFade(int index, float fadeTime)
     {
+        if(_bgmClips.Length<=index)yield break;
+
         _isFading = true;
 
+        float time = 0;
         float startVolume= _bgmSource.volume;
 
         //フェードアウト処理
-        while(_bgmSource.volume>0)
+        while (time < fadeTime)
         {
-            _bgmSource.volume-= startVolume * Time.deltaTime /fadeTime;
+            time += Time.deltaTime;
+            _bgmSource.volume = Mathf.Lerp(startVolume, 0, time / fadeTime);
             yield return null;
         }
 
@@ -146,14 +148,5 @@ public class SoundManager : MonoBehaviour
         _bgmSource.Play();
 
         _isFading = false;
-
-        //フェードイン処理
-        //float time = 0;
-        //while (time < fadeTime)
-        //{
-        //    time += Time.deltaTime;
-        //    _bgmSource.volume=time/fadeTime;
-        //    yield return null;
-        //}
     }
 }
