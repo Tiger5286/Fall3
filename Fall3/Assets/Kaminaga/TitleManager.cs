@@ -50,7 +50,6 @@ Application.Quit();
 
     void Start()
     {
-
     }
 
     void Update()
