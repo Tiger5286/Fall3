@@ -19,9 +19,13 @@ public class iconController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        thisImage = this.gameObject.GetComponent<Image>();
+    }
+
+    private void OnEnable()
+    {
         time = 0.0f;
         player = GameObject.Find(playerObjName);
-        thisImage = this.gameObject.GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -29,10 +33,20 @@ public class iconController : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        playerPos = player.transform.position;
-        playerPos.y += 2.5f;
-        screenPos = Camera.main.WorldToScreenPoint(playerPos);
+        var color = thisImage.color;
+        color.a = 3 - time;
+        thisImage.color = color;
 
-        thisImage.rectTransform.position = screenPos;
+        if (player != null)
+        {
+            playerPos = player.transform.position;
+            playerPos.y += 2.5f;
+            screenPos = Camera.main.WorldToScreenPoint(playerPos);
+            thisImage.rectTransform.position = screenPos;
+        }
+        else
+        {
+            thisImage.rectTransform.position = new Vector3(-3000, -3000, 0);
+        }
     }
 }
