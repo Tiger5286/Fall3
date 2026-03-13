@@ -173,11 +173,11 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerIndex == 0)
         {
-            transform.position = new Vector3(1.0f, 2.0f, 1.0f);
+            transform.position = new Vector3(1.0f, 2.0f, 4.0f);
         }
         else
         {
-            transform.position = new Vector3(9.0f, 2.0f, 9.0f);
+            transform.position = new Vector3(8.0f, 2.0f, 4.0f);
         }
     }
 
