@@ -83,8 +83,6 @@ public class InGameManager : GameManagerBase
 
         WinnerType winner = WinnerType.None;
 
-        // Ÿ”s”»’è
-
         winner =
             (_isDeadPlayer1 && _isDeadPlayer2) ? WinnerType.Draw : // ƒvƒŒƒCƒ„[‚ª—¼•û‚â‚ç‚ê‚½‚È‚çDraw
             (!_isDeadPlayer1 && _isDeadPlayer2) ? WinnerType.Player1 : // 1P‚ª‚â‚ç‚ê‚Ä‚¢‚È‚¢‚È‚ç1P‚ÌŸ‚¿
