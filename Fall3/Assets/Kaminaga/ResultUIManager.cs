@@ -141,6 +141,9 @@ public class ResultUIManager : MonoBehaviour
             _cursorPosCanvas += move * kCursorMoveSpeed * Time.unscaledDeltaTime;
         }
 
+        // カーソルの進める範囲を制限する
+        CheckCursorLimit();
+
         // カーソルのアンカーポイントをセットする
         SetCursorAnchoredPosition(_cursorPosCanvas);
 
@@ -165,6 +168,14 @@ public class ResultUIManager : MonoBehaviour
         _warningText.enabled = true;
         _imageController.StartVibrate();
         _warningTime = kWarningTime;
+    }
+
+    private void CheckCursorLimit()
+    {
+        var canvasRect = _canvas.transform as RectTransform;
+
+        _cursorPosCanvas.x = Mathf.Clamp(_cursorPosCanvas.x, canvasRect.rect.xMin, canvasRect.rect.xMax);
+        _cursorPosCanvas.y = Mathf.Clamp(_cursorPosCanvas.y, canvasRect.rect.yMin, canvasRect.rect.yMax);
     }
 
     /// <summary>

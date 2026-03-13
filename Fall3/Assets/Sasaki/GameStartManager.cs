@@ -11,6 +11,10 @@ public class GameStartManager : MonoBehaviour
     private TextMeshProUGUI _gameStartText; // TextMeshProUGUIコンポーネントを入れる変数
     private ImageController _gameStartTextController; // UIを操作するコンポーネントを入れる変数
 
+
+    // ゲーム開始のゲージの背景を表示するオブジェクト
+    [SerializeField] GameObject _gameStartGaugeBackObj;
+
     // ゲーム開始のゲージを表示するイメージオブジェクト
     [SerializeField] GameObject _gameStartGaugeObj;
     private Image _gameStartGauge; // Imageコンポーネントを入れる変数
@@ -47,6 +51,7 @@ public class GameStartManager : MonoBehaviour
         _gameStartText.text = "";
         _inputManager.SetAllPlayerControl(false); // プレイヤーの操作を無効にする
         _stageManager.SetCanFall(false); // ステージを落下不可にする
+        _gameStartGaugeBackObj.SetActive(false); // ゲーム開始のゲージの背景を非表示にする
         _gameStartGauge.gameObject.SetActive(false); // ゲーム開始のゲージを非表示にする
     }
 
@@ -59,6 +64,7 @@ public class GameStartManager : MonoBehaviour
         _stageManager = _stageManagerObj.GetComponent<StageManager>();
         _gameStartText.text = "";
         _gameStartState = GameStartState.Default;
+                _gameStartGaugeBackObj.SetActive(false); // ゲーム開始のゲージの背景を非表示にする
         _gameStartGauge.gameObject.SetActive(false); // ゲーム開始のゲージを非表示にする
     }
 
@@ -81,6 +87,7 @@ public class GameStartManager : MonoBehaviour
                 _gameStartState = GameStartState.Ready;
                 _gameStartText.text = "Ready...";
                 _gameStartTextController.StartExpand(); // ゲームスタートのテキストを拡大する
+                _gameStartGaugeBackObj.SetActive(true); // ゲーム開始のゲージの背景を表示する
                 _gameStartGauge.gameObject.SetActive(true); // ゲーム開始のゲージを表示する
             }
 
@@ -90,6 +97,7 @@ public class GameStartManager : MonoBehaviour
                 _gameStartState = GameStartState.Start;
                 _gameStartText.text = "Fall!!";
                 _gameStartTextController.StartDown(); // ゲームスタートのテキストを落ちる感じで動かす
+                _gameStartGaugeBackObj.SetActive(false); // ゲーム開始のゲージの背景を非表示にする
                 _gameStartGauge.gameObject.SetActive(false); // ゲーム開始のゲージを非表示にする
                 _inputManager.SetAllPlayerControl(true); // プレイヤーの操作を有効にする
                 _stageManager.SetCanFall(true); // ステージを落下可能にする
