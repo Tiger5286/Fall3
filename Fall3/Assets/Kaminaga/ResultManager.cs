@@ -23,6 +23,7 @@ public class ResultManager : GameManagerBase
     [Header("リザルト用のプレイヤーの生成位置")]
     [SerializeField] private Transform _spawnPoint1;
     [SerializeField] private Transform _spawnPoint2;
+    [SerializeField] private Transform _winnerSpawnPoint;
 
     //リザルトのプレイヤーを保存するための変数
     private GameObject _resultPlayer1;
@@ -112,12 +113,27 @@ public class ResultManager : GameManagerBase
 
     void SpawnResultPlayer()
     {
+        // 勝敗でプレイヤーを生成する位置を決定
+        Vector3 player1Pos = Vector3.zero;
+        Vector3 player2Pos = Vector3.zero;
+        switch (_gameSession._lastWinner)
+        {
+            case WinnerType.Player1:
+                player1Pos = _winnerSpawnPoint.position;
+                player2Pos = _spawnPoint2.position;
+                break;
+            case WinnerType.Player2:
+                player1Pos = _spawnPoint1.position;
+                player2Pos = _winnerSpawnPoint.position;
+                break;
+        }
+
         //プレイヤー1生成
-        _resultPlayer1 = Instantiate(_resultPlayerPrefab1, _spawnPoint1.position, _spawnPoint1.rotation);
+        _resultPlayer1 = Instantiate(_resultPlayerPrefab1, player1Pos, _spawnPoint1.rotation);
         Animator animator1 = _resultPlayer1.GetComponent<Animator>();
 
         //プレイヤー2生成
-        _resultPlayer2 = Instantiate(_resultPlayerPrefab2, _spawnPoint2.position, _spawnPoint2.rotation);
+        _resultPlayer2 = Instantiate(_resultPlayerPrefab2, player2Pos, _spawnPoint2.rotation);
         Animator animator2 = _resultPlayer2.GetComponent<Animator>();
 
         //アニメーションリセット
