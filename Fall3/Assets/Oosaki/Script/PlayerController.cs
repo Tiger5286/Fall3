@@ -183,11 +183,10 @@ public class PlayerController : MonoBehaviour
 
             InputManager.Instance.ReportPlayerDied(_playerIndex);
 
-            _effectInstance = Instantiate(_effectPrefab, transform);
+            _effectInstance = Instantiate(_effectPrefab,transform.position,transform.rotation);
             _effectInstance.transform.localScale = Vector3.one * _effectScale;
-
-            Destroy(gameObject);
             Debug.Log("消えたーーーーーーーー");
+            Destroy(gameObject);
         }
     }
 
