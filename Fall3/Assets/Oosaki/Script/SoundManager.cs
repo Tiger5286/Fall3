@@ -140,21 +140,20 @@ public class SoundManager : MonoBehaviour
 
         //次に流すBGM
         _bgmSource.clip=_bgmClips[index];
+        //BGMの音量設定
+        _bgmSource.volume = 1f;
         _bgmSource.loop = true;
         _bgmSource.Play();
 
-        //フェードイン処理
-        float time = 0;
-        while (time < fadeTime)
-        {
-            time += Time.deltaTime;
-            _bgmSource.volume=time/fadeTime;
-            yield return null;
-        }
-
-        //BGMの音量設定
-        _bgmSource.volume = 1f;
-
         _isFading = false;
+
+        //フェードイン処理
+        //float time = 0;
+        //while (time < fadeTime)
+        //{
+        //    time += Time.deltaTime;
+        //    _bgmSource.volume=time/fadeTime;
+        //    yield return null;
+        //}
     }
 }

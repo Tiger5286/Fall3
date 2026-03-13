@@ -96,7 +96,7 @@ public class ResultManager : GameManagerBase
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
 
         //BGMçƒê∂
-        SoundManager.Instance.PlayBGM(0);
+        SoundManager.Instance.PlayBGMFade(2, 1.5f);
     }
 
     // Update is called once per frame
