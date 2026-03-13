@@ -174,10 +174,12 @@ public class PlayerController : MonoBehaviour
         if (_playerIndex == 0)
         {
             transform.position = new Vector3(1.0f, 2.0f, 4.0f);
+            transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
         }
         else
         {
             transform.position = new Vector3(8.0f, 2.0f, 4.0f);
+            transform.rotation = Quaternion.Euler(0.0f, -90.0f, 0.0f);
         }
     }
 
