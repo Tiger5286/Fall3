@@ -18,6 +18,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource _walkSeSource;
     [SerializeField] AudioClip _walkSeClip;
 
+    bool _isFading = false;
+
     public void Awake()
     {
         if(Instance!=null&&Instance!=this)
@@ -43,6 +45,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(int index)
     {
+        if (_isFading) return;
         if (_bgmClips.Length <= index) return;
 
         if (_bgmSource.clip == _bgmClips[index]) return;
@@ -92,12 +95,17 @@ public class SoundManager : MonoBehaviour
     //フェードアウトしてBGMを停止
     public void StopBGMFade(float fadeTime)
     {
-        StartCoroutine(FadeOutBGM(fadeTime));
+        if (!_isFading)
+        {
+            StartCoroutine(FadeOutBGM(fadeTime));
+        }
     }
 
     //だんだん音量を下げていく
     IEnumerator FadeOutBGM(float fadeTime)
     {
+        _isFading = true;
+
         float startVolume = _bgmSource.volume;
         while (_bgmSource.volume > 0)
         {
@@ -106,5 +114,7 @@ public class SoundManager : MonoBehaviour
         }
         _bgmSource.Stop();
         _bgmSource.volume = startVolume;
+
+        _isFading = false;
     }
 }
