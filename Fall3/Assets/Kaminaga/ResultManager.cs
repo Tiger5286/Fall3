@@ -44,9 +44,6 @@ public class ResultManager : GameManagerBase
         // プレイヤーの操作状態を非アクティブにする
         InputManager.Instance.SetAllPlayerControl(false);
 
-        //BGM再生
-        SoundManager.Instance.PlayBGM(2);
-
         //リザルト用プレイヤー生成
         SpawnResultPlayer();
     }
@@ -97,6 +94,9 @@ public class ResultManager : GameManagerBase
     {
         Debug.Log("winner : " + _gameSession._lastWinner);
         Debug.Log("winCounter Player1:" + _gameSession._winCountPlayer1 + " Player2:" + _gameSession._winCountPlayer2);
+
+        //BGM再生
+        SoundManager.Instance.PlayBGM(0);
     }
 
     // Update is called once per frame
