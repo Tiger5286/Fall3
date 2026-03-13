@@ -45,7 +45,7 @@ public class InGameManager : GameManagerBase
 
         _gameStartManager.GameStart();
 
-        SoundManager.Instance.PlayBGM(1);
+        SoundManager.Instance.PlayBGMFade(1, 1.5f);
     }
 
     private void OnDisable()
