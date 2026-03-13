@@ -28,9 +28,6 @@ public class ResultUIManager : MonoBehaviour
     [SerializeField] private InputActionReference _moveAction;
     [SerializeField] private InputActionReference _clickAction;
 
-    [Header("プレイヤーの数を示すテキスト")]
-    [SerializeField] private TextMeshProUGUI _playerText;
-
     [Header("プレイヤーが足りない際に表示するテキスト")]
     [SerializeField] private TextMeshProUGUI _warningText;
 
@@ -119,8 +116,6 @@ public class ResultUIManager : MonoBehaviour
         {
             return;
         }
-
-        _playerText.text = "PlayerNum : " + JoinManager.Instance._playerCount.ToString();
 
         if (_warningTime > 0.0f)
         {
