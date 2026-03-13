@@ -14,6 +14,10 @@ public class SkyboxRotate : MonoBehaviour
         {
             Debug.LogWarning("RenderSettings.skyboxが未設定です");
         }
+        else
+        {
+            skyMat.SetFloat("_Rotation", 0.0f);
+        }
     }
 
     void Update()
