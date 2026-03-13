@@ -1734,6 +1734,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _FallLimitY: -10
+  _effectPrefab: {fileID: 100000, guid: 1714fe33269a7424aa54e933e5c8598b, type: 3}
 --- !u!114 &840610173928539647
 MonoBehaviour:
   m_ObjectHideFlags: 0

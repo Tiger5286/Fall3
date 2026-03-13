@@ -81,7 +81,7 @@ public class PlayerFactory : MonoBehaviour
 
         InputManager.Instance.UpdateControllerForSlot((int)id, controller);
     }
-
+    
     // Start is called before the first frame update
     void Start()
     {
