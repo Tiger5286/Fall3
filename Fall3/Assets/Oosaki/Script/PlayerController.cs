@@ -11,6 +11,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float _FallLimitY = -10f;
 
+    [Header("死亡時のエフェクト")]
+    [SerializeField] GameObject _effectPrefab;
+
+    GameObject _effectInstance;
+
+    float _effectScale = 1.0f;
+
     //プレイヤーのアニメーション
     PlayerAnimation _playerAnimation;
 
@@ -106,6 +113,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Update動いてる");
+
+        //デバッグ
+        if (Keyboard.current.kKey.wasPressedThisFrame)
+        {
+            transform.position = new Vector3(
+                transform.position.x,
+                -20,
+                transform.position.z);
+        }
+
         bool currentGround = Physics.Raycast(
             _groundCheckPoint.position,
             Vector3.down,
@@ -165,7 +183,11 @@ public class PlayerController : MonoBehaviour
 
             InputManager.Instance.ReportPlayerDied(_playerIndex);
 
+            _effectInstance = Instantiate(_effectPrefab, transform);
+            _effectInstance.transform.localScale = Vector3.one * _effectScale;
+
             Destroy(gameObject);
+            Debug.Log("消えたーーーーーーーー");
         }
     }
 
