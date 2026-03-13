@@ -42,6 +42,7 @@ public class GameSession : MonoBehaviour
     {
         _winCountPlayer1 = 0;
         _winCountPlayer2 = 0;
+        SoundManager.Instance.PlaySe(4);
     }
 
     public string GetWinner()

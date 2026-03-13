@@ -217,6 +217,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 19813a9e8ed84ab44b2bea65c6af394e, type: 3}
   - {fileID: 8300000, guid: a4e890b358835ff4dbb828aa5e093b45, type: 3}
   - {fileID: 8300000, guid: 7ffab651abb9e3c49a1566b791f35144, type: 3}
+  - {fileID: 8300000, guid: 846a4f5efd74e914ab1b0ea5836443fe, type: 3}
+  - {fileID: 8300000, guid: 4fe3f9838bae0644c819dc78b7f112fe, type: 3}
+  - {fileID: 8300000, guid: 94d6f2efa08194647acfafde0aff9d87, type: 3}
   _walkSeSource: {fileID: 0}
   _walkSeClip: {fileID: 0}
 --- !u!4 &48612659
@@ -2257,7 +2260,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 81.68342
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2283,8 +2286,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698120798}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975296, y: 0.000000005533822, z: -0.0000000013063584, w: 0.973249}
-  m_LocalPosition: {x: 5, y: 5, z: -5}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 4.5, y: 8, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

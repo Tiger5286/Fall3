@@ -74,6 +74,8 @@ public class ResultManager : GameManagerBase
             return;
         }
 
+        SoundManager.Instance.PlaySe(5);
+
         _sceneManager.ChangeScene(SceneType.InGame);
     }
 
@@ -87,6 +89,8 @@ public class ResultManager : GameManagerBase
         //リザルトプレイヤー削除
         if (_resultPlayer1 != null) Destroy(_resultPlayer1);
         if (_resultPlayer2 != null) Destroy(_resultPlayer2);
+
+        SoundManager.Instance.PlaySe(5);
 
         _sceneManager.ChangeScene(SceneType.Title);
     }

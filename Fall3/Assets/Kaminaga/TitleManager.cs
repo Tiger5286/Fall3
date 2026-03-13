@@ -26,12 +26,14 @@ public class TitleManager : GameManagerBase
         if (JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
+            SoundManager.Instance.PlayBGM(6);
             _titleUIManager.OnPlayerNotEnough();
             return;
         }
 
         InputManager.Instance.SetAllPlayerControl(true);
 
+        SoundManager.Instance.PlaySe(5);
         SoundManager.Instance.StopBGMFade(2.0f);
         _sceneManager.ChangeScene(SceneType.InGame);
         Debug.Log("ゲーム開始");
