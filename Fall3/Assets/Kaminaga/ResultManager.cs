@@ -131,6 +131,10 @@ public class ResultManager : GameManagerBase
                 player1Pos = _spawnPoint1.position;
                 player2Pos = _winnerSpawnPoint.position;
                 break;
+            case WinnerType.Draw:
+                player1Pos = _spawnPoint1.position;
+                player2Pos = _spawnPoint2.position;
+                break;
         }
 
         //ÉvÉåÉCÉÑÅ[1ê∂ê¨
