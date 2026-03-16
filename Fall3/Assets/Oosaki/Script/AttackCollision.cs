@@ -51,6 +51,7 @@ public class AttackCollision : MonoBehaviour
         }
 
         // ìñÇΩÇ¡ÇΩÇÁè¡Ç∑
+        this.GetComponent<HadokenEffect>().Die();
         Destroy(gameObject);
     }
 }
