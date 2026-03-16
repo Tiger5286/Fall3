@@ -71,11 +71,12 @@ public class ResultManager : GameManagerBase
         if (JoinManager.Instance._playerCount <= 1)
         {
             Debug.Log("プレイヤーの人数が足りません : あと" + JoinManager.Instance._playerCount + "人");
+            SoundManager.Instance.PlaySe(6);
             _resultUIManager.OnPlayerNotEnough();
             return;
         }
 
-        SoundManager.Instance.PlaySe(6);
+        SoundManager.Instance.PlaySe(5);
 
         _sceneManager.ChangeScene(SceneType.InGame);
     }
