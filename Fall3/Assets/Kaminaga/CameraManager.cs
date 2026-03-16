@@ -142,6 +142,6 @@ public class CameraManager : MonoBehaviour
             // ƒŠƒUƒ‹ƒg‚ÌƒJƒƒ‰‚ÉØ‚è‘Ö‚¦‚é
             SetActiveCamera(CameraType.ResultCamera, 10.0f);
         }
-    }
 #endif
+    }
 }
