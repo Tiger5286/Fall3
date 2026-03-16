@@ -75,7 +75,7 @@ public class ResultManager : GameManagerBase
             return;
         }
 
-        SoundManager.Instance.PlaySe(5);
+        SoundManager.Instance.PlaySe(6);
 
         _sceneManager.ChangeScene(SceneType.InGame);
     }

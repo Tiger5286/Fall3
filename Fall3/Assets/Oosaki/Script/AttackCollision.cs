@@ -47,7 +47,7 @@ public class AttackCollision : MonoBehaviour
             playerController.ApplyKnockBack(force);
 
             //SEÄ¶
-            SoundManager.Instance.PlaySe(5);
+            SoundManager.Instance.PlaySe(7);
         }
 
         // “–‚½‚Á‚½‚çÁ‚·
