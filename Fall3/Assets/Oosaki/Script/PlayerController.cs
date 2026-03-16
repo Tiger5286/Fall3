@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Update動いてる");
 
+#if DEBUG
         //デバッグ
         if (Keyboard.current.kKey.wasPressedThisFrame)
         {
@@ -123,6 +124,7 @@ public class PlayerController : MonoBehaviour
                 -20,
                 transform.position.z);
         }
+#endif
 
         bool currentGround = Physics.Raycast(
             _groundCheckPoint.position,

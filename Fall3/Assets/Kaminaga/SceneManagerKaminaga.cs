@@ -75,6 +75,8 @@ public class SceneManagerKaminaga : MonoBehaviour
 
     void Update()
     {
+#if DEBUG
+        // デバッグ機能
         if(Input.GetKeyDown(KeyCode.Q))
         {
             ChangeScene(SceneType.Title);
@@ -90,7 +92,7 @@ public class SceneManagerKaminaga : MonoBehaviour
             ChangeScene(SceneType.Result);
             _cameraManager.SetActiveCamera(CameraType.ResultCamera);
         }
-
+#endif
     }
 
     private void SetAllActive(bool isActive)
