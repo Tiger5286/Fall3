@@ -28,4 +28,9 @@ public class SkyboxRotate : MonoBehaviour
         skyMat.SetFloat("_Rotation", rot);
         DynamicGI.UpdateEnvironment();
     }
+
+    private void OnApplicationQuit()
+    {
+        skyMat.SetFloat("_Rotation", 0.0f);
+    }
 }
