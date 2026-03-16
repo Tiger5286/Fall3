@@ -33,7 +33,7 @@ public class AttackCollision : MonoBehaviour
     {
         PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
-        if (playerController!=null)
+        if (playerController != null)
         {
             //攻撃からプレイヤーへの方向を計算
             Vector3 horizontalDir = collision.transform.position - transform.position;
@@ -46,9 +46,9 @@ public class AttackCollision : MonoBehaviour
 
             playerController.ApplyKnockBack(force);
 
-            //SE再生
-            SoundManager.Instance.PlaySe(5);
         }
+        //SE再生
+        SoundManager.Instance.PlaySe(7);
 
         // 当たったら消す
         this.GetComponent<HadokenEffect>().Die();
