@@ -31,9 +31,10 @@ public class HadokenEffect : MonoBehaviour
         effectInstance.transform.position = transform.position;
     }
 
-    private void OnDestroy()
+    public void Die()
     {
         var eff = Instantiate(hitEffectPrefab, transform.position, transform.rotation);
         eff.transform.localScale = Vector3.one * hitEffectScale;
+        Destroy(this.gameObject);
     }
 }
